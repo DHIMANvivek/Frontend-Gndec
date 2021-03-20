@@ -1,0 +1,13 @@
+@import "./variables.scss";
+
+@import "./auth.scss";
+@import "./menu.scss";
+
+.native-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+ion-item {
+  --padding-start: 0;
+}

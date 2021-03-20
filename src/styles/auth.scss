@@ -1,0 +1,23 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .auth-form {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 12px;
+    padding-bottom: 44px;
+    height: 100%;
+    min-width: 300px;
+    max-width: 400px;
+    margin: auto;
+    box-sizing: border-box;
+
+    ion-button {
+      margin-top: 18px;
+    }
+  }
+}

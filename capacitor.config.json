@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "sidemenu-ionic",
+  "appName": "binary-frontend",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
