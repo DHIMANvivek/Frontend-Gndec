@@ -27,12 +27,14 @@ const App: React.FC = () => {
     <IonApp>
       <IonReactRouter>
         <IonSplitPane contentId="main">
-          <Menu />
+          {/* <Menu /> */}
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/page" />
+              <Redirect to="/login" />
             </Route>
-            <Route path="/page" exact={true} component={(props: any) => <Auth {...props} />} />
+            <Route path="/login" exact={true} component={(props: any) => <Auth {...props} />} />
+            <Route path="/signup" exact={true} component={(props: any) => <Auth {...props} />} />
+            <Redirect to="/login" />
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
