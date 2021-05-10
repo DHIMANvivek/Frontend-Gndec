@@ -1,31 +1,31 @@
-import { IonButtons, IonHeader, IonMenuButton, IonTitle, IonToolbar, IonButton, IonInput, IonItem, IonLabel } from '@ionic/react';
-import { useState } from 'react';
+import React, { useState } from "react";
+import { Login, Signup } from "../components/Auth";
+import { useLocation } from "react-router-dom";
+import Axios from "axios";
 
 export const Auth: React.FC = () => {
+  const [location] = useState(useLocation());
+  const signup = (userData: object) => {
+    Axios.post("https://binary-meet.herokuapp.com/signup", {
+      ...userData,
+      jerseyNo: Math.random(),
+    }).then(result => console.log(result));
+  };
 
-  const [text, setText] = useState<string>();
+  const login = (userData: object) => {
+    console.log(userData)
+    Axios.post("https://binary-meet.herokuapp.com/login", {
+      ...userData,
+    }).then(result => console.log(result));
+  };
 
   return (
-    <div className="auth">
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>Login</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <form className="auth-form">
-        <IonItem>
-          <IonLabel position="floating">Roll Number</IonLabel>
-          <IonInput type="text" value={text} onIonChange={e => setText(e.detail.value!)} required></IonInput>
-        </IonItem>
-        <IonItem>
-          <IonLabel position="floating">Password</IonLabel>
-          <IonInput type="password" value={text} onIonChange={e => setText(e.detail.value!)} required></IonInput>
-        </IonItem>
-        <IonButton type="submit" expand="block">Login</IonButton>
-      </form>
+    <div className='auth'>
+      {location.pathname === "/login" ? (
+        <Login onSubmit={login} />
+      ) : (
+        <Signup onSubmit={signup} />
+      )}
     </div>
   );
 };
