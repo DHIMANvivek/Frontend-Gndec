@@ -1,22 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { Login, Signup } from "../components/Auth";
 import { useLocation } from "react-router-dom";
 import Axios from "axios";
+import { useIonToast } from "@ionic/react";
 
 export const Auth: React.FC = () => {
-  const [location] = useState(useLocation());
+  const location = useLocation();
+  const [showToast] = useIonToast();
+
   const signup = (userData: object) => {
-    Axios.post("https://binary-meet.herokuapp.com/signup", {
+    Axios.post("http://localhost:1414/signup", {
       ...userData,
       jerseyNo: Math.random(),
-    }).then(result => console.log(result));
+    })
+      .then(result => console.log(result))
+      .catch(() => {
+        showToast("Something went wrong", 3000)
+      });
   };
 
   const login = (userData: object) => {
-    console.log(userData)
-    Axios.post("https://binary-meet.herokuapp.com/login", {
+    Axios.post("http://localhost:1414/signin", {
       ...userData,
-    }).then(result => console.log(result));
+    })
+      .then(result => console.log(result))
+      .catch(() => {
+        showToast("Something went wrong", 3000)
+      });
   };
 
   return (
@@ -24,8 +34,8 @@ export const Auth: React.FC = () => {
       {location.pathname === "/login" ? (
         <Login onSubmit={login} />
       ) : (
-        <Signup onSubmit={signup} />
-      )}
+          <Signup onSubmit={signup} />
+        )}
     </div>
   );
 };

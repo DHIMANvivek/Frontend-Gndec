@@ -3,10 +3,16 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { IonReactRouter } from '@ionic/react-router';
+import { IonApp } from '@ionic/react';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <IonApp>
+      <IonReactRouter>
+        <App />
+      </IonReactRouter>
+    </IonApp>
   </React.StrictMode>,
   document.getElementById('root')
 );

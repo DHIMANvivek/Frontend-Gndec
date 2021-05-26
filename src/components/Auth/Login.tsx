@@ -8,16 +8,17 @@ import {
   IonCardTitle,
   IonInput,
   IonItem,
+  useIonRouter,
 } from "@ionic/react";
-import { Route } from "react-router-dom";
 
 export const Login: React.FC<any> = ({ onSubmit }) => {
+  const router = useIonRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // const redirectToSignup = () => {
-  //   return <Route path="/signup" />
-  // };
+  const redirectToSignup = () => {
+    router.push('/signup')
+  };
 
   return (
     <div className="card-container">
@@ -29,12 +30,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
         </IonCardHeader>
 
         <IonCardContent>
-          <form onSubmit={() => {
-              onSubmit({
-                email,
-                password
-              })
-            }}>
+          <form method="post" onSubmit={(e) => { e.preventDefault(); onSubmit({ email, password }) }}>
             <IonItem>
               <IonInput
                 required
@@ -52,7 +48,6 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
                 clearInput
               ></IonInput>
             </IonItem>
-            <br />
             <IonButton
               type="submit"
               className="item-text-wrap"
@@ -62,12 +57,15 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
             >
               Login
             </IonButton>
-            {/* <IonButton
+            <IonButton
               onClick={() => redirectToSignup()}
+              buttonType="clear"
+              color="secondary"
+              expand="block"
               className="item-text-wrap"
             >
               Don't have account? click here to signup
-            </IonButton> */}
+            </IonButton>
           </form>
         </IonCardContent>
       </IonCard>

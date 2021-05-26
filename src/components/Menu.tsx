@@ -1,5 +1,6 @@
 import {
   IonContent,
+  IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
@@ -8,6 +9,8 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
+  IonTitle,
+  IonToolbar,
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
@@ -47,7 +50,7 @@ const appPages: AppPage[] = [
 const Menu: React.FC = () => {
   const location = useLocation();
   return (
-    <IonMenu contentId="main" type="overlay">
+    <IonMenu contentId="sideBar" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>Inbox</IonListHeader>
