@@ -1,6 +1,5 @@
 import {
   IonContent,
-  IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
@@ -9,14 +8,11 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
-  IonTitle,
-  IonToolbar,
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
 import {
-  heartOutline, heartSharp, mailOutline,
-  mailSharp, paperPlaneOutline, paperPlaneSharp,
+  homeOutline, homeSharp, personOutline
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -29,32 +25,26 @@ interface AppPage {
 const appPages: AppPage[] = [
   {
     title: 'Home',
-    url: '/page',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp
+    url: '/dashboard',
+    iosIcon: homeOutline,
+    mdIcon: homeSharp
   },
   {
-    title: 'Outbox',
-    url: '/page/',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp
-  },
-  {
-    title: 'Favorites',
-    url: '/page/',
-    iosIcon: heartOutline,
-    mdIcon: heartSharp
+    title: 'Profile',
+    url: '/dashboard/profile',
+    iosIcon: personOutline,
+    mdIcon: personOutline
   }
 ];
 
-const Menu: React.FC = () => {
+const Menu: React.FC<any> = ({ userData }) => {
   const location = useLocation();
   return (
     <IonMenu contentId="sideBar" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>Inbox</IonListHeader>
-          <IonNote>hi@ionicframework.com</IonNote>
+          <IonListHeader>{userData.fullName}</IonListHeader>
+          <IonNote>{userData.email}</IonNote>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
