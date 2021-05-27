@@ -9,11 +9,11 @@ import {
   IonMenuToggle,
   IonNote,
 } from '@ionic/react';
-import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useStoreState } from 'easy-peasy';
 import { useLocation } from 'react-router-dom';
 
 import {
-  homeOutline, homeSharp, personOutline
+  homeOutline, homeSharp, personOutline, personSharp
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -34,7 +34,7 @@ const appPages: AppPage[] = [
     title: 'Profile',
     url: '/dashboard/profile',
     iosIcon: personOutline,
-    mdIcon: personOutline
+    mdIcon: personSharp
   }
 ];
 

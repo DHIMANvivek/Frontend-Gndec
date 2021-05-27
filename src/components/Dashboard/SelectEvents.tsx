@@ -43,15 +43,15 @@ export const SelectEvents: React.FC<any> = () => {
 
   const savedEventsIds = events.map((node: any) => (node.sportId._id))
   const disableOn = (fieldEventCount === 2 && trackEventCount === 1) || (fieldEventCount === 1 && trackEventCount === 2)
-  const disableFieldOn = fieldEventCount === 2;
-  const disableTrackOn = trackEventCount === 2;
+  const disableFieldOn2 = fieldEventCount === 2;
+  const disableTrackOn2 = trackEventCount === 2;
 
   useEffect(() => {
     setSelectedEvents(events.map((event: any) => (event.sportId._id)))
   }, [])
 
   const enrollUserToEvents = () => {
-    const newEnrollEvents: any = []
+    const newEnrollEvents: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
     if (!newEnrollEvents.length) {
       showToast("Please select atleast one event!", 3000);
       return;
@@ -60,7 +60,7 @@ export const SelectEvents: React.FC<any> = () => {
     Axios.post(API.ENROLL_EVENTS, { sportIds: newEnrollEvents })
       .then(({ data }) => {
         storeEvents(data.events);
-        showToast("Successfully enrolled ot the events!", 3000)
+        showToast("Successfully enrolled the events!", 3000)
       })
       .catch(() => {
         showToast("Something went wrong", 3000)
@@ -97,7 +97,7 @@ export const SelectEvents: React.FC<any> = () => {
                   value={node._id}
                   checked={selectedEvents.includes(node._id)}
                   onIonChange={putSelectedEvents}
-                  disabled={((disableOn || disableFieldOn) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
+                  disabled={((disableOn || disableFieldOn2) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
                 />
               </IonItem>
             </IonCol>
@@ -113,13 +113,13 @@ export const SelectEvents: React.FC<any> = () => {
                   value={node._id}
                   checked={selectedEvents.includes(node._id)}
                   onIonChange={putSelectedEvents}
-                  disabled={((disableOn || disableTrackOn) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
+                  disabled={((disableOn || disableTrackOn2) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
                 />
               </IonItem>
             </IonCol>
           ))}
         </IonRow>
-        <IonButton expand="block" onClick={enrollUserToEvents}>Enroll</IonButton>
+        <IonButton expand="block" onClick={enrollUserToEvents} disabled={savedEventsIds.length >= 3}>Enroll</IonButton>
       </IonGrid>
       <IonGrid>
         <h1>Enrolled Events</h1>
