@@ -1,26 +1,50 @@
 import React, { useEffect } from "react";
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenuButton, IonPage, IonRouterOutlet, IonTitle, IonToolbar, useIonRouter } from "@ionic/react";
+import {
+  IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenuButton,
+  IonRouterOutlet, IonTitle, IonToolbar, useIonRouter, useIonToast
+} from "@ionic/react";
 import { logOutOutline } from "ionicons/icons";
-import { authUser } from '../utils/userToken';
-import { isEmpty } from "lodash";
+import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
 import { Profile, SelectEvents } from "../components/Dashboard";
-import { Route, useLocation } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import Axios from "axios";
+import { API } from "../constants";
 
-export const Dashboard: React.FC<any> = ({ match, userData }) => {
+export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
+  const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
+  const logout = useStoreActions<any>((actions) => actions.logOut);
+  const auth = useStoreState<any>(({ auth }) => auth);
+
+  Axios.defaults.headers.common.Authorization = auth.token;
+
+  const isRehydrated = useStoreRehydrated();
   const router = useIonRouter();
-  const location = useLocation();
+  const [showToast] = useIonToast();
+
   useEffect(() => {
-    console.log("Dashboard")
-    const savedUser: any = authUser.getToken();
-    if (isEmpty(savedUser) && location.pathname.includes('dashboard')) {
-      console.log("Dashboard Red")
+    if (!auth.user?.isVerified) {
+      showToast("Please verify your email", 3000)
       logOut()
     }
-  }, [])
+    if (!auth.token) {
+      logOut()
+    }
+    else {
+      me()
+    }
+  }, [isRehydrated])
 
   const logOut = () => {
-    authUser.clearToken();
+    logout();
     router.push("/login")
+  }
+
+  const me = () => {
+    Axios.get(API.ME)
+      .then(result => { storeUserData({ user: result.data.user }) })
+      .catch(() => {
+        showToast("Something went wrong", 3000)
+      });
   }
 
   return (
@@ -39,12 +63,10 @@ export const Dashboard: React.FC<any> = ({ match, userData }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent className='dashboard'>
-        {/* <IonContent> */}
         <IonRouterOutlet>
-          <Route path={`${match.url}/`} component={(props: any) => <SelectEvents  {...props} userData={userData} />} />
-          <Route path={`${match.url}/profile`} component={(props: any) => <Profile {...props} userData={userData} />} />
+          <Route path={`${match.url}/`} component={(props: any) => <SelectEvents  {...props} />} />
+          <Route path={`${match.url}/profile`} component={(props: any) => <Profile {...props} />} />
         </IonRouterOutlet>
-        {/* </IonContent> */}
       </IonContent>
     </>
   );

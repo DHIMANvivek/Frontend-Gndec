@@ -1,4 +1,5 @@
-export const API={
-  LOGIN:'/signin',
-  SIGNUP:'/signup',
+export const API = {
+  LOGIN: '/signin',
+  SIGNUP: '/signup',
+  ME: "/me"
 }

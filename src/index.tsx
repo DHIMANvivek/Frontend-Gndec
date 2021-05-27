@@ -5,12 +5,16 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import { IonReactRouter } from '@ionic/react-router';
 import { IonApp } from '@ionic/react';
+import { StoreProvider } from 'easy-peasy';
+import store from './store';
 
 ReactDOM.render(
   <React.StrictMode>
     <IonApp>
       <IonReactRouter>
-        <App />
+        <StoreProvider store={store}>
+          <App />
+        </StoreProvider>
       </IonReactRouter>
     </IonApp>
   </React.StrictMode>,

@@ -2,13 +2,10 @@ import React from "react";
 import {
   IonCol,
   IonGrid,
-  IonItem,
-  IonLabel,
-  IonNote,
   IonRow,
 } from "@ionic/react";
 
-export const SelectEvents: React.FC<any> = ({ }) => {
+export const SelectEvents: React.FC<any> = () => {
   return (
     <IonGrid>
       <IonRow>

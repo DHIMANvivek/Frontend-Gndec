@@ -9,8 +9,9 @@ import {
   IonMenuToggle,
   IonNote,
 } from '@ionic/react';
-
+import { useStoreActions, useStoreState } from 'easy-peasy';
 import { useLocation } from 'react-router-dom';
+
 import {
   homeOutline, homeSharp, personOutline
 } from 'ionicons/icons';
@@ -37,14 +38,16 @@ const appPages: AppPage[] = [
   }
 ];
 
-const Menu: React.FC<any> = ({ userData }) => {
+const Menu: React.FC<any> = ({ }) => {
   const location = useLocation();
+  const auth = useStoreState<any>(({ auth }) => auth);
+
   return (
     <IonMenu contentId="sideBar" type="overlay">
       <IonContent>
         <IonList id="inbox-list">
-          <IonListHeader>{userData.fullName}</IonListHeader>
-          <IonNote>{userData.email}</IonNote>
+          <IonListHeader>{auth.user?.fullName}</IonListHeader>
+          <IonNote>{auth.user?.email}</IonNote>
           {appPages.map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>

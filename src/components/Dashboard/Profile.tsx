@@ -5,18 +5,22 @@ import {
   IonLabel,
   IonNote,
 } from "@ionic/react";
+import { useStoreState } from "easy-peasy";
 
-export const Profile: React.FC<any> = ({ userData }) => {
+export const Profile: React.FC<any> = () => {
+  const auth = useStoreState<any>(({ auth }) => auth);
+
   const profileData = [
-    { title: 'Name', value: userData.fullName },
-    { title: 'Course', value: userData.course },
-    { title: 'Branch', value: userData.branch },
-    { title: 'URN', value: userData.universityRoll },
-    { title: 'Email', value: userData.email },
-    { title: 'Gender', value: userData.gender },
-    { title: 'Jersey Number', value: userData.jerseyNo },
-    { title: 'Phone Number', value: userData.phoneNumber }
-  ]
+    { title: 'Name', value: auth?.user?.fullName },
+    { title: 'Course', value: auth?.user?.course },
+    { title: 'Branch', value: auth?.user?.branch },
+    { title: 'URN', value: auth?.user?.universityRoll },
+    { title: 'Email', value: auth?.user?.email },
+    { title: 'Gender', value: auth?.user?.gender },
+    { title: 'Jersey Number', value: auth?.user?.jerseyNo },
+    { title: 'Phone Number', value: auth?.user?.phoneNumber }
+  ];
+
   return (
     <IonGrid>
       {profileData.map(({ title, value }) => (

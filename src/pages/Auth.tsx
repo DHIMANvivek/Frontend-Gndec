@@ -4,28 +4,24 @@ import { useLocation } from "react-router-dom";
 import Axios from "axios";
 import { useIonRouter, useIonToast } from "@ionic/react";
 import { API } from "../constants";
-import { authUser } from "../utils/userToken";
 import { isEmpty } from "lodash";
+import { useStoreActions, useStoreState } from 'easy-peasy';
 
-export const Auth: React.FC = () => {
+export const Auth: React.FC<any> = () => {
   const location = useLocation();
   const router = useIonRouter();
   const [showToast] = useIonToast();
+  const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
+  const auth = useStoreState<any>(({ auth }) => auth);
 
   useEffect(() => {
-    const savedUser: any = authUser.getToken();
-    console.log("Auth")
-    if (!isEmpty(savedUser)) {
-      console.log("Auth Red")
+    if (!isEmpty(auth.token)) {
       router.push("/dashboard");
     }
   }, [])
 
   const signup = (userData: object) => {
-    Axios.post(API.SIGNUP, {
-      ...userData,
-      jerseyNo: Math.random(),
-    })
+    Axios.post(API.SIGNUP, userData)
       .then(result => router.push("/login"))
       .catch(() => {
         showToast("Something went wrong", 3000)
@@ -33,11 +29,9 @@ export const Auth: React.FC = () => {
   };
 
   const login = (userData: object) => {
-    Axios.post(API.LOGIN, {
-      ...userData,
-    })
+    Axios.post(API.LOGIN, userData)
       .then(({ data }) => {
-        authUser.setToken(data.token);
+        storeUserData({ user: data.user, token: data.token })
         router.push("/dashboard");
       })
       .catch(() => {
