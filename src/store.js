@@ -11,7 +11,7 @@ const store = createStore(
       token: '',
     },
     events: [],
-
+    sports:[],
     // Auth actions
     storeUserData: action((state, payload) => {
       state.auth = { ...state.auth, ...payload };
@@ -25,6 +25,11 @@ const store = createStore(
     // Events actions
     storeEvents: action((state, payload) => {
       state.events = payload;
+    }),
+
+    // Sports actions
+    storeSports: action((state, payload) => {
+      state.sports = payload;
     }),
 
     // updateApplication: action((state, payload) => {

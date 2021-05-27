@@ -13,6 +13,7 @@ import {
   IonSelectOption,
   useIonRouter,
 } from "@ionic/react";
+import { BRANCH, COURSE, GENDER } from "../../constants";
 
 export const Signup: React.FC<any> = ({ onSubmit }) => {
   const router = useIonRouter();
@@ -24,10 +25,6 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
   const [course, setCourse] = useState("");
   const [branch, setBranch] = useState("");
   const [gender, setGender] = useState("");
-
-  const redirectToLogin = () => {
-    router.push('/login')
-  };
 
   return (
     <div className='card-container'>
@@ -103,8 +100,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 value={course}
                 onIonChange={(e) => setCourse(e.detail.value)}
               >
-                <IonSelectOption value='b_tech'>Btech</IonSelectOption>
-                <IonSelectOption value='b_arch'>B. Arch</IonSelectOption>
+                {COURSE.map(({ title, value }) => (<IonSelectOption value={value}>{title}</IonSelectOption>))}
               </IonSelect>
             </IonItem>
             <IonItem>
@@ -115,8 +111,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 value={branch}
                 onIonChange={(e) => setBranch(e.detail.value)}
               >
-                <IonSelectOption value='cse'>Computer</IonSelectOption>
-                <IonSelectOption value='it'>IT</IonSelectOption>
+                {BRANCH.map(({ title, value }) => (<IonSelectOption value={value}>{title}</IonSelectOption>))}
               </IonSelect>
             </IonItem>
             <IonItem>
@@ -127,8 +122,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 value={gender}
                 onIonChange={(e) => setGender(e.detail.value)}
               >
-                <IonSelectOption value='Male'>Male</IonSelectOption>
-                <IonSelectOption value='Female'>Female</IonSelectOption>
+                {GENDER.map(({ title, value }) => (<IonSelectOption value={value}>{title}</IonSelectOption>))}
               </IonSelect>
             </IonItem>
             <IonButton
@@ -141,7 +135,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
               Signup
             </IonButton>
             <IonButton
-              onClick={() => redirectToLogin()}
+              onClick={() => router.push('/login')}
               buttonType="clear"
               color="secondary"
               expand="block"

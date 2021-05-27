@@ -16,10 +16,6 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
   const [email, setEmail] = useState('divyanshu1815126@gndec.ac.in');
   const [password, setPassword] = useState('123456');
 
-  const redirectToSignup = () => {
-    router.push('/signup')
-  };
-
   return (
     <div className="card-container">
       <IonCard>
@@ -58,7 +54,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
               Login
             </IonButton>
             <IonButton
-              onClick={() => redirectToSignup()}
+              onClick={() => router.push('/signup')}
               buttonType="clear"
               color="secondary"
               expand="block"

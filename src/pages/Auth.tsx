@@ -31,8 +31,13 @@ export const Auth: React.FC<any> = () => {
   const login = (userData: object) => {
     Axios.post(API.LOGIN, userData)
       .then(({ data }) => {
-        storeUserData({ user: data.user, token: data.token })
-        router.push("/dashboard");
+        if (data.user.isVerified) {
+          storeUserData({ user: data.user, token: data.token })
+          router.push("/dashboard");
+        }
+        else {
+          showToast("Please verify your email", 3000)
+        }
       })
       .catch(() => {
         showToast("Something went wrong", 3000)

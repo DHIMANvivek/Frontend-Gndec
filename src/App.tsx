@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { useStoreRehydrated } from 'easy-peasy';
+import { useStoreActions, useStoreRehydrated } from 'easy-peasy';
 import { IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import Menu from './components/Menu';
@@ -22,14 +22,21 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 import './styles/index.scss';
+import { useEffect } from 'react';
+import { API } from './constants';
 
 Axios.defaults.baseURL = ENV.API_ENDPOINT;
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App: React.FC = () => {
+  const storeSports = useStoreActions<any>((actions) => actions.storeSports);
   const isRehydrated = useStoreRehydrated();
   const location = useLocation();
-
+  useEffect(() => {
+    Axios.get(API.GET_SPORTS)
+      .then(result => storeSports(result.data))
+      .catch(() => { });
+  });
   return isRehydrated ? (
     <IonSplitPane contentId="sideBar">
       {(location.pathname !== "/login" && location.pathname !== "/signup") && <Menu />}

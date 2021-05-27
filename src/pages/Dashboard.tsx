@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenuButton,
+  IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLoading, IonMenuButton,
   IonRouterOutlet, IonTitle, IonToolbar, useIonRouter, useIonToast
 } from "@ionic/react";
 import { logOutOutline } from "ionicons/icons";
@@ -12,8 +12,10 @@ import { API } from "../constants";
 
 export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
+  const storeEvents = useStoreActions<any>((actions) => actions.storeEvents);
   const logout = useStoreActions<any>((actions) => actions.logOut);
   const auth = useStoreState<any>(({ auth }) => auth);
+  const [loading, setLoading] = useState(true);
 
   Axios.defaults.headers.common.Authorization = auth.token;
 
@@ -22,10 +24,6 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const [showToast] = useIonToast();
 
   useEffect(() => {
-    if (!auth.user?.isVerified) {
-      showToast("Please verify your email", 3000)
-      logOut()
-    }
     if (!auth.token) {
       logOut()
     }
@@ -41,7 +39,11 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
 
   const me = () => {
     Axios.get(API.ME)
-      .then(result => { storeUserData({ user: result.data.user }) })
+      .then(({ data }) => {
+        storeUserData({ user: data.user });
+        storeEvents(data.events);
+        setLoading(false)
+      })
       .catch(() => {
         showToast("Something went wrong", 3000)
       });
@@ -49,6 +51,10 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
 
   return (
     <>
+      <IonLoading
+        isOpen={loading}
+        message={'Please wait...'}
+      />
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="start">

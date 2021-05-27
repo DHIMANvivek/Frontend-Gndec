@@ -6,14 +6,15 @@ import {
   IonNote,
 } from "@ionic/react";
 import { useStoreState } from "easy-peasy";
+import { mapValue } from "../../constants";
 
 export const Profile: React.FC<any> = () => {
   const auth = useStoreState<any>(({ auth }) => auth);
 
   const profileData = [
     { title: 'Name', value: auth?.user?.fullName },
-    { title: 'Course', value: auth?.user?.course },
-    { title: 'Branch', value: auth?.user?.branch },
+    { title: 'Course', value: mapValue("COURSE", auth?.user?.course) },
+    { title: 'Branch', value: mapValue("BRANCH", auth?.user?.branch) },
     { title: 'URN', value: auth?.user?.universityRoll },
     { title: 'Email', value: auth?.user?.email },
     { title: 'Gender', value: auth?.user?.gender },
