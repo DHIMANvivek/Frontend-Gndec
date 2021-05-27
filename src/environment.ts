@@ -1,4 +1,4 @@
 /* eslint-disable import/no-anonymous-default-export */
 export const ENV = {
-  API_ENDPOINT: "http://localhost:1414"
+  API_ENDPOINT: process.env.REACT_APP_API_ENDPOINT
 }

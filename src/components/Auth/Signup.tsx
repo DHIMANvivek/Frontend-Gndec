@@ -100,7 +100,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 value={course}
                 onIonChange={(e) => setCourse(e.detail.value)}
               >
-                {COURSE.map(({ title, value }) => (<IonSelectOption value={value}>{title}</IonSelectOption>))}
+                {COURSE.map(({ title, value }) => (<IonSelectOption key={value} value={value}>{title}</IonSelectOption>))}
               </IonSelect>
             </IonItem>
             <IonItem>
@@ -111,7 +111,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 value={branch}
                 onIonChange={(e) => setBranch(e.detail.value)}
               >
-                {BRANCH.map(({ title, value }) => (<IonSelectOption value={value}>{title}</IonSelectOption>))}
+                {BRANCH.map(({ title, value }) => (<IonSelectOption key={value} value={value}>{title}</IonSelectOption>))}
               </IonSelect>
             </IonItem>
             <IonItem>
@@ -122,7 +122,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 value={gender}
                 onIonChange={(e) => setGender(e.detail.value)}
               >
-                {GENDER.map(({ title, value }) => (<IonSelectOption value={value}>{title}</IonSelectOption>))}
+                {GENDER.map(({ title, value }) => (<IonSelectOption key={value} value={value}>{title}</IonSelectOption>))}
               </IonSelect>
             </IonItem>
             <IonButton
