@@ -74,7 +74,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
         <IonRouterOutlet>
           <Route path={`${match.url}/`} exact component={(props: any) => <SelectEvents  {...props} />} />
           <Route path={`${match.url}/profile`} component={(props: any) => <Profile {...props} />} />
-          <Redirect to={`${match.url}/`} />
+          <Redirect to={`${match.url}`} />
         </IonRouterOutlet>
       </IonContent>
     </>

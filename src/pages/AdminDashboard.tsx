@@ -80,7 +80,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
           <Route path={`${match.url}/view-attendance`} component={(props: any) => <div>/admin/view-attendance</div>} />
           <Route path={`${match.url}/mark-result`} component={(props: any) => <div>/admin/mark-result</div>} />
           <Route path={`${match.url}/view-result`} component={(props: any) => <div>/admin/view-result</div>} />
-          <Redirect to={`${match.url}/`} />
+          <Redirect to={`${match.url}`} />
         </IonRouterOutlet>
       </IonContent>
     </>
