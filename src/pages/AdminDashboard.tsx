@@ -5,7 +5,7 @@ import {
 } from "@ionic/react";
 import { logOutOutline } from "ionicons/icons";
 import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import Axios from "axios";
 import { API } from "../constants";
 
@@ -72,14 +72,15 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       </IonHeader>
       <IonContent className='admin-dashboard'>
         <IonRouterOutlet>
-          <Route path={`${match.url}/`} component={(props: any) => <div>/fd</div>} />
-          <Route path={`${match.url}/admin/users`} component={(props: any) => <div>/admin/users</div>} />
-          <Route path={`${match.url}/admin/events`} component={(props: any) => <div>/admin/events</div>} />
-          <Route path={`${match.url}/admin/sports`} component={(props: any) => <div>/admin/sports</div>} />
-          <Route path={`${match.url}/admin/mark-attendance`} component={(props: any) => <div>/admin/mark-attendance</div>} />
-          <Route path={`${match.url}/admin/view-attendance`} component={(props: any) => <div>/admin/view-attendance</div>} />
-          <Route path={`${match.url}/admin/mark-result`} component={(props: any) => <div>/admin/mark-result</div>} />
-          <Route path={`${match.url}/admin/view-result`} component={(props: any) => <div>/admin/view-result</div>} />
+          <Route path={`${match.url}/`} exact component={(props: any) => <div>/admin</div>} />
+          <Route path={`${match.url}/users`} component={(props: any) => <div>/admin/users</div>} />
+          <Route path={`${match.url}/events`} component={(props: any) => <div>/admin/events</div>} />
+          <Route path={`${match.url}/sports`} component={(props: any) => <div>/admin/sports</div>} />
+          <Route path={`${match.url}/mark-attendance`} component={(props: any) => <div>/admin/mark-attendance</div>} />
+          <Route path={`${match.url}/view-attendance`} component={(props: any) => <div>/admin/view-attendance</div>} />
+          <Route path={`${match.url}/mark-result`} component={(props: any) => <div>/admin/mark-result</div>} />
+          <Route path={`${match.url}/view-result`} component={(props: any) => <div>/admin/view-result</div>} />
+          <Redirect to={`${match.url}/`} />
         </IonRouterOutlet>
       </IonContent>
     </>

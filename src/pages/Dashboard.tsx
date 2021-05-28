@@ -6,7 +6,7 @@ import {
 import { logOutOutline } from "ionicons/icons";
 import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
 import { Profile, SelectEvents } from "../components/Dashboard";
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 import Axios from "axios";
 import { API } from "../constants";
 
@@ -48,7 +48,6 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
       })
       .catch(() => {
         logOut()
-        // showToast("Something went wrong", 3000)
       });
   }
 
@@ -73,8 +72,9 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
       </IonHeader>
       <IonContent className='dashboard'>
         <IonRouterOutlet>
-          <Route path={`${match.url}/`} component={(props: any) => <SelectEvents  {...props} />} />
+          <Route path={`${match.url}/`} exact component={(props: any) => <SelectEvents  {...props} />} />
           <Route path={`${match.url}/profile`} component={(props: any) => <Profile {...props} />} />
+          <Redirect to={`${match.url}/`} />
         </IonRouterOutlet>
       </IonContent>
     </>

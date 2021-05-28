@@ -41,7 +41,7 @@ const App: React.FC = () => {
     <IonSplitPane contentId="sideBar">
       {(location.pathname !== "/login" && location.pathname !== "/signup") && <Menu />}
       <IonRouterOutlet id="sideBar">
-        <Route path="/" exact={true}><Redirect to="/login" /></Route>
+        <Route path="/" exact={true} component={() => (<Redirect to="/login" />)} />
         <Route path="/login" component={(props: any) => <Auth {...props} />} />
         <Route path="/signup" component={(props: any) => <Auth {...props} />} />
         <Route path="/dashboard" component={(props: any) => <Dashboard {...props} />} />
