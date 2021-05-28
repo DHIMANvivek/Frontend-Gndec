@@ -8,10 +8,13 @@ import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
 import { Redirect, Route } from 'react-router-dom';
 import Axios from "axios";
 import { API } from "../constants";
+import { AttendanceList, EnrolledUsers, SportsList, UsersList } from "../components/AdminDashboard";
 
 export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
-  const storeEvents = useStoreActions<any>((actions) => actions.storeEvents);
+  const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
+  const storeAllEvents = useStoreActions<any>((actions) => actions.storeAllEvents);
+  const storeUsers = useStoreActions<any>((actions) => actions.storeUsers);
   const logout = useStoreActions<any>((actions) => actions.logOut);
   const auth = useStoreState<any>(({ auth }) => auth);
   const [loading, setLoading] = useState(true);
@@ -34,6 +37,23 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
     }
   }, [isRehydrated])
 
+  useEffect(() => {
+    Axios.get(API.ALL_USERS)
+      .then(({ data }) => {
+        storeUsers(data.users);
+      })
+      .catch(() => {
+        showToast("Something went wrong", 3000)
+      });
+    Axios.get(API.GET_ENROLLMENTS)
+      .then(({ data }) => {
+        storeAllEvents(data.allEvents);
+      })
+      .catch(() => {
+        showToast("Something went wrong", 3000)
+      });
+  }, [])
+
   const logOut = () => {
     logout();
     router.push("/login")
@@ -43,7 +63,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
     Axios.get(API.ME)
       .then(({ data }) => {
         storeUserData({ user: data.user });
-        storeEvents(data.events);
+        storeUserEvents(data.events);
         setLoading(false)
       })
       .catch(() => {
@@ -72,12 +92,11 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       </IonHeader>
       <IonContent className='admin-dashboard'>
         <IonRouterOutlet>
-          <Route path={`${match.url}/`} exact component={(props: any) => <div>/admin</div>} />
-          <Route path={`${match.url}/users`} component={(props: any) => <div>/admin/users</div>} />
-          <Route path={`${match.url}/events`} component={(props: any) => <div>/admin/events</div>} />
-          <Route path={`${match.url}/sports`} component={(props: any) => <div>/admin/sports</div>} />
-          <Route path={`${match.url}/mark-attendance`} component={(props: any) => <div>/admin/mark-attendance</div>} />
-          <Route path={`${match.url}/view-attendance`} component={(props: any) => <div>/admin/view-attendance</div>} />
+          <Route path={`${match.url}/`} exact component={(props: any) => <UsersList {...props} />} />
+          <Route path={`${match.url}/enrolled`} component={(props: any) => <EnrolledUsers {...props} />} />
+          <Route path={`${match.url}/sports`} component={(props: any) => <SportsList  {...props} />} />
+          <Route path={`${match.url}/mark-attendance`} component={(props: any) => <AttendanceList />} />
+          <Route path={`${match.url}/view-attendance`} component={(props: any) => <AttendanceList view={true} />} />
           <Route path={`${match.url}/mark-result`} component={(props: any) => <div>/admin/mark-result</div>} />
           <Route path={`${match.url}/view-result`} component={(props: any) => <div>/admin/view-result</div>} />
           <Redirect to={`${match.url}`} />

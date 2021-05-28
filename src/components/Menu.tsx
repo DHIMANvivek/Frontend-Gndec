@@ -16,8 +16,8 @@ import {
   checkmarkDoneOutline, checkmarkDoneSharp, checkmarkOutline,
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
-  peopleOutline, peopleSharp, personOutline, personSharp,
-  podiumOutline, podiumSharp, trophyOutline, trophySharp
+  personOutline, personSharp, podiumOutline, podiumSharp,
+  trophyOutline, trophySharp
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -50,22 +50,10 @@ const appAdminPages: AppPage[] = [
     mdIcon: homeSharp
   },
   {
-    title: 'Resigtered Users',
-    url: '/admin/users',
-    iosIcon: peopleOutline,
-    mdIcon: peopleSharp
-  },
-  {
     title: 'Enrolled Users',
-    url: '/admin/events',
+    url: '/admin/enrolled',
     iosIcon: gameControllerOutline,
     mdIcon: gameControllerSharp
-  },
-  {
-    title: 'Sports List',
-    url: '/admin/sports',
-    iosIcon: listCircle,
-    mdIcon: listOutline
   },
   {
     title: 'Mark Attendance',
@@ -90,10 +78,16 @@ const appAdminPages: AppPage[] = [
     url: '/admin/view-result',
     iosIcon: trophyOutline,
     mdIcon: trophySharp
-  }
+  },
+  {
+    title: 'Sports List',
+    url: '/admin/sports',
+    iosIcon: listCircle,
+    mdIcon: listOutline
+  },
 ];
 
-const Menu: React.FC<any> = ({ }) => {
+const Menu: React.FC<any> = () => {
   const location = useLocation();
   const auth = useStoreState<any>(({ auth }) => auth);
 

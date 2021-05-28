@@ -1,8 +1,10 @@
 export const API = {
   LOGIN: '/signin',
   SIGNUP: '/signup',
+  ALL_USERS: "/users",
   ME: "/me",
   GET_SPORTS: "/sport/fetchAll",
+  GET_ENROLLMENTS: "/event/fetchAll",
   ENROLL_EVENTS: "/event/create",
 }
 

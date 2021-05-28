@@ -30,8 +30,8 @@ export const SelectEvents: React.FC<any> = () => {
 
   const SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
   const auth = useStoreState<any>(({ auth }) => auth);
-  const events = useStoreState<any>(({ events }) => events);
-  const storeEvents = useStoreActions<any>((actions) => actions.storeEvents);
+  const userEvents = useStoreState<any>(({ userEvents }) => userEvents);
+  const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
 
   const [selectedEvents, setSelectedEvents] = useState<any>([]);
   const [loading, setLoading] = useState(false);
@@ -41,13 +41,13 @@ export const SelectEvents: React.FC<any> = () => {
   const fieldEventCount = allSelectedEvents.filter((event) => event.sportType === "field").length;
   const trackEventCount = allSelectedEvents.filter((event) => event.sportType === "track").length;
 
-  const savedEventsIds = events.map((node: any) => (node.sportId._id))
+  const savedEventsIds = userEvents.map((node: any) => (node.sportId._id))
   const disableOn = (fieldEventCount === 2 && trackEventCount === 1) || (fieldEventCount === 1 && trackEventCount === 2)
   const disableFieldOn2 = fieldEventCount === 2;
   const disableTrackOn2 = trackEventCount === 2;
 
   useEffect(() => {
-    setSelectedEvents(events.map((event: any) => (event.sportId._id)))
+    setSelectedEvents(userEvents.map((event: any) => (event.sportId._id)))
   }, [])
 
   const enrollUserToEvents = () => {
@@ -59,7 +59,7 @@ export const SelectEvents: React.FC<any> = () => {
     setLoading(true)
     Axios.post(API.ENROLL_EVENTS, { sportIds: newEnrollEvents })
       .then(({ data }) => {
-        storeEvents(data.events);
+        storeUserEvents(data.events);
         showToast("Successfully enrolled the events!", 3000)
       })
       .catch(() => {
@@ -123,7 +123,7 @@ export const SelectEvents: React.FC<any> = () => {
       </IonGrid>
       <IonGrid>
         <h1>Enrolled Events</h1>
-        {events.map((node: any) => (
+        {userEvents.map((node: any) => (
           <IonRow key={node._id}>
             <IonCol >
               <IonItem>

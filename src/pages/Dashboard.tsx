@@ -12,7 +12,7 @@ import { API } from "../constants";
 
 export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
-  const storeEvents = useStoreActions<any>((actions) => actions.storeEvents);
+  const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
   const logout = useStoreActions<any>((actions) => actions.logOut);
   const auth = useStoreState<any>(({ auth }) => auth);
   const [loading, setLoading] = useState(true);
@@ -43,7 +43,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
     Axios.get(API.ME)
       .then(({ data }) => {
         storeUserData({ user: data.user });
-        storeEvents(data.events);
+        storeUserEvents(data.events);
         setLoading(false)
       })
       .catch(() => {

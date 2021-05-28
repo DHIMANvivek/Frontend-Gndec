@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Axios from 'axios';
 import { useStoreActions, useStoreRehydrated } from 'easy-peasy';
-import { IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonContent, IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import Menu from './components/Menu';
 import { Auth, Dashboard, AdminDashboard } from './pages';
