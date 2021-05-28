@@ -89,7 +89,7 @@ export const SelectEvents: React.FC<any> = () => {
         <p>Note:- You can select only 3 events atmost. It can be 2 field events and 1 track events or 1 field event and 2 track events</p>
         <h3>Field Events</h3>
         <IonRow>
-          {SPORTS.filter(({ sportType, genderCategory }) => sportType === "field" && genderCategory === auth.user.gender).map((node) => (
+          {SPORTS.filter(({ sportType, genderCategory }) => sportType === "field" && genderCategory === auth.user?.gender).map((node) => (
             <IonCol key={node._id}>
               <IonItem>
                 <IonLabel>{node.sportName}: &nbsp;</IonLabel>
@@ -105,7 +105,7 @@ export const SelectEvents: React.FC<any> = () => {
         </IonRow>
         <h3>Track Events</h3>
         <IonRow>
-          {SPORTS.filter(({ sportType, genderCategory }) => sportType === "track" && genderCategory === auth.user.gender).map((node) => (
+          {SPORTS.filter(({ sportType, genderCategory }) => sportType === "track" && genderCategory === auth.user?.gender).map((node) => (
             <IonCol key={node._id}>
               <IonItem lines="full">
                 <IonLabel>{node.sportName}: &nbsp;</IonLabel>

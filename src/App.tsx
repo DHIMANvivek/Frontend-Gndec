@@ -1,10 +1,12 @@
+import React, { useEffect } from 'react';
 import Axios from 'axios';
 import { useStoreActions, useStoreRehydrated } from 'easy-peasy';
 import { IonRouterOutlet, IonSplitPane } from '@ionic/react';
 import { Redirect, Route, useLocation } from 'react-router-dom';
 import Menu from './components/Menu';
-import { Auth, Dashboard } from './pages';
+import { Auth, Dashboard, AdminDashboard } from './pages';
 import { ENV } from './environment';
+import { API } from './constants';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -22,8 +24,6 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
 import './styles/index.scss';
-import { useEffect } from 'react';
-import { API } from './constants';
 
 Axios.defaults.baseURL = ENV.API_ENDPOINT;
 Axios.defaults.headers.post['Content-Type'] = 'application/json';
@@ -45,6 +45,7 @@ const App: React.FC = () => {
         <Route path="/login" component={(props: any) => <Auth {...props} />} />
         <Route path="/signup" component={(props: any) => <Auth {...props} />} />
         <Route path="/dashboard" component={(props: any) => <Dashboard {...props} />} />
+        <Route path="/admin" component={(props: any) => <AdminDashboard {...props} />} />
         <Redirect to="/login" />
       </IonRouterOutlet>
     </IonSplitPane>

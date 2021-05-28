@@ -33,7 +33,11 @@ export const Auth: React.FC<any> = () => {
       .then(({ data }) => {
         if (data.user.isVerified) {
           storeUserData({ user: data.user, token: data.token })
-          router.push("/dashboard");
+          if (data.user.isAdmin) {
+            router.push("/admin");
+          } else {
+            router.push("/dashboard");
+          }
         }
         else {
           showToast("Please verify your email", 3000)

@@ -13,7 +13,11 @@ import { useStoreState } from 'easy-peasy';
 import { useLocation } from 'react-router-dom';
 
 import {
-  homeOutline, homeSharp, personOutline, personSharp
+  checkmarkDoneOutline, checkmarkDoneSharp, checkmarkOutline,
+  checkmarkSharp, gameControllerOutline, gameControllerSharp,
+  homeOutline, homeSharp, listCircle, listOutline,
+  peopleOutline, peopleSharp, personOutline, personSharp,
+  podiumOutline, podiumSharp, trophyOutline, trophySharp
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -38,6 +42,57 @@ const appPages: AppPage[] = [
   }
 ];
 
+const appAdminPages: AppPage[] = [
+  {
+    title: 'Admin Home',
+    url: '/admin',
+    iosIcon: homeOutline,
+    mdIcon: homeSharp
+  },
+  {
+    title: 'Resigtered Users',
+    url: '/admin/users',
+    iosIcon: peopleOutline,
+    mdIcon: peopleSharp
+  },
+  {
+    title: 'Enrolled Users',
+    url: '/admin/events',
+    iosIcon: gameControllerOutline,
+    mdIcon: gameControllerSharp
+  },
+  {
+    title: 'Sports List',
+    url: '/admin/sports',
+    iosIcon: listCircle,
+    mdIcon: listOutline
+  },
+  {
+    title: 'Mark Attendance',
+    url: '/admin/mark-attendance',
+    iosIcon: checkmarkOutline,
+    mdIcon: checkmarkSharp
+  },
+  {
+    title: 'View Attendance',
+    url: '/admin/view-attendance',
+    iosIcon: checkmarkDoneOutline,
+    mdIcon: checkmarkDoneSharp
+  },
+  {
+    title: 'Mark Result',
+    url: '/admin/mark-result',
+    iosIcon: podiumOutline,
+    mdIcon: podiumSharp
+  },
+  {
+    title: 'View Result',
+    url: '/admin/view-result',
+    iosIcon: trophyOutline,
+    mdIcon: trophySharp
+  }
+];
+
 const Menu: React.FC<any> = ({ }) => {
   const location = useLocation();
   const auth = useStoreState<any>(({ auth }) => auth);
@@ -48,7 +103,7 @@ const Menu: React.FC<any> = ({ }) => {
         <IonList id="inbox-list">
           <IonListHeader>{auth.user?.fullName}</IonListHeader>
           <IonNote>{auth.user?.email}</IonNote>
-          {appPages.map((appPage, index) => {
+          {(auth.user?.isAdmin ? appAdminPages : appPages).map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>

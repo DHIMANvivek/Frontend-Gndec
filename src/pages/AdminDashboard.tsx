@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
-  IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLoading,
-  IonMenuButton, IonRouterOutlet, IonTitle, IonToolbar, useIonRouter
+  IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLoading, IonMenuButton,
+  IonRouterOutlet, IonTitle, IonToolbar, useIonRouter, useIonToast
 } from "@ionic/react";
 import { logOutOutline } from "ionicons/icons";
 import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
-import { Profile, SelectEvents } from "../components/Dashboard";
 import { Route } from 'react-router-dom';
 import Axios from "axios";
 import { API } from "../constants";
 
-export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
+export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
   const storeEvents = useStoreActions<any>((actions) => actions.storeEvents);
   const logout = useStoreActions<any>((actions) => actions.logOut);
@@ -21,16 +20,17 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
 
   const isRehydrated = useStoreRehydrated();
   const router = useIonRouter();
+  const [showToast] = useIonToast();
 
   useEffect(() => {
-    if (!auth.token && auth?.user?.isAdmin) {
+    if (!auth.token) {
       logOut()
     }
     else {
       me()
     }
-    if (auth?.user?.isAdmin) {
-      router.push("/admin")
+    if (!auth?.user?.isAdmin) {
+      router.push("/dashboard")
     }
   }, [isRehydrated])
 
@@ -47,8 +47,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
         setLoading(false)
       })
       .catch(() => {
-        logOut()
-        // showToast("Something went wrong", 3000)
+        showToast("Something went wrong", 3000)
       });
   }
 
@@ -68,23 +67,21 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
               <IonIcon slot="icon-only" icon={logOutOutline} />
             </IonButton>
           </IonButtons>
-          <IonTitle>Dashboard</IonTitle>
+          <IonTitle>Admin Dashboard</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent className='dashboard'>
+      <IonContent className='admin-dashboard'>
         <IonRouterOutlet>
-          <Route path={`${match.url}/`} component={(props: any) => <SelectEvents  {...props} />} />
-          <Route path={`${match.url}/profile`} component={(props: any) => <Profile {...props} />} />
+          <Route path={`${match.url}/`} component={(props: any) => <div>/fd</div>} />
+          <Route path={`${match.url}/admin/users`} component={(props: any) => <div>/admin/users</div>} />
+          <Route path={`${match.url}/admin/events`} component={(props: any) => <div>/admin/events</div>} />
+          <Route path={`${match.url}/admin/sports`} component={(props: any) => <div>/admin/sports</div>} />
+          <Route path={`${match.url}/admin/mark-attendance`} component={(props: any) => <div>/admin/mark-attendance</div>} />
+          <Route path={`${match.url}/admin/view-attendance`} component={(props: any) => <div>/admin/view-attendance</div>} />
+          <Route path={`${match.url}/admin/mark-result`} component={(props: any) => <div>/admin/mark-result</div>} />
+          <Route path={`${match.url}/admin/view-result`} component={(props: any) => <div>/admin/view-result</div>} />
         </IonRouterOutlet>
       </IonContent>
     </>
   );
 };
-
-// eslint-disable-next-line no-lone-blocks
-{/* <IonToolbar>
-<IonButtons slot="start">
-<IonBackButton defaultHref="/" />
-</IonButtons>
-<IonTitle>Back Button</IonTitle>
-</IonToolbar> */}
