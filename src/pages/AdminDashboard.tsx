@@ -9,6 +9,7 @@ import { Redirect, Route } from 'react-router-dom';
 import Axios from "axios";
 import { API } from "../constants";
 import { AttendanceList, EnrolledUsers, SportsList, UsersList } from "../components/AdminDashboard";
+import { ResultList } from "../components/AdminDashboard/ResultList";
 
 export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
@@ -97,8 +98,8 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
           <Route path={`${match.url}/sports`} component={(props: any) => <SportsList  {...props} />} />
           <Route path={`${match.url}/mark-attendance`} component={(props: any) => <AttendanceList />} />
           <Route path={`${match.url}/view-attendance`} component={(props: any) => <AttendanceList view={true} />} />
-          <Route path={`${match.url}/mark-result`} component={(props: any) => <div>/admin/mark-result</div>} />
-          <Route path={`${match.url}/view-result`} component={(props: any) => <div>/admin/view-result</div>} />
+          <Route path={`${match.url}/mark-result`} component={(props: any) => <ResultList />} />
+          <Route path={`${match.url}/view-result`} component={(props: any) => <ResultList view={true} />} />
           <Redirect to={`${match.url}`} />
         </IonRouterOutlet>
       </IonContent>
