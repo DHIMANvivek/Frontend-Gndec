@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import {
-  IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLoading,
-  IonMenuButton, IonRouterOutlet, IonTitle, IonToolbar, useIonRouter
+  IonLoading,
+  useIonRouter
 } from "@ionic/react";
-import { logOutOutline } from "ionicons/icons";
 import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
 import { Profile, SelectEvents } from "../components/Dashboard";
-import { Redirect, Route } from 'react-router-dom';
 import Axios from "axios";
 import { API } from "../constants";
+import { PageLayout } from "./Page";
 
 export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
+  const page = match.params.page;
+
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
   const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
   const logout = useStoreActions<any>((actions) => actions.logOut);
@@ -52,32 +53,14 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
   }
 
   return (
-    <>
+    <PageLayout>
       <IonLoading
         isOpen={loading}
         message={'Please wait...'}
       />
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton autoHide={true} />
-          </IonButtons>
-          <IonButtons slot="secondary">
-            <IonButton onClick={logOut}>
-              <IonIcon slot="icon-only" icon={logOutOutline} />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>Dashboard</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className='dashboard'>
-        <IonRouterOutlet>
-          <Route path={`${match.url}/`} exact component={(props: any) => <SelectEvents  {...props} />} />
-          <Route path={`${match.url}/profile`} component={(props: any) => <Profile {...props} />} />
-          <Redirect to={`${match.url}`} />
-        </IonRouterOutlet>
-      </IonContent>
-    </>
+      {page === undefined && <SelectEvents />}
+      {page === 'profile' && <Profile />}
+    </PageLayout>
   );
 };
 

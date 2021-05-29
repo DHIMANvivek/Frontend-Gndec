@@ -6,6 +6,7 @@ import { useIonRouter, useIonToast } from "@ionic/react";
 import { API } from "../constants";
 import { isEmpty } from "lodash";
 import { useStoreActions, useStoreState } from 'easy-peasy';
+import { PageLayout } from './Page';
 
 export const Auth: React.FC<any> = () => {
   const location = useLocation();
@@ -49,12 +50,12 @@ export const Auth: React.FC<any> = () => {
   };
 
   return (
-    <div className='auth'>
+    <PageLayout>
       {location.pathname === "/login" ? (
         <Login onSubmit={login} />
       ) : (
           <Signup onSubmit={signup} />
         )}
-    </div>
+    </PageLayout>
   );
 };

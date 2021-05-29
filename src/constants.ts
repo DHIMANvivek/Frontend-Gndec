@@ -90,7 +90,7 @@ export const mapValue = (key: string, selectedValue: string) => {
   }
   if (data.length) {
     const found: ConstantData | ConstantDataNumber | undefined = data
-      .find((node: ConstantData | ConstantDataNumber) => node.value.toString() === selectedValue.toString());
+      .find((node: ConstantData | ConstantDataNumber) => node.value.toString() === selectedValue?.toString());
     return found ? found.title : '';
   }
   return '';

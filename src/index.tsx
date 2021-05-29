@@ -3,20 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { IonReactRouter } from '@ionic/react-router';
-import { IonApp } from '@ionic/react';
-import { StoreProvider } from 'easy-peasy';
+
 import store from './store';
+import { StoreProvider } from 'easy-peasy';
 
 ReactDOM.render(
   <React.StrictMode>
-    <IonApp>
-      <IonReactRouter>
-        <StoreProvider store={store}>
-          <App />
-        </StoreProvider>
-      </IonReactRouter>
-    </IonApp>
+    <StoreProvider store={store}>
+      <App />
+    </StoreProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

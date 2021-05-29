@@ -9,6 +9,7 @@ import Axios from "axios";
 import { API } from "../constants";
 import { AttendanceList, EnrolledUsers, SportsList, UsersList } from "../components/AdminDashboard";
 import { ResultList } from "../components/AdminDashboard/ResultList";
+import { PageLayout } from "./Page";
 
 export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const page = match.params.page;
@@ -74,33 +75,18 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   }
 
   return (
-    <>
+    <PageLayout>
       <IonLoading
         isOpen={loading}
         message={'Please wait...'}
       />
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton autoHide={true} />
-          </IonButtons>
-          <IonButtons slot="secondary">
-            <IonButton onClick={logOut}>
-              <IonIcon slot="icon-only" icon={logOutOutline} />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>Admin Dashboard</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className='admin-dashboard'>
-        {page === undefined && <UsersList />}
-        {page === 'enrolled' && <EnrolledUsers />}
-        {page === 'sports' && <SportsList />}
-        {page === 'mark-attendance' && <AttendanceList />}
-        {page === 'view-attendance' && <AttendanceList view={true} />}
-        {page === 'mark-result' && <ResultList />}
-        {page === 'view-result' && <ResultList view={true} />}
-      </IonContent>
-    </>
+      {page === undefined && <UsersList />}
+      {page === 'enrolled' && <EnrolledUsers />}
+      {page === 'sports' && <SportsList />}
+      {page === 'mark-attendance' && <AttendanceList />}
+      {page === 'view-attendance' && <AttendanceList view={true} />}
+      {page === 'mark-result' && <ResultList />}
+      {page === 'view-result' && <ResultList view={true} />}
+    </PageLayout>
   );
 };

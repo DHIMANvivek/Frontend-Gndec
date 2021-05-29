@@ -87,12 +87,12 @@ const appAdminPages: AppPage[] = [
   },
 ];
 
-const Menu: React.FC<any> = () => {
+export const Menu: React.FC<any> = () => {
   const location = useLocation();
   const auth = useStoreState<any>(({ auth }) => auth);
-
+  const pathname = location.pathname;
   return (
-    <IonMenu contentId="sideBar" type="overlay">
+    <IonMenu contentId="main" type="overlay" disabled={pathname === "/login" || pathname === "/signup"}>
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>{auth.user?.fullName}</IonListHeader>
@@ -100,7 +100,7 @@ const Menu: React.FC<any> = () => {
           {(auth.user?.isAdmin ? appAdminPages : appPages).map((appPage, index) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
+                <IonItem className={pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
                   <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
                   <IonLabel>{appPage.title}</IonLabel>
                 </IonItem>
@@ -112,5 +112,3 @@ const Menu: React.FC<any> = () => {
     </IonMenu>
   );
 };
-
-export default Menu;

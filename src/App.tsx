@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Axios from 'axios';
-import { useStoreActions, useStoreRehydrated } from 'easy-peasy';
-import { IonContent, IonRouterOutlet, IonSplitPane } from '@ionic/react';
-import { Redirect, Route, useLocation } from 'react-router-dom';
-import Menu from './components/Menu';
+import { useStoreActions } from 'easy-peasy';
+import { IonApp, IonRouterOutlet, IonSplitPane } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import { Redirect, Route } from 'react-router-dom';
+import { Menu } from './components';
 import { Auth, Dashboard, AdminDashboard } from './pages';
-import { ENV } from './environment';
 import { API } from './constants';
+import { ENV } from './environment';
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -30,26 +32,29 @@ Axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const App: React.FC = () => {
   const storeSports = useStoreActions<any>((actions) => actions.storeSports);
-  const isRehydrated = useStoreRehydrated();
-  const location = useLocation();
   useEffect(() => {
     Axios.get(API.GET_SPORTS)
       .then(result => storeSports(result.data))
       .catch(() => { });
-  });
-  return isRehydrated ? (
-    <IonSplitPane contentId="sideBar">
-      {(location.pathname !== "/login" && location.pathname !== "/signup") && <Menu />}
-      <IonRouterOutlet id="sideBar">
-        <Route path="/" exact={true} component={() => (<Redirect to="/login" />)} />
-        <Route path="/login" component={(props: any) => <Auth {...props} />} />
-        <Route path="/signup" component={(props: any) => <Auth {...props} />} />
-        <Route path="/dashboard/:page?" component={(props: any) => <Dashboard {...props} />} />
-        <Route path="/admin/:page?" component={(props: any) => <AdminDashboard {...props} />} />
-        <Redirect to="/login" />
-      </IonRouterOutlet>
-    </IonSplitPane>
-  ) : (<div>Loading...</div>);
+    console.log("App Rerender")
+  }, []);
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          <Menu />
+          <IonRouterOutlet id="main">
+            <Route path="/" exact={true} component={() => (<Redirect to="/login" />)} />
+            <Route path="/login" component={(props: any) => <Auth {...props} />} />
+            <Route path="/signup" component={(props: any) => <Auth {...props} />} />
+            <Route path="/dashboard/:page?" component={(props: any) => <Dashboard {...props} />} />
+            <Route path="/admin/:page?" component={(props: any) => <AdminDashboard {...props} />} />
+            <Redirect to="/login" />
+          </IonRouterOutlet>
+        </IonSplitPane>
+      </IonReactRouter>
+    </IonApp>
+  );
 };
 
 export default App;
