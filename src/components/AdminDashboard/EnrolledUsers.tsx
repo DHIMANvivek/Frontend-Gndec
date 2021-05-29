@@ -9,7 +9,7 @@ export const EnrolledUsers: React.FC<any> = () => {
   const processedUsers: any = {};
   users.forEach((user: any) => { processedUsers[user._id] = user; });
   const processData = allEvents.map((event: any) => ({ ...event, user: processedUsers[event.userId] }));
-  console.log(processData)
+
   return (
     <IonGrid>
       <table className="ionic-table">

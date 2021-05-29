@@ -44,8 +44,8 @@ const App: React.FC = () => {
         <Route path="/" exact={true} component={() => (<Redirect to="/login" />)} />
         <Route path="/login" component={(props: any) => <Auth {...props} />} />
         <Route path="/signup" component={(props: any) => <Auth {...props} />} />
-        <Route path="/dashboard" component={(props: any) => <Dashboard {...props} />} />
-        <Route path="/admin" component={(props: any) => <AdminDashboard {...props} />} />
+        <Route path="/dashboard/:page?" component={(props: any) => <Dashboard {...props} />} />
+        <Route path="/admin/:page?" component={(props: any) => <AdminDashboard {...props} />} />
         <Redirect to="/login" />
       </IonRouterOutlet>
     </IonSplitPane>

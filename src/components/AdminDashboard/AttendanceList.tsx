@@ -1,18 +1,65 @@
-import React from "react";
-import { IonButton, IonGrid, IonToggle } from "@ionic/react";
-import { useStoreState } from "easy-peasy";
-import { mapValue } from "../../constants";
+import React, { useEffect, useState } from "react";
+import { IonButton, IonGrid, IonToggle, useIonToast } from "@ionic/react";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import { API, mapValue } from "../../constants";
+import Axios from "axios";
 
 export const AttendanceList: React.FC<any> = ({ view = false }) => {
+  const [showToast] = useIonToast();
   const users = useStoreState<any>(({ users }) => users);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
+  const storeAllEvents = useStoreActions<any>(({ storeAllEvents }) => storeAllEvents);
   const processedUsers: any = {};
   users.forEach((user: any) => { processedUsers[user._id] = user; });
-  const processData = allEvents
+  const processEvents = allEvents
     .map((event: any) => ({ ...event, user: processedUsers[event.userId] }))
-    .filter((event: any) => !view && (event.attendance === "not_marked"));
+  // .filter((event: any) => !view && (event.attendance === "not_marked"));
 
-  const markAttendance = () => { }
+
+  useEffect(() => {
+    setAlreadyPresent();
+  }, [])
+
+
+  const [present, setPresent] = useState<string[]>([]);
+
+  const markAttendance = () => {
+    const absent = processEvents
+      .filter((event: any) => !present.includes(event._id))
+      .map((event: any) => event._id);
+    Axios.post(API.MARK_ATTENDANCE, { present, absent })
+      .then(() => {
+        const updatedAllEvents: any = allEvents.map((event: any) => {
+          if (present.includes(event._id)) {
+            event.attendance = "present";
+          } else if (absent.includes(event._id)) {
+            event.attendance = "absent";
+          }
+          return event;
+        });
+        storeAllEvents(updatedAllEvents);
+        showToast("Successfully marked attendance!", 3000);
+      })
+      .catch(() => {
+        showToast("Something went wrong!", 3000);
+      })
+  }
+
+  const setAlreadyPresent = () => { // For initial render
+    const presentEvents = processEvents
+      .filter((event: any) => { return event.attendance === "present" })
+      .map((event: any) => event._id)
+    setPresent(presentEvents)
+  }
+
+  const selectPresent = (id: string) => {
+    if (present.includes(id)) {
+      setPresent(present.filter((a) => a !== id))
+    }
+    else {
+      setPresent([...present, id])
+    }
+  }
 
   return (
     <IonGrid>
@@ -32,7 +79,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
           </tr>
         </thead>
         <tbody>
-          {processData.map((event: any) => (
+          {processEvents.map((event: any) => (
             <tr key={event._id}>
               <td>{event.user.jerseyNo}</td>
               <td>{event.sportId.sportName}</td>
@@ -44,7 +91,9 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
               <td>{mapValue("COURSE", event.user.course)}</td>
               <td>{mapValue("BRANCH", event.user.branch)}</td>
               <td>
-                {view ? mapValue("ATTENDANCE", event.attendance) : (<IonToggle checked={true} onIonChange={e => console.log(e.detail.checked)} />)}
+                {view
+                  ? mapValue("ATTENDANCE", event.attendance)
+                  : (<IonToggle checked={present.includes(event._id)} onIonChange={e => selectPresent(event._id)} />)}
               </td>
             </tr>
           ))}

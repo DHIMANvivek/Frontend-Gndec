@@ -1,18 +1,60 @@
-import React from "react";
-import { IonButton, IonGrid, IonSelect, IonSelectOption, IonToggle } from "@ionic/react";
-import { useStoreState } from "easy-peasy";
-import { mapValue } from "../../constants";
+import React, { useEffect, useState } from "react";
+import { IonButton, IonGrid, IonSelect, IonSelectOption, useIonToast } from "@ionic/react";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import { API, mapValue } from "../../constants";
+import Axios from "axios";
 
 export const ResultList: React.FC<any> = ({ view = false }) => {
+  const [showToast] = useIonToast();
   const users = useStoreState<any>(({ users }) => users);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
+  const storeAllEvents = useStoreActions<any>(({ storeAllEvents }) => storeAllEvents);
   const processedUsers: any = {};
   users.forEach((user: any) => { processedUsers[user._id] = user; });
   const processData = allEvents
     .map((event: any) => ({ ...event, user: processedUsers[event.userId] }))
-    .filter((event: any) => !view && (event.position === 0));
+    .filter((event: any) => event.attendance === "present")
+    .filter((event: any) => {
+      if (view) {
+        return event.position > 0;
+      }
+      return event;
+    });
 
-  const markResult = () => { }
+  const [result, setResult] = useState<any>([]);
+
+  useEffect(() => {
+    setAlreadyResult();
+  }, [])
+
+  const selectResult = (node: any) => {
+    setResult([...result.filter((n: any) => n._id !== node._id), node])
+  }
+
+  const setAlreadyResult = () => { // For initial render
+    const presentEvents = processData
+      .filter((event: any) => { return event.position > 0 })
+      .map((event: any) => ({ _id: event._id, value: event.position }))
+    setResult(presentEvents)
+  }
+
+  const markResult = () => {
+    Axios.post(API.MARK_RESULT, { result })
+      .then(() => {
+        const updatedAllEvents: any = allEvents.map((event: any) => {
+          const found = result.find((res: any) => res._id === event._id)
+          if (found) {
+            event.position = event.value;
+          }
+          return event;
+        });
+        storeAllEvents(updatedAllEvents);
+        showToast("Successfully marked result!", 3000);
+      })
+      .catch(() => {
+        showToast("Something went wrong!", 3000);
+      })
+  }
 
   return (
     <IonGrid>
@@ -44,12 +86,21 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
               <td>{mapValue("COURSE", event.user.course)}</td>
               <td>{mapValue("BRANCH", event.user.branch)}</td>
               <td>
-                {view ? mapValue("ATTENDANCE", event.attendance) : (
-                  <IonSelect interface="popover" okText="Okay" cancelText="Dismiss" onIonChange={e => console.log(e.detail.value)}>
-                    <IonSelectOption value="0">None</IonSelectOption>
-                    <IonSelectOption value="1">First</IonSelectOption>
-                    <IonSelectOption value="2">Second</IonSelectOption>
-                    <IonSelectOption value="3">Third</IonSelectOption>
+                {view ? mapValue("RESULT", event.position) : (
+                  <IonSelect interface="popover"
+                    onIonChange={e => selectResult({ _id: event._id, value: e.detail.value })}
+                    value={(() => {
+                      const found = result.find((node: any) => node._id === event._id);
+                      if (!found) {
+                        return 0;
+                      }
+                      return found.value;
+                    })()}
+                  >
+                    <IonSelectOption value={0}>None</IonSelectOption>
+                    <IonSelectOption value={1}>First</IonSelectOption>
+                    <IonSelectOption value={2}>Second</IonSelectOption>
+                    <IonSelectOption value={3}>Third</IonSelectOption>
                   </IonSelect>
                 )}
               </td>

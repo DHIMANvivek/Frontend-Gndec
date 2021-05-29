@@ -1,11 +1,16 @@
 export const API = {
   LOGIN: '/signin',
   SIGNUP: '/signup',
-  ALL_USERS: "/users",
   ME: "/me",
-  GET_SPORTS: "/sport/fetchAll",
-  GET_ENROLLMENTS: "/event/fetchAll",
+
+  ALL_USERS: "/users",
+
   ENROLL_EVENTS: "/event/create",
+  GET_ENROLLMENTS: "/event/fetchAll",
+  MARK_ATTENDANCE: "/event/attendance",
+  MARK_RESULT: "/event/result",
+
+  GET_SPORTS: "/sport/fetchAll",
 }
 
 
@@ -29,6 +34,13 @@ export const ATTENDANCE: ConstantData[] = [
   { title: 'Present', value: 'present' },
   { title: 'Absent', value: 'absent' }
 ];
+
+export const RESULT: ConstantDataNumber[] = [
+  { title: 'None', value: 0 },
+  { title: 'First', value: 1 },
+  { title: 'Second', value: 2 },
+  { title: 'Third', value: 3 },
+]
 
 export const ATTENDANCE_COLOR: any = {
   not_marked: "secondary",
@@ -69,6 +81,9 @@ export const mapValue = (key: string, selectedValue: string) => {
       break;
     case 'SPORT_TYPE':
       data = SPORT_TYPE;
+      break;
+    case 'RESULT':
+      data = RESULT;
       break;
     default:
       data = [];
