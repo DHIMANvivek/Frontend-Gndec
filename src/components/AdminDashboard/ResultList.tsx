@@ -59,7 +59,14 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
 
   return (
     <IonGrid>
-      <Table data={processData} headings={["Jersy No.", "Sport", "Sport Type", "Name", "URN", "Phone No.", "Gender", "Course", "Branch", "Position",]}>
+      <Table
+        data={processData}
+        headings={["Jersy No.", "Sport", "Sport Type", "Name", "URN", "Phone No.", "Gender", "Course", "Branch", "Position"]}
+        searchKeys={[
+          "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName",
+          "user.universityRoll", "user.phoneNumber", "user.gender", "user.course", "user.branch", "event.position"
+        ]}
+      >
         {(data: any) => data.map((event: any) => (
           <tr key={event._id}>
             <td>{event.user.jerseyNo}</td>

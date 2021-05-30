@@ -25,7 +25,6 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
     const presentEvents = processEvents
       .filter((event: any) => { return event.attendance === "present" })
       .map((event: any) => event._id)
-    console.log(presentEvents)
     setPresent(presentEvents)
   }
 
@@ -63,7 +62,15 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
 
   return (
     <IonGrid>
-      <Table data={processEvents} headings={["Jersy No.", "Sport", "Sport Type", "Name", "URN", "Phone No.", "Gender", "Course", "Branch", "Attendance"]}>
+      <Table
+        data={processEvents}
+        headings={["Jersy No.", "Sport", "Sport Type", "Name", "URN", "Phone No.", "Gender", "Course", "Branch", "Attendance"]}
+        searchKeys={[
+          "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll",
+          "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"
+        ]}
+      >
+
         {(data: any) => data.map((event: any) => (
           <tr key={event._id}>
             <td>{event.user.jerseyNo}</td>

@@ -2,6 +2,7 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonMenuButton, I
 import { useStoreActions } from 'easy-peasy';
 import { logOutOutline } from 'ionicons/icons';
 import { useLocation } from 'react-router';
+// import { RefresherEventDetail } from '@ionic/core';
 
 const TOOLBAR_TITLE: any = {
   "/dashboard": "Dashboard",
@@ -26,6 +27,12 @@ export const PageLayout: React.FC = ({ children }) => {
     logout();
     router.push("/login")
   }
+  // const doRefresh = (e: CustomEvent<RefresherEventDetail>) => {
+  //   console.log("Refresh")
+  //   setTimeout(() => {
+  //     e.detail.complete()
+  //   }, 3000);
+  // }
   return (
     <IonPage>
       <IonHeader hidden={pathname === "/login" || pathname === "/signup"}>
@@ -42,6 +49,9 @@ export const PageLayout: React.FC = ({ children }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        {/* <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher> */}
         {children}
       </IonContent>
     </IonPage>

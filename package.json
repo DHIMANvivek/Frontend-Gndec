@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^3.0.0",
     "@capacitor/core": "3.0.0",
     "@ionic/react": "^5.5.0",
     "@ionic/react-router": "^5.5.0",
@@ -18,6 +19,7 @@
     "@types/react-router-dom": "^5.1.7",
     "axios": "^0.21.1",
     "easy-peasy": "^5.0.3",
+    "fuse.js": "^6.4.6",
     "ionicons": "^5.4.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",

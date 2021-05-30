@@ -8,7 +8,11 @@ export const UsersList: React.FC<any> = () => {
   const users = useStoreState<any>(({ users }) => users);
   return (
     <IonGrid>
-      <Table data={users} headings={["Jersy No.", "Name", "Email", "URN", "Phone No.", "Gender", "Course", "Branch", "Verified"]}>
+      <Table
+        data={users}
+        headings={["Jersy No.", "Name", "Email", "URN", "Phone No.", "Gender", "Course", "Branch", "Verified"]}
+        searchKeys={["jerseyNo", "fullName", "email", "universityRoll", "phoneNumber", "gender", "course", "branch", "isVerified"]}
+      >
         {(data: any) => data.map((user: any) => (
           <tr key={user.jerseyNo}>
             <td>{user.jerseyNo}</td>

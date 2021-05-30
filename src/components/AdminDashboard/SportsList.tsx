@@ -9,7 +9,11 @@ export const SportsList: React.FC<any> = () => {
 
   return (
     <IonGrid>
-      <Table data={sports} headings={["Sport Name", "Sport Type", "Sport Gender"]}>
+      <Table
+        data={sports}
+        headings={["Sport Name", "Sport Type", "Sport Gender"]}
+        searchKeys={["sportName", "sportType", "genderCategory"]}
+      >
         {(data: any) => data.map((sport: any) => (
           <tr key={sport._id}>
             <td>{sport.sportName}</td>
