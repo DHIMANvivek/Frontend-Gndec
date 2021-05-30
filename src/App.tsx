@@ -36,7 +36,6 @@ const App: React.FC = () => {
     Axios.get(API.GET_SPORTS)
       .then(result => storeSports(result.data))
       .catch(() => { });
-    console.log("App Rerender")
   }, []);
   return (
     <IonApp>

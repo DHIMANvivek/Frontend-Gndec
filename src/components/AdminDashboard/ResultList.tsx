@@ -3,6 +3,7 @@ import { IonButton, IonGrid, IonSelect, IonSelectOption, useIonToast } from "@io
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, mapValue } from "../../constants";
 import Axios from "axios";
+import { Table } from "../Table";
 
 export const ResultList: React.FC<any> = ({ view = false }) => {
   const [showToast] = useIonToast();
@@ -44,7 +45,7 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
         const updatedAllEvents: any = allEvents.map((event: any) => {
           const found = result.find((res: any) => res._id === event._id)
           if (found) {
-            event.position = event.value;
+            event.position = found.value;
           }
           return event;
         });
@@ -58,56 +59,40 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
 
   return (
     <IonGrid>
-      <table className="ionic-table">
-        <thead>
-          <tr>
-            <th>Jersy No.</th>
-            <th>Sport</th>
-            <th>Sport Type</th>
-            <th>Name</th>
-            <th>URN</th>
-            <th>Phone No.</th>
-            <th>Gender</th>
-            <th>Course</th>
-            <th>Branch</th>
-            <th>Position</th>
+      <Table data={processData} headings={["Jersy No.", "Sport", "Sport Type", "Name", "URN", "Phone No.", "Gender", "Course", "Branch", "Position",]}>
+        {(data: any) => data.map((event: any) => (
+          <tr key={event._id}>
+            <td>{event.user.jerseyNo}</td>
+            <td>{event.sportId.sportName}</td>
+            <td>{mapValue("SPORT_TYPE", event.sportId.sportType)}</td>
+            <td>{event.user.fullName}</td>
+            <td>{event.user.universityRoll}</td>
+            <td>{event.user.phoneNumber}</td>
+            <td>{mapValue("GENDER", event.user.gender)}</td>
+            <td>{mapValue("COURSE", event.user.course)}</td>
+            <td>{mapValue("BRANCH", event.user.branch)}</td>
+            <td>
+              {view ? mapValue("RESULT", event.position) : (
+                <IonSelect interface="popover"
+                  onIonChange={e => selectResult({ _id: event._id, value: e.detail.value })}
+                  value={(() => {
+                    const found = result.find((node: any) => node._id === event._id);
+                    if (!found) {
+                      return 0;
+                    }
+                    return found.value;
+                  })()}
+                >
+                  <IonSelectOption value={0}>None</IonSelectOption>
+                  <IonSelectOption value={1}>First</IonSelectOption>
+                  <IonSelectOption value={2}>Second</IonSelectOption>
+                  <IonSelectOption value={3}>Third</IonSelectOption>
+                </IonSelect>
+              )}
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {processData.map((event: any) => (
-            <tr key={event._id}>
-              <td>{event.user.jerseyNo}</td>
-              <td>{event.sportId.sportName}</td>
-              <td>{mapValue("SPORT_TYPE", event.sportId.sportType)}</td>
-              <td>{event.user.fullName}</td>
-              <td>{event.user.universityRoll}</td>
-              <td>{event.user.phoneNumber}</td>
-              <td>{mapValue("GENDER", event.user.gender)}</td>
-              <td>{mapValue("COURSE", event.user.course)}</td>
-              <td>{mapValue("BRANCH", event.user.branch)}</td>
-              <td>
-                {view ? mapValue("RESULT", event.position) : (
-                  <IonSelect interface="popover"
-                    onIonChange={e => selectResult({ _id: event._id, value: e.detail.value })}
-                    value={(() => {
-                      const found = result.find((node: any) => node._id === event._id);
-                      if (!found) {
-                        return 0;
-                      }
-                      return found.value;
-                    })()}
-                  >
-                    <IonSelectOption value={0}>None</IonSelectOption>
-                    <IonSelectOption value={1}>First</IonSelectOption>
-                    <IonSelectOption value={2}>Second</IonSelectOption>
-                    <IonSelectOption value={3}>Third</IonSelectOption>
-                  </IonSelect>
-                )}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        ))}
+      </Table>
       {!view && <IonButton expand="block" onClick={markResult} >Save Result</IonButton>}
     </IonGrid>
   );
