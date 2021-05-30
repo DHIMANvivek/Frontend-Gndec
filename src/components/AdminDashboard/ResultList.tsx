@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { IonButton, IonGrid, IonSelect, IonSelectOption, useIonToast } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonRow, IonSelect, IonSelectOption, useIonToast } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, mapValue } from "../../constants";
 import Axios from "axios";
 import { Table } from "../Table";
 
 export const ResultList: React.FC<any> = ({ view = false }) => {
+  const [filterSport, setFilterSport] = useState('all');
+
   const [showToast] = useIonToast();
   const users = useStoreState<any>(({ users }) => users);
+  const sports = useStoreState<any>(({ sports }) => sports);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const storeAllEvents = useStoreActions<any>(({ storeAllEvents }) => storeAllEvents);
   const processedUsers: any = {};
@@ -20,13 +23,14 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
         return event.position > 0;
       }
       return event;
-    });
+    })
+    .filter((event: any) => filterSport === "all" || event.sportId._id === filterSport);
 
   const [result, setResult] = useState<any>([]);
 
   useEffect(() => {
     setAlreadyResult();
-  }, [])
+  }, [filterSport])
 
   const selectResult = (node: any) => {
     setResult([...result.filter((n: any) => n._id !== node._id), node])
@@ -66,6 +70,22 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
           "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName",
           "user.universityRoll", "user.phoneNumber", "user.gender", "user.course", "user.branch", "event.position"
         ]}
+        filters={
+          <IonGrid>
+            <IonRow>
+              <IonCol>
+                <IonSelect
+                  interface="popover"
+                  value={filterSport}
+                  onIonChange={(e) => setFilterSport(e.detail.value)}
+                >
+                  <IonSelectOption value="all">All</IonSelectOption>
+                  {sports.map(({ _id, sportName }: any) => (<IonSelectOption key={_id} value={_id}>{sportName}</IonSelectOption>))}
+                </IonSelect>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
+        }
       >
         {(data: any) => data.map((event: any) => (
           <tr key={event._id}>

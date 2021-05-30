@@ -3,7 +3,7 @@ import { IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow } from "@ionic/rea
 import Fuse from "fuse.js";
 import { difference } from "lodash";
 
-export const Table: React.FC<any> = ({ children = () => { }, headings = [], data = [], searchKeys = [] }) => {
+export const Table: React.FC<any> = ({ filters = "", children = () => { }, headings = [], data = [], searchKeys = [] }) => {
   const [search, setSearch] = useState('');
   const options = {
     // isCaseSensitive: false,
@@ -34,7 +34,7 @@ export const Table: React.FC<any> = ({ children = () => { }, headings = [], data
       <IonGrid>
         <IonRow>
           <IonCol sizeXl="8" sizeLg="6">
-            Empty Area
+            {filters}
           </IonCol>
           <IonCol sizeXl="4" sizeLg="6">
             <IonItem>
