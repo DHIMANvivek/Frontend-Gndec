@@ -18,6 +18,18 @@ ion-item {
 
   thead {
     background: rgba(#3880ff, 0.4);
+
+    @media only screen and (max-width: 1300px) {
+      display: none;
+    }
+  }
+
+  tr {
+    @media only screen and (max-width: 1300px) {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 12px;
+    }
   }
 
   td,
