@@ -3,9 +3,16 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { setupConfig } from '@ionic/react';
+import { platform } from 'os';
 
 import store from './store';
 import { StoreProvider } from 'easy-peasy';
+
+const plat: any = platform()
+if (plat !== "browser") {
+  setupConfig({ mode: 'ios' });
+}
 
 ReactDOM.render(
   <React.StrictMode>

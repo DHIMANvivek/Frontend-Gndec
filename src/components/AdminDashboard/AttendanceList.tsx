@@ -103,7 +103,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
             <td>
               {view
                 ? mapValue("ATTENDANCE", event.attendance)
-                : (<IonToggle mode="md" checked={present.includes(event._id)} onClick={e => selectPresent(e, event._id)} />)}
+                : (<IonToggle checked={present.includes(event._id)} onClick={e => selectPresent(e, event._id)} />)}
             </td>
           </tr>
         ))}

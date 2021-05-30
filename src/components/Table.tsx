@@ -38,8 +38,8 @@ export const Table: React.FC<any> = ({ filters = "", children = () => { }, headi
           </IonCol>
           <IonCol sizeXl="4" sizeLg="6">
             <IonItem>
-              <IonLabel position="floating">Search</IonLabel>
-              <IonInput onIonChange={(e: any) => setSearch(e.detail.value)} clearInput></IonInput>
+              {/* <IonLabel position="floating">Search</IonLabel> */}
+              <IonInput onIonChange={(e: any) => setSearch(e.detail.value)} placeholder="Search" clearInput></IonInput>
             </IonItem>
           </IonCol>
         </IonRow>
