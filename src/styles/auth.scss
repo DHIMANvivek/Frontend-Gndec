@@ -1,25 +1,24 @@
 .auth {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-
-  .auth-form {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 12px;
-    padding-bottom: 44px;
+  ion-content {
     height: 100%;
-    min-width: 300px;
-    max-width: 400px;
-    margin: auto;
-    box-sizing: border-box;
 
-    ion-button {
-      margin-top: 18px;
+    .form-grid {
+      height: 100%;
+
+      .form-container {
+        height: 100%;
+
+        .card-container {
+          max-width: 480px;
+          margin: auto;
+
+          ion-button[button-type='clear'] {
+            white-space: normal;
+            text-align: center;
+            width: 100%;
+          }
+        }
+      }
     }
   }
 }

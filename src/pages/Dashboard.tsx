@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   IonLoading,
+  IonRefresher,
+  IonRefresherContent,
   useIonRouter
 } from "@ionic/react";
 import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
@@ -40,20 +42,30 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
     router.push("/login")
   }
 
-  const me = () => {
+  const me = (callback = () => { }) => {
     Axios.get(API.ME)
       .then(({ data }) => {
         storeUserData({ user: data.user });
         storeUserEvents(data.events);
-        setLoading(false)
       })
       .catch(() => {
         logOut()
+      })
+      .finally(() => {
+        callback()
+        setLoading(false)
       });
+  }
+
+  const doRefresh = (e: CustomEvent<any>) => {
+    me(() => e.detail.complete());
   }
 
   return (
     <PageLayout>
+      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+        <IonRefresherContent></IonRefresherContent>
+      </IonRefresher>
       <IonLoading
         isOpen={loading}
         message={'Please wait...'}

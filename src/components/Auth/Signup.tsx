@@ -95,8 +95,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
             <IonItem>
               <IonLabel position='floating'>Course</IonLabel>
               <IonSelect
-                okText='Okay'
-                cancelText='Dismiss'
+                interface="popover"
                 value={course}
                 onIonChange={(e) => setCourse(e.detail.value)}
               >
@@ -106,8 +105,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
             <IonItem>
               <IonLabel position='floating'>Branch</IonLabel>
               <IonSelect
-                okText='Okay'
-                cancelText='Dismiss'
+                interface="popover"
                 value={branch}
                 onIonChange={(e) => setBranch(e.detail.value)}
               >
@@ -117,8 +115,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
             <IonItem>
               <IonLabel position='floating'>Gender</IonLabel>
               <IonSelect
-                okText='Okay'
-                cancelText='Dismiss'
+                interface="popover"
                 value={gender}
                 onIonChange={(e) => setGender(e.detail.value)}
               >

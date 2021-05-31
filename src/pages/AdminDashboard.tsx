@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonLoading, IonMenuButton,
-  IonTitle, IonToolbar, useIonRouter, useIonToast
+  IonLoading, IonRefresher, IonRefresherContent, useIonRouter, useIonToast
 } from "@ionic/react";
-import { logOutOutline } from "ionicons/icons";
 import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
 import Axios from "axios";
 import { API } from "../constants";
@@ -15,8 +13,8 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const page = match.params.page;
 
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
-  const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
   const storeAllEvents = useStoreActions<any>((actions) => actions.storeAllEvents);
+  const storeSports = useStoreActions<any>((actions) => actions.storeSports);
   const storeUsers = useStoreActions<any>((actions) => actions.storeUsers);
   const logout = useStoreActions<any>((actions) => actions.logOut);
   const auth = useStoreState<any>(({ auth }) => auth);
@@ -41,6 +39,10 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   }, [isRehydrated])
 
   useEffect(() => {
+    fetchAll();
+  }, [])
+
+  const fetchAll = (callback = () => { }) => {
     Axios.get(API.ALL_USERS)
       .then(({ data }) => {
         storeUsers(data.users);
@@ -55,7 +57,14 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       .catch(() => {
         showToast("Something went wrong", 3000)
       });
-  }, [])
+    Axios.get(API.GET_SPORTS)
+      .then(result => storeSports(result.data))
+      .catch(() => { }).finally(() => callback());
+  }
+
+  const doRefresh = (e: CustomEvent<any>) => {
+    fetchAll(() => e.detail.complete());
+  }
 
   const logOut = () => {
     logout();
@@ -66,16 +75,19 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
     Axios.get(API.ME)
       .then(({ data }) => {
         storeUserData({ user: data.user });
-        storeUserEvents(data.events);
-        setLoading(false)
       })
       .catch(() => {
         showToast("Something went wrong", 3000)
+      }).finally(() => {
+        setLoading(false);
       });
   }
 
   return (
     <PageLayout>
+      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+        <IonRefresherContent></IonRefresherContent>
+      </IonRefresher>
       <IonLoading
         isOpen={loading}
         message={'Please wait...'}

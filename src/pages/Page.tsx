@@ -17,7 +17,7 @@ const TOOLBAR_TITLE: any = {
   "/admin/sports": "Sports List",
 }
 
-export const PageLayout: React.FC = ({ children }) => {
+export const PageLayout: React.FC<any> = ({ children, className = "" }) => {
   const location = useLocation();
   const router = useIonRouter();
   const logout = useStoreActions<any>((actions) => actions.logOut);
@@ -27,14 +27,8 @@ export const PageLayout: React.FC = ({ children }) => {
     logout();
     router.push("/login")
   }
-  // const doRefresh = (e: CustomEvent<RefresherEventDetail>) => {
-  //   console.log("Refresh")
-  //   setTimeout(() => {
-  //     e.detail.complete()
-  //   }, 3000);
-  // }
   return (
-    <IonPage>
+    <IonPage className={className}>
       <IonHeader hidden={pathname === "/login" || pathname === "/signup"}>
         <IonToolbar>
           <IonButtons slot="start">
@@ -49,9 +43,6 @@ export const PageLayout: React.FC = ({ children }) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        {/* <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-          <IonRefresherContent></IonRefresherContent>
-        </IonRefresher> */}
         {children}
       </IonContent>
     </IonPage>
