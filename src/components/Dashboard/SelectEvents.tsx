@@ -38,8 +38,8 @@ export const SelectEvents: React.FC<any> = () => {
 
   const allSelectedEvents: SportsData[] = selectedEvents
     .map((eve: string) => SPORTS.find((node) => (node._id === eve)));
-  const fieldEventCount = allSelectedEvents.filter((event) => event.sportType === "field").length;
-  const trackEventCount = allSelectedEvents.filter((event) => event.sportType === "track").length;
+  const fieldEventCount = allSelectedEvents.filter((event) => event?.sportType === "field").length;
+  const trackEventCount = allSelectedEvents.filter((event) => event?.sportType === "track").length;
 
   const savedEventsIds = userEvents.map((node: any) => (node.sportId._id))
   const disableOn = (fieldEventCount === 2 && trackEventCount === 1) || (fieldEventCount === 1 && trackEventCount === 2)
@@ -48,7 +48,7 @@ export const SelectEvents: React.FC<any> = () => {
 
   useEffect(() => {
     setSelectedEvents(userEvents.map((event: any) => (event.sportId._id)))
-  }, [])
+  }, [SPORTS, userEvents])
 
   const enrollUserToEvents = () => {
     const newEnrollEvents: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));

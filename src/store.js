@@ -21,8 +21,13 @@ const store = createStore(
       }),
 
       logOut: action((state) => {
-        state.auth = {};
-        state.events = [];
+        state.auth= {
+          user: { isVerified: false },
+          token: "",
+        };
+        state.users= [];
+        state.userEvents= [];
+        state.allEvents= [];
       }),
 
       // Events actions

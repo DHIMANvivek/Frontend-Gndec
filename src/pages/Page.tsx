@@ -25,7 +25,7 @@ export const PageLayout: React.FC<any> = ({ children, className = "" }) => {
   const pathname = location.pathname;
   const logOut = () => {
     logout();
-    router.push("/login")
+    router.push("/login", "root");
   }
   return (
     <IonPage className={className}>

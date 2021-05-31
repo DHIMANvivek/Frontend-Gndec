@@ -14,6 +14,7 @@ import { PageLayout } from "./Page";
 export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const page = match.params.page;
 
+  const storeSports = useStoreActions<any>((actions) => actions.storeSports);
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
   const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
   const logout = useStoreActions<any>((actions) => actions.logOut);
@@ -55,6 +56,9 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
         callback()
         setLoading(false)
       });
+    Axios.get(API.GET_SPORTS)
+      .then(result => storeSports(result.data))
+      .catch(() => { });
   }
 
   const doRefresh = (e: CustomEvent<any>) => {

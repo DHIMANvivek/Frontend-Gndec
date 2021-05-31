@@ -17,6 +17,10 @@
             text-align: center;
             width: 100%;
           }
+
+          ion-button[type='submit'] {
+            margin-top: 18px;
+          }
         }
       }
     }
