@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IonCol, IonGrid, IonInput, IonItem, IonLabel, IonRow } from "@ionic/react";
+import { IonCol, IonGrid, IonInput, IonItem, IonRow } from "@ionic/react";
 import Fuse from "fuse.js";
 import { difference } from "lodash";
 
@@ -33,10 +33,10 @@ export const Table: React.FC<any> = ({ filters = "", children = () => { }, headi
     <>
       <IonGrid>
         <IonRow>
-          <IonCol sizeXl="8" sizeLg="6">
+          <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
             {filters}
           </IonCol>
-          <IonCol sizeXl="4" sizeLg="6">
+          <IonCol sizeXl="4" sizeLg="6" sizeSm="12" sizeXs="12">
             <IonItem>
               {/* <IonLabel position="floating">Search</IonLabel> */}
               <IonInput onIonChange={(e: any) => setSearch(e.detail.value)} placeholder="Search" clearInput></IonInput>
@@ -53,7 +53,7 @@ export const Table: React.FC<any> = ({ filters = "", children = () => { }, headi
             {children(mergeSerach(data))}
           </tbody>
         </table>
-      </IonGrid>
+      </IonGrid >
     </>
   );
 };
