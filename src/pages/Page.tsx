@@ -34,9 +34,10 @@ export const PageLayout: React.FC<any> = ({ children, className = "" }) => {
           <IonButtons slot="start">
             <IonMenuButton autoHide={true} />
           </IonButtons>
-          <IonButtons slot="secondary">
-            <IonButton onClick={logOut}>
-              <IonIcon slot="icon-only" icon={logOutOutline} />
+          <IonButtons slot="primary">
+            <IonButton onClick={logOut} color="danger" fill="outline">
+              Logout
+              <IonIcon slot="end" icon={logOutOutline} />
             </IonButton>
           </IonButtons>
           <IonTitle>{TOOLBAR_TITLE[pathname]}</IonTitle>
