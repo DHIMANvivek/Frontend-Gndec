@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Login, Signup } from "../components/Auth";
 import Axios from "axios";
 import { IonCol, IonGrid, IonLoading, IonRow, useIonRouter, useIonToast } from "@ionic/react";
-import { API } from "../constants";
+import { API, REGEX } from "../constants";
 import { isEmpty } from "lodash";
 import { useStoreActions, useStoreState } from 'easy-peasy';
 import { PageLayout } from './Page';
+import { SignupData } from "../interfaces";
 
 export const Auth: React.FC<any> = ({ isLogin = false }) => {
   const router = useIonRouter();
@@ -20,7 +21,11 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     }
   }, [])
 
-  const signup = (userData: object) => {
+  const signup = (userData: SignupData) => {
+    const errors = validateData(userData);
+    if (!isEmpty(errors)) {
+      return errors;
+    }
     setLoading(true);
     Axios.post(API.SIGNUP, userData)
       .then(result => router.push("/login"))
@@ -29,6 +34,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
       })
       .finally(() => {
         setLoading(false);
+        return {};
       });
   };
 
@@ -55,6 +61,36 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
         setLoading(false);
       });
   };
+
+  const validateData = (userData: SignupData) => {
+    const error: any = {};
+    const { fullName, email, universityRoll, phoneNumber, password, course, branch, gender } = userData;
+    if (!fullName) {
+      error.fullName = "Please enter your name"
+    }
+    // if (!REGEX.EMAIL.test(email)) {
+    //   error.email = "Please use GNDEC college email"
+    // }
+    if (!REGEX.UNIVERSITY_NO.test(universityRoll)) {
+      error.universityRoll = "Please enter valid university rollnumber"
+    }
+    if (!REGEX.PHONE_NUMBER.test(phoneNumber)) {
+      error.phoneNumber = "Please enter valid phone number"
+    }
+    if (!REGEX.PASSWORD.test(password)) {
+      error.password = "Please enter valid password"
+    }
+    if (!course) {
+      error.course = "Please select your course"
+    }
+    if (!branch) {
+      error.branch = "Please select your branch"
+    }
+    if (!gender) {
+      error.gender = "Please select your gender"
+    }
+    return error;
+  }
 
   return (
     <PageLayout className="auth">

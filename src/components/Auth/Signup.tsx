@@ -6,14 +6,10 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonSelect,
-  IonSelectOption,
   useIonRouter,
 } from "@ionic/react";
 import { BRANCH, COURSE, GENDER } from "../../constants";
+import { IonInputNew, IonSelectNew } from "../../common";
 
 export const Signup: React.FC<any> = ({ onSubmit }) => {
   const router = useIonRouter();
@@ -25,7 +21,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
   const [course, setCourse] = useState("");
   const [branch, setBranch] = useState("");
   const [gender, setGender] = useState("");
-
+  const [error, setError] = useState<any>({})
   return (
     <div className='card-container'>
       {/* <div className='card-Signup'> */}
@@ -39,7 +35,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
             method="post"
             onSubmit={(e) => {
               e.preventDefault();
-              onSubmit({
+              const errors = onSubmit({
                 fullName,
                 email,
                 universityRoll,
@@ -49,79 +45,61 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 branch,
                 gender
               });
+              setError(errors);
             }}
           >
-            <IonItem>
-              <IonLabel position='floating'>Name</IonLabel>
-              <IonInput
-                required
-                value={fullName}
-                onIonChange={(e) => setFullName(e.detail.value!)}
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position='floating'>Email</IonLabel>
-              <IonInput
-                required
-                value={email}
-                onIonChange={(e) => setEmail(e.detail.value!)}
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position='floating'>URN</IonLabel>
-              <IonInput
-                required
-                value={universityRoll}
-                onIonChange={(e) => setUniversityRoll(e.detail.value!)}
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position='floating'>Password</IonLabel>
-              <IonInput
-                type='password'
-                required
-                value={password}
-                onIonChange={(e) => setPassword(e.detail.value!)}
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position='floating'>Phone Number</IonLabel>
-              <IonInput
-                required
-                value={phoneNumber}
-                onIonChange={(e) => setPhoneNumber(e.detail.value!)}
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position='floating'>Course</IonLabel>
-              <IonSelect
-                interface="popover"
-                value={course}
-                onIonChange={(e) => setCourse(e.detail.value)}
-              >
-                {COURSE.map(({ title, value }) => (<IonSelectOption key={value} value={value}>{title}</IonSelectOption>))}
-              </IonSelect>
-            </IonItem>
-            <IonItem>
-              <IonLabel position='floating'>Branch</IonLabel>
-              <IonSelect
-                interface="popover"
-                value={branch}
-                onIonChange={(e) => setBranch(e.detail.value)}
-              >
-                {BRANCH.map(({ title, value }) => (<IonSelectOption key={value} value={value}>{title}</IonSelectOption>))}
-              </IonSelect>
-            </IonItem>
-            <IonItem>
-              <IonLabel position='floating'>Gender</IonLabel>
-              <IonSelect
-                interface="popover"
-                value={gender}
-                onIonChange={(e) => setGender(e.detail.value)}
-              >
-                {GENDER.map(({ title, value }) => (<IonSelectOption key={value} value={value}>{title}</IonSelectOption>))}
-              </IonSelect>
-            </IonItem>
+            <IonInputNew
+              title="Name"
+              value={fullName}
+              onChange={setFullName}
+              error={error?.fullName}
+            />
+            <IonInputNew
+              title="Email"
+              value={email}
+              onChange={setEmail}
+              error={error?.email}
+            />
+            <IonInputNew
+              title="URN"
+              value={universityRoll}
+              onChange={setUniversityRoll}
+              error={error?.universityRoll}
+            />
+            <IonInputNew
+              title="Password"
+              type="password"
+              value={password}
+              onChange={setPassword}
+              error={error?.password}
+            />
+            <IonInputNew
+              title="Phone Number"
+              value={phoneNumber}
+              onChange={setPhoneNumber}
+              error={error?.phoneNumber}
+            />
+            <IonSelectNew
+              title="Course"
+              value={course}
+              onChange={setCourse}
+              data={COURSE}
+              error={error?.course}
+            />
+            <IonSelectNew
+              title="Branch"
+              value={branch}
+              onChange={setBranch}
+              data={BRANCH}
+              error={error?.branch}
+            />
+            <IonSelectNew
+              title="Gender"
+              value={gender}
+              onChange={setGender}
+              data={GENDER}
+              error={error?.gender}
+            />
             <IonButton
               className='item-text-wrap'
               color='primary'

@@ -1,3 +1,6 @@
+import Fuse from "fuse.js";
+import { difference } from "lodash";
+
 export const API = {
   LOGIN: '/signin',
   SIGNUP: '/signup',
@@ -50,6 +53,10 @@ export const ATTENDANCE_COLOR: any = {
 
 export const COURSE: ConstantData[] = [
   { title: 'B.Tech', value: 'b_tech' },
+  { title: 'M.Tech', value: 'm_tech' },
+  { title: 'B.Arch', value: 'b_arch' },
+  { title: 'BCA', value: 'bca' },
+  { title: 'MCA', value: 'mca' },
 ];
 
 export const BRANCH: ConstantData[] = [
@@ -94,4 +101,36 @@ export const mapValue = (key: string, selectedValue: string) => {
     return found ? found.title : '';
   }
   return '';
+}
+
+export const REGEX = {
+  PHONE_NUMBER: /^[0-9]{10}$/,
+  UNIVERSITY_NO: /^[0-9]{7}$/,
+  PASSWORD: /^[\s\S]{8,25}$/,
+  EMAIL: /^[a-zA-Z]+\d{7}@gndec.ac.in$/i
+}
+
+export const mergeSearch = ({ search, data, options: newOptions }: { search: string; data: any, options: any }) => {
+  const options = {
+    // isCaseSensitive: false,
+    // includeScore: false,
+    // shouldSort: true,
+    // includeMatches: false,
+    // findAllMatches: false,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // distance: 100,
+    // useExtendedSearch: false,
+    // ignoreLocation: false,
+    // ignoreFieldNorm: false,
+    threshold: 0.3,
+    ...newOptions
+  };
+  const fuse = new Fuse(data, options);
+  const searchedItems = fuse.search(search).map((node) => node.item);
+  if (searchedItems.length) {
+    const allOtherObjects = difference(data, searchedItems);
+    return [...searchedItems.map((node: any) => ({ ...node, isSearched: true })), ...allOtherObjects]
+  }
+  return data;
 }

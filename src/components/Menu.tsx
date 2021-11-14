@@ -92,7 +92,7 @@ export const Menu: React.FC<any> = () => {
   const auth = useStoreState<any>(({ auth }) => auth);
   const pathname = location.pathname;
   return (
-    <IonMenu contentId="main" type="overlay" disabled={pathname === "/login" || pathname === "/signup"}>
+    <IonMenu contentId="main" type="overlay" disabled={pathname === "/login" || pathname === "/signup"} className="side-bar">
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>{auth.user?.fullName}</IonListHeader>

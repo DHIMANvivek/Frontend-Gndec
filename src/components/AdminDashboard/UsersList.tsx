@@ -1,11 +1,13 @@
 import React from "react";
 import { IonGrid } from "@ionic/react";
-import { useStoreState } from "easy-peasy";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import { mapValue } from "../../constants";
 import { Table } from "../Table";
 
 export const UsersList: React.FC<any> = () => {
   const users = useStoreState<any>(({ users }) => users);
+  const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
+
   return (
     <IonGrid>
       <Table
@@ -14,7 +16,7 @@ export const UsersList: React.FC<any> = () => {
         searchKeys={["jerseyNo", "fullName", "email", "universityRoll", "phoneNumber", "gender", "course", "branch", "isVerified"]}
       >
         {(data: any) => data.map((user: any) => (
-          <tr key={user.jerseyNo}>
+          <tr key={user.jerseyNo} onClick={() => updateModalProfileId(user._id)}>
             <td>{user.jerseyNo}</td>
             <td>{user.fullName}</td>
             <td>{user.email}</td>

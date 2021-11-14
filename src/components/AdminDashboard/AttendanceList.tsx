@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { IonButton, IonCol, IonGrid, IonRow, IonSelect, IonSelectOption, IonToggle, useIonToast } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
@@ -13,12 +14,15 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   const sports = useStoreState<any>(({ sports }) => sports);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const storeAllEvents = useStoreActions<any>(({ storeAllEvents }) => storeAllEvents);
-  const processedUsers: any = {};
-  users.forEach((user: any) => { processedUsers[user._id] = user; });
-  const processEvents = allEvents
-    .map((event: any) => ({ ...event, user: processedUsers[event.userId] }))
-    .filter((event: any) => filterSport === "all" || event.sportId._id === filterSport);
+  const [present, setPresent] = useState<string[]>([]);
 
+
+  const objectifiedUsers: any = {};
+  users.forEach((user: any) => { objectifiedUsers[user._id] = user; });
+
+  const processEvents = allEvents
+    .map((event: any) => ({ ...event, user: objectifiedUsers[event.userId] }))
+    .filter((event: any) => filterSport === "all" || event.sportId._id === filterSport);
 
   useEffect(() => {
     setAlreadyPresent();
@@ -30,8 +34,6 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
       .map((event: any) => event._id)
     setPresent(presentEvents)
   }
-
-  const [present, setPresent] = useState<string[]>([]);
 
   const markAttendance = () => {
     const absent = processEvents
@@ -56,6 +58,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   }
 
   const selectPresent = (e: any, id: string) => {
+    console.log(id)
     if (e.target.checked) {
       setPresent([...new Set([...present, id])])
     } else {
@@ -72,6 +75,9 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
           "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll",
           "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"
         ]}
+        onQRScan={(rollNumber: string) => {
+          setPresent([...new Set([...present, rollNumber])])
+        }}
         filters={
           <IonGrid>
             <IonRow>

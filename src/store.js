@@ -15,6 +15,8 @@ const store = createStore(
       userEvents: [],
       allEvents: [],
       sports: [],
+      modalProfileId:"",
+
       // Auth actions
       storeUserData: action((state, payload) => {
         state.auth = { ...state.auth, ...payload };
@@ -47,6 +49,10 @@ const store = createStore(
 
       storeAllEvents: action((state, payload) => {
         state.allEvents = payload;
+      }),
+
+      updateModalProfileId: action((state, payload) => {
+        state.modalProfileId = payload;
       }),
 
       // updateApplication: action((state, payload) => {

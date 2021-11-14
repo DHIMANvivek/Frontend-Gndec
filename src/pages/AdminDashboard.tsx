@@ -8,6 +8,7 @@ import { API } from "../constants";
 import { AttendanceList, EnrolledUsers, SportsList, UsersList } from "../components/AdminDashboard";
 import { ResultList } from "../components/AdminDashboard/ResultList";
 import { PageLayout } from "./Page";
+import { ProfileModal } from "../common";
 
 export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const page = match.params.page;
@@ -16,6 +17,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const storeAllEvents = useStoreActions<any>((actions) => actions.storeAllEvents);
   const storeSports = useStoreActions<any>((actions) => actions.storeSports);
   const storeUsers = useStoreActions<any>((actions) => actions.storeUsers);
+  const modalProfileId = useStoreState<any>(({ modalProfileId }) => modalProfileId);
   const logout = useStoreActions<any>((actions) => actions.logOut);
   const auth = useStoreState<any>(({ auth }) => auth);
   const [loading, setLoading] = useState(true);
@@ -85,6 +87,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
 
   return (
     <PageLayout>
+      {modalProfileId && <ProfileModal />}
       <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>

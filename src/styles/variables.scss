@@ -234,3 +234,92 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
   }
 }
+
+
+
+$mobile-small: 365px;
+$mobile: 550px;
+$mobile-large: 581px;
+$tablet: 768px;
+$tablet-medium: 992px;
+$tablet-large: 1214px;
+$desktop: 1380px;
+$desktop-large: 1840px;
+
+@mixin mobile-small {
+  @media only screen and (max-width: $mobile-small) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media only screen and (max-width: $mobile) {
+    @content;
+  }
+}
+
+@mixin mobile-large {
+  @media only screen and (max-width: $mobile-large) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media only screen and (max-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin tablet-medium {
+  @media only screen and (max-width: $tablet-medium) {
+    @content;
+  }
+}
+
+@mixin tablet-large {
+  @media only screen and (max-width: $tablet-large) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media only screen and (max-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin desktop-large {
+  @media only screen and (max-width: $desktop-large) {
+    @content;
+  }
+}
+
+@mixin touch {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}
+
+@mixin mouse {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+@mixin moz {
+  @-moz-document url-prefix() {
+    @content;
+  }
+}
+
+@mixin landscape-mobile {
+  @media screen and (orientation:landscape) and (max-width: $tablet-medium) {
+    @content;
+  }
+}
+
+@mixin ios {
+  @supports (-webkit-touch-callout: none) {
+    @content;
+  }
+}

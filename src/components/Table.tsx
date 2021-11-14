@@ -1,34 +1,13 @@
 import { useState } from "react";
-import { IonCol, IonGrid, IonInput, IonItem, IonRow } from "@ionic/react";
-import Fuse from "fuse.js";
-import { difference } from "lodash";
+import { IonCol, IonGrid, IonIcon, IonInput, IonItem, IonRow } from "@ionic/react";
+import { qrCodeOutline } from "ionicons/icons";
+import { BarcodeScanner } from "@ionic-native/barcode-scanner";
+import { mergeSearch } from "../constants";
 
-export const Table: React.FC<any> = ({ filters = "", children = () => { }, headings = [], data = [], searchKeys = [] }) => {
+export const Table: React.FC<any> = ({
+  filters = "", children = () => { }, headings = [], data = [], searchKeys = [], onQRScan
+}) => {
   const [search, setSearch] = useState('');
-  const options = {
-    // isCaseSensitive: false,
-    // includeScore: false,
-    // shouldSort: true,
-    // includeMatches: false,
-    // findAllMatches: false,
-    // minMatchCharLength: 1,
-    // location: 0,
-    // threshold: 0.5,
-    // distance: 100,
-    // useExtendedSearch: false,
-    // ignoreLocation: false,
-    // ignoreFieldNorm: false,
-    keys: searchKeys
-  };
-  const mergeSerach = (data: any) => {
-    const fuse = new Fuse(data, options);
-    const searchedItems = fuse.search(search).map((node) => node.item);
-    if (searchedItems.length) {
-      const allOtherObjects = difference(data, searchedItems);
-      return [...searchedItems, ...allOtherObjects]
-    }
-    return data;
-  }
   return (
     <>
       <IonGrid>
@@ -38,8 +17,21 @@ export const Table: React.FC<any> = ({ filters = "", children = () => { }, headi
           </IonCol>
           <IonCol sizeXl="4" sizeLg="6" sizeSm="12" sizeXs="12">
             <IonItem>
-              {/* <IonLabel position="floating">Search</IonLabel> */}
-              <IonInput onIonChange={(e: any) => setSearch(e.detail.value)} placeholder="Search" clearInput></IonInput>
+              <IonInput
+                onIonChange={(e: any) => setSearch(e.detail.value)}
+                placeholder="Search"
+                clearInput
+              />
+              {onQRScan && (
+                <IonIcon icon={qrCodeOutline}
+                  onClick={async () => {
+                    const data = await BarcodeScanner.scan();
+                    if (data.format === "QR_CODE") {
+                      onQRScan(data.text)
+                    }
+                  }}
+                />
+              )}
             </IonItem>
           </IonCol>
         </IonRow>
@@ -50,7 +42,7 @@ export const Table: React.FC<any> = ({ filters = "", children = () => { }, headi
             </tr>
           </thead>
           <tbody>
-            {children(mergeSerach(data))}
+            {children(mergeSearch({ data, search, options: { searchKeys } }))}
           </tbody>
         </table>
       </IonGrid >
