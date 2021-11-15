@@ -62,25 +62,26 @@ export const SportsList: React.FC<any> = () => {
           options: { keys: ["sportName", "sportType", "genderCategory"] }
         })
           .map((sport: any) => {
-            const color = sport.isSearched ? "medium" : "";
+            const color = sport.isSearched ? "light" : "";
+            const isMale = sport.genderCategory === GENDER[1].value
             return (
               <IonCol key={sport._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
                 <IonCard color={color}>
                   <IonCardContent color={color}>
                     <IonItem color={color} lines="none">
-                      <IonIcon slot="start" icon={americanFootball} />
+                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={americanFootball} />
                       <IonLabel >
                         {sport.sportName}
                       </IonLabel>
                     </IonItem>
                     <IonItem color={color} lines="none">
-                      <IonIcon slot="start" icon={megaphone} />
+                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={megaphone} />
                       <IonLabel >
                         {mapValue("SPORT_TYPE", sport.sportType)}
                       </IonLabel>
                     </IonItem>
                     <IonItem color={color} lines="none">
-                      <IonIcon slot="start" icon={sport.genderCategory === "Male" ? male : female} />
+                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={sport.genderCategory === GENDER[1].value ? male : female} />
                       <IonLabel >
                         {sport.genderCategory}
                       </IonLabel>

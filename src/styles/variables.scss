@@ -235,7 +235,14 @@ http://ionicframework.com/docs/theming/ */
   }
 }
 
-
+.ion-color-pink {
+  --ion-color-base: #F06292 !important;
+  --ion-color-base-rgb: var(--ion-color-success-rgb, 45, 211, 111) !important;
+  --ion-color-contrast: var(--ion-color-success-contrast, #fff) !important;
+  --ion-color-contrast-rgb: var(--ion-color-success-contrast-rgb, 255, 255, 255) !important;
+  --ion-color-shade: #F48FB1 !important;
+  --ion-color-tint: #F8BBD0 !important;
+}
 
 $mobile-small: 365px;
 $mobile: 550px;

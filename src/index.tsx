@@ -14,11 +14,9 @@ if (isPlatform("android")) {
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <StoreProvider store={store}>
-      <App />
-    </StoreProvider>
-  </React.StrictMode>,
+  <StoreProvider store={store}>
+    <App />
+  </StoreProvider>,
   document.getElementById('root')
 );
 

@@ -42,7 +42,7 @@ export const Table: React.FC<any> = ({
             </tr>
           </thead>
           <tbody>
-            {children(mergeSearch({ data, search, options: { searchKeys } }))}
+            {children(mergeSearch({ data, search, options: { keys: searchKeys } }))}
           </tbody>
         </table>
       </IonGrid >

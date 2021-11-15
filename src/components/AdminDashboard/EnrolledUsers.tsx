@@ -1,40 +1,85 @@
-import React from "react";
-import { IonGrid } from "@ionic/react";
-import { useStoreState } from "easy-peasy";
-import { mapValue } from "../../constants";
-import { Table } from "../Table";
+import React, { useState } from "react";
+import { IonBadge, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonRippleEffect } from "@ionic/react";
+import { useStoreActions, useStoreState } from "easy-peasy";
+import { GENDER, mapValue, mergeSearch } from "../../constants";
+import { americanFootball, callSharp } from "ionicons/icons";
+import { GenderIcon } from "../../common";
 
 export const EnrolledUsers: React.FC<any> = () => {
   const users = useStoreState<any>(({ users }) => users);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
+
+  const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
+
+  const [search, setSearch] = useState('');
+
   const processedUsers: any = {};
   users.forEach((user: any) => { processedUsers[user._id] = user; });
   const processData = allEvents.map((event: any) => ({ ...event, user: processedUsers[event.userId] }));
 
   return (
     <IonGrid>
-      <Table
-        data={processData}
-        headings={["Jersy No.", "Sport", "Sport Type", "Name", "URN", "Phone No.", "Gender", "Course", "Branch"]}
-        searchKeys={[
-          "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName",
-          "user.universityRoll", "user.phoneNumber", "user.gender", "user.course", "user.branch"
-        ]}
-      >
-        {(data: any) => data.map((event: any) => (
-          <tr key={event._id}>
-            <td>{event.user.jerseyNo}</td>
-            <td>{event.sportId.sportName}</td>
-            <td>{mapValue("SPORT_TYPE", event.sportId.sportType)}</td>
-            <td>{event.user.fullName}</td>
-            <td>{event.user.universityRoll}</td>
-            <td>{event.user.phoneNumber}</td>
-            <td>{mapValue("GENDER", event.user.gender)}</td>
-            <td>{mapValue("COURSE", event.user.course)}</td>
-            <td>{mapValue("BRANCH", event.user.branch)}</td>
-          </tr>
-        ))}
-      </Table>
+      <IonRow>
+        <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
+          {/* {filters} */}
+        </IonCol>
+        <IonCol sizeXl="4" sizeLg="6" sizeSm="12" sizeXs="12">
+          <IonItem>
+            <IonInput
+              onIonChange={(e: any) => setSearch(e.detail.value)}
+              placeholder="Search"
+              clearInput
+            />
+          </IonItem>
+        </IonCol>
+      </IonRow>
+      <IonRow>
+        {mergeSearch({
+          data: processData,
+          search,
+          options: {
+            keys: [
+              "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName",
+              "user.universityRoll", "user.phoneNumber", "user.gender", "user.course", "user.branch"
+            ]
+          }
+        })
+          .map((event: any) => {
+            const color = event.isSearched ? "light" : "";
+            const isMale = event.user.gender === GENDER[1].value
+            return (
+              <IonCol key={event._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
+                <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(event.user._id)}>
+                  <IonRippleEffect />
+                  <IonCardHeader>
+                    <IonItem color="transparent" lines="none">
+                      <IonCardSubtitle>Jersey {event.user.jerseyNo}</IonCardSubtitle>
+                      <IonBadge color={isMale ? "tertiary" : "pink"} slot="end">{mapValue("SPORT_TYPE", event.sportId.sportType)}</IonBadge>
+                    </IonItem>
+                    <IonItem color="transparent" lines="none">
+                      <IonCardTitle>{event.user.fullName}</IonCardTitle>
+                      <GenderIcon gender={event.user.gender} slot="end" />
+                    </IonItem>
+                  </IonCardHeader>
+                  <IonCardContent color={color}>
+                    <IonItem color="transparent" lines="none">
+                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={americanFootball} />
+                      <IonLabel>{event.sportId.sportName}</IonLabel>
+                    </IonItem>
+                    <IonItem color="transparent" lines="none">
+                      <IonBadge color={isMale ? "tertiary" : "pink"} slot="start">URN</IonBadge>
+                      <IonLabel>{event.user.universityRoll}</IonLabel>
+                    </IonItem>
+                    <IonItem color="transparent" lines="none">
+                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={callSharp} />
+                      <IonLabel>{event.user.phoneNumber}</IonLabel>
+                    </IonItem>
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
+            )
+          })}
+      </IonRow>
     </IonGrid>
   );
 };
