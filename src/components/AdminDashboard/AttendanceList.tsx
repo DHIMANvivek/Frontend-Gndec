@@ -191,8 +191,10 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                   style={{ margin: 3 }}
                   color={isPresent ? "success" : "danger"}
                   onClick={e => {
-                    e.stopPropagation();
-                    selectPresent({ target: { checked: !isPresent } }, event._id)
+                    if (!view) {
+                      e.stopPropagation();
+                      selectPresent({ target: { checked: !isPresent } }, event._id)
+                    }
                   }}
                 >Jersey {event.user.jerseyNo}</IonBadge>
               )
