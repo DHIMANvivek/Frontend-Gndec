@@ -330,3 +330,27 @@ $desktop-large: 1840px;
     @content;
   }
 }
+
+
+.sc-ion-modal-md-h {
+  --width: 100% !important;
+  --height: 100% !important;
+}
+
+@media only screen and (min-width: 768px) {
+  .sc-ion-modal-md-h {
+    --max-width: 700px !important;
+    --max-height: 80vh !important;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .sc-ion-modal-md-h {
+    --width: 600px;
+    --height: 500px;
+    --ion-safe-area-top: 0px;
+    --ion-safe-area-bottom: 0px;
+    --ion-safe-area-right: 0px;
+    --ion-safe-area-left: 0px;
+  }
+}

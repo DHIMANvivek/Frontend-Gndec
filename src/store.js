@@ -15,7 +15,7 @@ const store = createStore(
       userEvents: [],
       allEvents: [],
       sports: [],
-      modalProfileId:"",
+      modalProfileId: "",
 
       // Auth actions
       storeUserData: action((state, payload) => {
@@ -23,13 +23,13 @@ const store = createStore(
       }),
 
       logOut: action((state) => {
-        state.auth= {
+        state.auth = {
           user: { isVerified: false },
           token: "",
         };
-        state.users= [];
-        state.userEvents= [];
-        state.allEvents= [];
+        state.users = [];
+        state.userEvents = [];
+        state.allEvents = [];
       }),
 
       // Events actions
@@ -49,6 +49,16 @@ const store = createStore(
 
       storeAllEvents: action((state, payload) => {
         state.allEvents = payload;
+      }),
+
+      appendAllEvents: action((state, payload) => {
+        state.allEvents = [...state.allEvents, ...payload];
+      }),
+
+      deleteEventbyId: action((state, payload) => {
+        state.allEvents = state.allEvents.filter(
+          (event) => event._id !== payload
+        );
       }),
 
       updateModalProfileId: action((state, payload) => {
