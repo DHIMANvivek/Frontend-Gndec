@@ -27,7 +27,7 @@ import {
 import { API } from "../../constants";
 import { add, closeCircle, createOutline } from "ionicons/icons";
 
-export const AnnouncementList: React.FC<any> = () => {
+export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
   const modalRef = useRef<any>();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -43,12 +43,13 @@ export const AnnouncementList: React.FC<any> = () => {
 
   return (
     <>
-      <IonFab vertical="bottom" horizontal="end" slot="fixed">
-        <IonFabButton onClick={() => setIsOpen(true)}>
-          <IonIcon icon={add} />
-        </IonFabButton>
-      </IonFab>
-
+      {!isPublic && (
+        <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton onClick={() => setIsOpen(true)}>
+            <IonIcon icon={add} />
+          </IonFabButton>
+        </IonFab>
+      )}
       <IonGrid>
         <IonRow>
           <IonCol>
@@ -57,8 +58,12 @@ export const AnnouncementList: React.FC<any> = () => {
               <IonCardHeader>
                 <IonItem color="transparent" lines="none">
                   <IonCardTitle>Time</IonCardTitle>
-                  <IonIcon slot="end" color="primary" icon={createOutline} />
-                  <IonIcon slot="end" color="danger" icon={closeCircle} />
+                  {!isPublic && (
+                    <>
+                      <IonIcon slot="end" color="primary" icon={createOutline} />
+                      <IonIcon slot="end" color="danger" icon={closeCircle} />
+                    </>
+                  )}
                 </IonItem>
               </IonCardHeader>
               <IonCardContent>
@@ -68,32 +73,33 @@ export const AnnouncementList: React.FC<any> = () => {
           </IonCol>
         </IonRow>
       </IonGrid>
-
-      <IonModal ref={modalRef} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="end">
-              <IonButton onClick={() => modalRef.current.dismiss()}>
-                <IonIcon slot="icon-only" icon={closeCircle} />
-              </IonButton>
-            </IonButtons>
-            <IonTitle>Announcement</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonCol>
-          <IonItem>
-            <IonTextarea
-              rows={15}
-              placeholder="Add announcement details..."
-              value={announcementText}
-              onIonChange={(e) => setAnnouncementText(e.detail.value!)}
-            ></IonTextarea>
-          </IonItem>
-        </IonCol>
-        <IonFooter>
-          <IonButton expand="block" >Save Announcement</IonButton>
-        </IonFooter>
-      </IonModal>
+      {!isPublic && (
+        <IonModal ref={modalRef} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
+          <IonHeader>
+            <IonToolbar>
+              <IonButtons slot="end">
+                <IonButton onClick={() => modalRef.current.dismiss()}>
+                  <IonIcon slot="icon-only" icon={closeCircle} />
+                </IonButton>
+              </IonButtons>
+              <IonTitle>Announcement</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <IonCol>
+            <IonItem>
+              <IonTextarea
+                rows={15}
+                placeholder="Add announcement details..."
+                value={announcementText}
+                onIonChange={(e) => setAnnouncementText(e.detail.value!)}
+              ></IonTextarea>
+            </IonItem>
+          </IonCol>
+          <IonFooter>
+            <IonButton expand="block" >Save Announcement</IonButton>
+          </IonFooter>
+        </IonModal>
+      )}
     </>
   );
 };
