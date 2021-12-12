@@ -1,25 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Axios from "axios";
 import {
-  IonList,
   IonItem,
-  IonLabel,
-  IonContent,
   IonFab,
   IonFabButton,
   IonIcon,
   IonModal,
   IonButton,
-  IonInput,
-  IonItemDivider,
+  IonCol,
+  IonCard,
+  IonRippleEffect,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonText,
+  IonGrid,
+  IonRow,
+  IonFooter,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonTitle,
+  IonTextarea,
 } from "@ionic/react";
 import { API } from "../../constants";
-import { add } from "ionicons/icons";
+import { add, closeCircle, createOutline } from "ionicons/icons";
 
 export const AnnouncementList: React.FC<any> = () => {
+  const modalRef = useRef<any>();
+
+  const [isOpen, setIsOpen] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [announcementText, setAnnouncementText] = useState("");
 
   useEffect(() => {
@@ -29,42 +41,59 @@ export const AnnouncementList: React.FC<any> = () => {
     });
   }, []);
 
-  useEffect(() => {
-    console.log(announcementText);
-  }, [announcementText]);
-
   return (
     <>
       <IonFab vertical="bottom" horizontal="end" slot="fixed">
-        <IonFabButton onClick={() => setShowModal(true)}>
+        <IonFabButton onClick={() => setIsOpen(true)}>
           <IonIcon icon={add} />
         </IonFabButton>
       </IonFab>
-      <IonContent>
-        <IonModal isOpen={showModal} cssClass="my-custom-class">
-          <IonList>
-            <IonItemDivider>Announcement</IonItemDivider>
-            <IonItem>
-              <IonInput
-                value={announcementText}
-                placeholder="Enter Announcement"
-                onIonChange={(e) => setAnnouncementText(e.detail.value!)}
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonFabButton onClick={() => setShowModal(true)}>
-                <IonIcon icon={add} />
-              </IonFabButton>
-            </IonItem>
-          </IonList>
-          <IonButton onClick={() => setShowModal(false)}>Close Modal</IonButton>
-        </IonModal>
-        <IonList>
+
+      <IonGrid>
+        <IonRow>
+          <IonCol>
+            <IonCard className="ion-activatable ripple-parent">
+              <IonRippleEffect />
+              <IonCardHeader>
+                <IonItem color="transparent" lines="none">
+                  <IonCardTitle>Time</IonCardTitle>
+                  <IonIcon slot="end" color="primary" icon={createOutline} />
+                  <IonIcon slot="end" color="danger" icon={closeCircle} />
+                </IonItem>
+              </IonCardHeader>
+              <IonCardContent>
+                <IonText>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur voluptas repellendus facere assumenda error accusantium, porro modi facilis illo magnam hic, fugit necessitatibus pariatur ratione laborum? Quaerat nostrum dignissimos eligendi.</IonText>
+              </IonCardContent>
+            </IonCard>
+          </IonCol>
+        </IonRow>
+      </IonGrid>
+
+      <IonModal ref={modalRef} isOpen={isOpen} onDidDismiss={() => setIsOpen(false)}>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="end">
+              <IonButton onClick={() => modalRef.current.dismiss()}>
+                <IonIcon slot="icon-only" icon={closeCircle} />
+              </IonButton>
+            </IonButtons>
+            <IonTitle>Announcement</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonCol>
           <IonItem>
-            <IonLabel>Pokémon Yellow</IonLabel>
+            <IonTextarea
+              rows={15}
+              placeholder="Add announcement details..."
+              value={announcementText}
+              onIonChange={(e) => setAnnouncementText(e.detail.value!)}
+            ></IonTextarea>
           </IonItem>
-        </IonList>
-      </IonContent>
+        </IonCol>
+        <IonFooter>
+          <IonButton expand="block" >Save Announcement</IonButton>
+        </IonFooter>
+      </IonModal>
     </>
   );
 };
