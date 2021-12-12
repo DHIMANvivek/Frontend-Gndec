@@ -68,9 +68,9 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     if (!fullName) {
       error.fullName = "Please enter your name"
     }
-    // if (!REGEX.EMAIL.test(email)) {
-    //   error.email = "Please use GNDEC college email"
-    // }
+    if (!REGEX.EMAIL.test(email)) {
+      error.email = "Please use GNDEC college email"
+    }
     if (!REGEX.UNIVERSITY_NO.test(universityRoll)) {
       error.universityRoll = "Please enter valid university rollnumber"
     }

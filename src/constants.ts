@@ -12,6 +12,8 @@ export const API = {
   GET_ENROLLMENTS: "/event/fetchAll",
   MARK_ATTENDANCE: "/event/attendance",
   MARK_RESULT: "/event/result",
+  DELETE_EVENT: "/event/delete",
+  ADD_TEAM: "/event/team",
 
   GET_SPORTS: "/sport/fetchAll",
   GET_ANNOUNCEMENTS: "/announcement/fetchAll"

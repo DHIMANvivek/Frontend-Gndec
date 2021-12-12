@@ -72,8 +72,7 @@ export const SelectEvents: React.FC<any> = () => {
   const putSelectedEvents = (e: any) => {
     if (e.detail.checked) {
       setSelectedEvents([...selectedEvents, e.detail.value])
-    }
-    if (!e.detail.checked) {
+    } else {
       setSelectedEvents(selectedEvents.filter((node: string) => node !== e.detail.value))
     }
   }
@@ -128,6 +127,9 @@ export const SelectEvents: React.FC<any> = () => {
             <IonCol >
               <IonItem>
                 <IonLabel>
+                  {(node.sportId.sportType === "relay" || node.sportId.sportType === "tugofwar") &&
+                    <h2 color="primary">Team: {mapValue("BRANCH", auth?.user?.branch)}</h2>
+                  }
                   <h2>{node.sportId.sportName}</h2>
                   <h3>{mapValue("SPORT_TYPE", node.sportId.sportType)}</h3>
                   <p>{node.sportId.genderCategory}</p>
