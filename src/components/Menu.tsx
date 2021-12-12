@@ -18,7 +18,7 @@ import {
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
   personOutline, personSharp, podiumOutline, podiumSharp,
-  trophyOutline, trophySharp
+  trophyOutline, trophySharp, newspaperOutline
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -96,6 +96,12 @@ export const Menu: React.FC<any> = () => {
       url: '/admin/sports',
       iosIcon: listCircle,
       mdIcon: listOutline
+    },
+    {
+      title: 'Announcements',
+      url: '/admin/announcements',
+      iosIcon: listCircle,
+      mdIcon: newspaperOutline
     },
   ];
 

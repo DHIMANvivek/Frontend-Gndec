@@ -14,6 +14,7 @@ export const API = {
   MARK_RESULT: "/event/result",
 
   GET_SPORTS: "/sport/fetchAll",
+  GET_ANNOUNCEMENTS: "/announcement/fetchAll"
 }
 
 
