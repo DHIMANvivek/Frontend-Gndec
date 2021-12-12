@@ -16,7 +16,11 @@ export const API = {
   ADD_TEAM: "/event/team",
 
   GET_SPORTS: "/sport/fetchAll",
-  GET_ANNOUNCEMENTS: "/announcement/fetchAll"
+  
+  GET_ANNOUNCEMENTS: "/announcement/fetchAll",
+  UPDATE_ANNOUNCEMENTS: "/announcement/update",
+  CREATE_ANNOUNCEMENTS: "/announcement/create",
+  DELETE_ANNOUNCEMENTS: "/announcement/hide",
 }
 
 
