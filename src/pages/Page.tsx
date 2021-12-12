@@ -15,6 +15,7 @@ const TOOLBAR_TITLE: any = {
   "/admin/mark-result": "Mark Result",
   "/admin/view-result": "View Result",
   "/admin/sports": "Sports List",
+  "/admin/team": "Team Events",
 }
 
 export const PageLayout: React.FC<any> = ({ children, className = "" }) => {

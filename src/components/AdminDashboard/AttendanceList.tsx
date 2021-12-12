@@ -90,6 +90,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
           <IonItem>
             <IonSelect
               interface="popover"
+              style={{ width: "100%" }}
               value={filterSport}
               onIonChange={(e) => setFilterSport(e.detail.value)}
             >
