@@ -39,6 +39,12 @@ export const Menu: React.FC<any> = () => {
 
   const appPages: AppPage[] = [
     {
+      title: 'Announcements',
+      url: '/dashboard/announcements',
+      iosIcon: listCircle,
+      mdIcon: newspaperOutline
+    },
+    {
       title: 'Home',
       url: '/dashboard',
       iosIcon: homeOutline,
