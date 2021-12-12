@@ -10,6 +10,7 @@ import { Profile, SelectEvents } from "../components/Dashboard";
 import Axios from "axios";
 import { API } from "../constants";
 import { PageLayout } from "./Page";
+import { AnnouncementList } from "../components/AdminDashboard";
 
 export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const page = match.params.page;
@@ -76,6 +77,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
       />
       {page === undefined && <SelectEvents />}
       {page === 'profile' && <Profile />}
+      {page === 'announcement' && <AnnouncementList isPublic />}
     </PageLayout>
   );
 };

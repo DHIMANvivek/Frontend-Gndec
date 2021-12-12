@@ -17,7 +17,7 @@ import {
   checkmarkDoneOutline, checkmarkDoneSharp, checkmarkOutline,
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
-  logoSnapchat, personOutline, personSharp, podiumOutline,
+  newspaperOutline, logoSnapchat, personOutline, personSharp, podiumOutline,
   podiumSharp, trophyOutline, trophySharp
 } from 'ionicons/icons';
 
@@ -38,6 +38,12 @@ export const Menu: React.FC<any> = () => {
   const pathname = location.pathname;
 
   const appPages: AppPage[] = [
+    {
+      title: 'Announcements',
+      url: '/dashboard/announcements',
+      iosIcon: listCircle,
+      mdIcon: newspaperOutline
+    },
     {
       title: 'Home',
       url: '/dashboard',
@@ -96,6 +102,12 @@ export const Menu: React.FC<any> = () => {
       url: '/admin/sports',
       iosIcon: listCircle,
       mdIcon: listOutline
+    },
+    {
+      title: 'Announcements',
+      url: '/admin/announcements',
+      iosIcon: listCircle,
+      mdIcon: newspaperOutline
     },
     {
       title: 'Team Events',
