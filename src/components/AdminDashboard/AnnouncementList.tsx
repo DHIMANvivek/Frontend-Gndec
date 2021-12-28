@@ -28,6 +28,7 @@ import {
   useIonToast,
   IonInput,
   IonLabel,
+  IonLoading,
 } from "@ionic/react";
 import { API } from "../../constants";
 import { add, closeCircle, createOutline } from "ionicons/icons";
@@ -41,11 +42,13 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
   const storeAnnouncement = useStoreActions<any>((actions) => actions.storeAnnouncement);
   const announcements = useStoreState<any>(({ announcements }) => announcements);
 
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [announcementTitle, setAnnouncementTitle] = useState("");
   const [announcementText, setAnnouncementText] = useState("");
 
   const createAnnouncement = () => {
+    setLoading(true);
     axios.post(`${API.CREATE_ANNOUNCEMENTS}`, {
       announcementText, announcementTitle
     }).then(({ data }) => {
@@ -55,6 +58,8 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
       showToast("Announcement Added", 3000);
     }).catch(() => {
       showToast("Something went wrong!", 3000);
+    }).finally(() => {
+      setLoading(false);
     });
   };
 
@@ -97,6 +102,10 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
 
   return (
     <>
+      <IonLoading
+        isOpen={loading}
+        message={'Please wait...'}
+      />
       {!isPublic && (
         <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton onClick={() => setIsOpen(true)}>
@@ -113,7 +122,6 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
                 <IonCardHeader>
                   <IonItem color="transparent" lines="none">
                     <IonCardTitle>{announcement.announcementTitle}</IonCardTitle>
-                    <IonLabel>{moment(announcement.addedAt).format("MMMM Do YYYY, h:mm a")}</IonLabel>
                     {!isPublic && (
                       <>
                         {/* <IonIcon
@@ -129,6 +137,9 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
                         />
                       </>
                     )}
+                  </IonItem>
+                  <IonItem color="transparent" lines="none">
+                    <IonLabel>{moment(announcement.addedAt).format("MMMM Do YYYY, h:mm a")}</IonLabel>
                   </IonItem>
                 </IonCardHeader>
                 <IonCardContent>
