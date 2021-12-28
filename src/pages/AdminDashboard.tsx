@@ -16,6 +16,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
   const storeAllEvents = useStoreActions<any>((actions) => actions.storeAllEvents);
   const storeSports = useStoreActions<any>((actions) => actions.storeSports);
+  const storeAnnouncement = useStoreActions<any>((actions) => actions.storeAnnouncement);
   const storeUsers = useStoreActions<any>((actions) => actions.storeUsers);
   const modalProfileId = useStoreState<any>(({ modalProfileId }) => modalProfileId);
   const logout = useStoreActions<any>((actions) => actions.logOut);
@@ -59,9 +60,13 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       .catch(() => {
         showToast("Something went wrong", 3000)
       });
+    Axios.get(API.GET_ANNOUNCEMENTS)
+      .then((res) => storeAnnouncement(res.data.allAnnouncements))
+      .catch(() => { });
     Axios.get(API.GET_SPORTS)
       .then(result => storeSports(result.data))
       .catch(() => { }).finally(() => callback());
+
   }
 
   const doRefresh = (e: CustomEvent<any>) => {

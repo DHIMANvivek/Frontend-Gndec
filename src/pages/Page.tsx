@@ -7,6 +7,7 @@ import { useLocation } from 'react-router';
 const TOOLBAR_TITLE: any = {
   "/dashboard": "Dashboard",
   "/dashboard/profile": "Profile",
+  "/dashboard/announcements": "Announcements",
 
   "/admin": "Admin Dashboard",
   "/admin/enrolled": "Enrolled Users",

@@ -17,6 +17,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
 
   const storeSports = useStoreActions<any>((actions) => actions.storeSports);
   const storeUserData = useStoreActions<any>((actions) => actions.storeUserData);
+  const storeAnnouncement = useStoreActions<any>((actions) => actions.storeAnnouncement);
   const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
   const logout = useStoreActions<any>((actions) => actions.logOut);
   const auth = useStoreState<any>(({ auth }) => auth);
@@ -60,6 +61,9 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
     Axios.get(API.GET_SPORTS)
       .then(result => storeSports(result.data))
       .catch(() => { });
+    Axios.get(API.GET_ANNOUNCEMENTS)
+      .then((res) => storeAnnouncement(res.data.allAnnouncements))
+      .catch(() => { });
   }
 
   const doRefresh = (e: CustomEvent<any>) => {
@@ -77,7 +81,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
       />
       {page === undefined && <SelectEvents />}
       {page === 'profile' && <Profile />}
-      {page === 'announcement' && <AnnouncementList isPublic />}
+      {page === 'announcements' && <AnnouncementList isPublic />}
     </PageLayout>
   );
 };
