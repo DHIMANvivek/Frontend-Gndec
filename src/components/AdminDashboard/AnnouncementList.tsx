@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from "react";
-import Axios from "axios";
+import React, { useRef, useState } from "react";
+import axios from "axios";
+import moment from "moment";
 import {
   IonItem,
   IonFab,
@@ -24,63 +25,75 @@ import {
   IonTitle,
   IonTextarea,
   useIonAlert,
+  useIonToast,
+  IonInput,
+  IonLabel,
 } from "@ionic/react";
 import { API } from "../../constants";
 import { add, closeCircle, createOutline } from "ionicons/icons";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
   const modalRef = useRef<any>();
   const [showAlert] = useIonAlert();
+  const [showToast] = useIonToast();
+
+  const storeAnnouncement = useStoreActions<any>((actions) => actions.storeAnnouncement);
+  const announcements = useStoreState<any>(({ announcements }) => announcements);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [announcements, setAnnouncements] = useState<any>([]);
+  const [announcementTitle, setAnnouncementTitle] = useState("");
   const [announcementText, setAnnouncementText] = useState("");
 
-  const createAnnouncement = async () => {
-    console.log(announcementText);
-    const res = await Axios.post(`${API.CREATE_ANNOUNCEMENTS}`, {
-      announcementText,
+  const createAnnouncement = () => {
+    axios.post(`${API.CREATE_ANNOUNCEMENTS}`, {
+      announcementText, announcementTitle
+    }).then(({ data }) => {
+      storeAnnouncement([...announcements, data.announcement]);
+      setIsOpen(false);
+      fetchAnnouncements();
+      showToast("Announcement Added", 3000);
+    }).catch(() => {
+      showToast("Something went wrong!", 3000);
     });
-    setAnnouncements([...announcements, res.data]);
-    setIsOpen(false);
-    fetchAnnouncements();
   };
 
-  const updateAnnouncement = async (announcement: any) => {
-    const response = await Axios.put(
-      `${API.UPDATE_ANNOUNCEMENTS}`,
-      announcement
-    );
-    console.log(response);
-    setAnnouncements(response.data);
-  };
+  // const updateAnnouncement = async (announcement: any) => {
+  //   const response = await Axios.put(
+  //     `${API.UPDATE_ANNOUNCEMENTS}`,
+  //     announcement
+  //   );
+  //   console.log(response);
+  //   setAnnouncements(response.data);
+  // };
 
-  const hideAnnouncement = async (announcementId: any) => {
-    const response = await Axios.put(
+  const hideAnnouncement = (announcementId: any) => {
+    axios.put(
       `${API.DELETE_ANNOUNCEMENTS}`,
-      announcementId
-    );
-    console.log(response);
-    setAnnouncements(response.data);
+      { announcementId }
+    ).then(({ data }) => {
+      storeAnnouncement(announcements.filter((ann: any) => {
+        return ann._id !== data.updatedAnnouncement._id
+      }));
+      showToast("Announcement Deleted", 3000);
+    }).catch(() => {
+      showToast("Something went wrong!", 3000);
+    });
   };
 
   const handleDelete = (announcementId: { _id: any }) => {
-    showAlert("Remove from Team?", [
+    showAlert("Remove Announcement?", [
       { text: "Yes", handler: () => hideAnnouncement(announcementId) },
       { text: "No" },
     ]);
   };
 
   const fetchAnnouncements = async () => {
-    Axios.get(API.GET_ANNOUNCEMENTS).then((res) => {
-      setAnnouncements(res.data.allAnnouncements);
+    axios.get(API.GET_ANNOUNCEMENTS).then((res) => {
+      storeAnnouncement(res.data.allAnnouncements);
       console.log(res.data);
     });
   };
-
-  useEffect(() => {
-    fetchAnnouncements();
-  }, []);
 
   return (
     <>
@@ -94,19 +107,20 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
       <IonGrid>
         <IonRow>
           <IonCol>
-            {announcements.map((announcement: any) => (
-              <IonCard className="ion-activatable ripple-parent">
+            {announcements.sort((a: any, b: any) => (Number(new Date(b.addedAt)) - Number(new Date(a.addedAt)))).map((announcement: any) => (
+              <IonCard className="ion-activatable ripple-parent" key={announcement._id}>
                 <IonRippleEffect />
                 <IonCardHeader>
                   <IonItem color="transparent" lines="none">
-                    <IonCardTitle>Time</IonCardTitle>
+                    <IonCardTitle>{announcement.announcementTitle}</IonCardTitle>
+                    <IonLabel>{moment(announcement.addedAt).format("MMMM Do YYYY, h:mm a")}</IonLabel>
                     {!isPublic && (
                       <>
-                        <IonIcon
+                        {/* <IonIcon
                           slot="end"
                           color="primary"
                           icon={createOutline}
-                        />
+                        /> */}
                         <IonIcon
                           slot="end"
                           color="danger"
@@ -147,18 +161,31 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
                 <IonTitle>Announcement</IonTitle>
               </IonToolbar>
             </IonHeader>
-            <IonCol>
-              <IonItem>
-                <IonTextarea
-                  rows={15}
-                  placeholder="Add announcement details..."
-                  value={announcementText}
-                  onIonChange={(e) => setAnnouncementText(e.detail.value!)}
-                ></IonTextarea>
-              </IonItem>
-            </IonCol>
+            <IonGrid>
+              <IonRow>
+                <IonCol>
+                  <IonItem>
+                    <IonLabel position='floating'>Announcement Title</IonLabel>
+                    <IonInput
+                      placeholder="Announcement title..."
+                      value={announcementTitle}
+                      onIonChange={(e) => setAnnouncementTitle(e.detail.value!)}
+                    ></IonInput>
+                  </IonItem>
+                  <IonItem>
+                    <IonLabel position='floating'>Announcement Details</IonLabel>
+                    <IonTextarea
+                      rows={15}
+                      placeholder="Add announcement details..."
+                      value={announcementText}
+                      onIonChange={(e) => setAnnouncementText(e.detail.value!)}
+                    ></IonTextarea>
+                  </IonItem>
+                </IonCol>
+              </IonRow>
+            </IonGrid>
             <IonFooter>
-              <IonButton expand="block">Save Announcement</IonButton>
+              <IonButton type="submit" expand="block">Save Announcement</IonButton>
             </IonFooter>
           </form>
         </IonModal>

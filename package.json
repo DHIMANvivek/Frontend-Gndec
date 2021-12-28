@@ -32,6 +32,7 @@
     "jetifier": "^2.0.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.1",
     "node-sass": "^5.0.0",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "react": "^17.0.1",
