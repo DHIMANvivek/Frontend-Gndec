@@ -3,20 +3,17 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 import {
   IonButton,
   IonCheckbox,
-  IonChip,
   IonCol,
   IonGrid,
-  IonIcon,
   IonItem,
   IonLabel,
   IonLoading,
-  IonNote,
   IonRow,
   useIonToast,
 } from "@ionic/react";
-import { trophyOutline } from "ionicons/icons";
-import { API, ATTENDANCE_COLOR, mapValue } from "../../constants";
+import { API } from "../../constants";
 import Axios from "axios";
+import { EnrolledItem } from "../../common";
 
 interface SportsData {
   _id: string,
@@ -124,25 +121,16 @@ export const SelectEvents: React.FC<any> = () => {
         <h1>Enrolled Events</h1>
         {userEvents.map((node: any) => (
           <IonRow key={node._id}>
-            <IonCol >
-              <IonItem>
-                <IonLabel>
-                  {(node.sportId.sportType === "relay" || node.sportId.sportType === "tugofwar") &&
-                    <h2 color="primary">Team: {mapValue("BRANCH", auth?.user?.branch)}</h2>
-                  }
-                  <h2>{node.sportId.sportName}</h2>
-                  <h3>{mapValue("SPORT_TYPE", node.sportId.sportType)}</h3>
-                  <p>{node.sportId.genderCategory}</p>
-                  {[...Array.from({ length: node.position }, (_, i) => i + 1)].map((node) => (
-                    <IonIcon key={node} icon={trophyOutline}></IonIcon>
-                  ))}
-                </IonLabel>
-                <IonNote slot="end">
-                  <IonChip color={ATTENDANCE_COLOR[node.attendance]}>
-                    <IonLabel>{mapValue("ATTENDANCE", node.attendance)}</IonLabel>
-                  </IonChip>
-                </IonNote>
-              </IonItem>
+            <IonCol>
+              <EnrolledItem
+                key={node._id}
+                sportType={node.sportId.sportType}
+                branch={auth?.user?.branch}
+                sportName={node.sportId.sportName}
+                genderCategory={node.sportId.genderCategory}
+                position={node.position}
+                attendance={node.attendance}
+              />
             </IonCol>
           </IonRow>
         ))}

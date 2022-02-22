@@ -5,6 +5,7 @@ import {
   IonLabel,
   IonNote,
 } from "@ionic/react";
+import QRCode from "react-qr-code";
 import { useStoreState } from "easy-peasy";
 import { mapValue } from "../../constants";
 
@@ -30,6 +31,9 @@ export const Profile: React.FC<any> = () => {
           <IonNote slot="end">{value}</IonNote>
         </IonItem>
       ))}
+      <IonItem style={{ padding: "24px 0" }}>
+        <QRCode size={256} value={auth?.user?.jerseyNo} style={{ margin: "24px auto" }}></QRCode>
+      </IonItem>
     </IonGrid>
   );
 };

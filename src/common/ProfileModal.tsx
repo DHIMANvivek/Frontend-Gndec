@@ -3,6 +3,7 @@ import {
   IonButton,
   IonButtons,
   IonCol,
+  IonContent,
   IonHeader,
   IonIcon,
   IonItem,
@@ -12,9 +13,11 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
+import QRCode from "react-qr-code";
 import { mapValue } from "../constants";
 import { closeCircle } from "ionicons/icons";
 import { useStoreActions, useStoreState } from "easy-peasy";
+import { EnrolledItem } from ".";
 
 export const ProfileModal: React.FC<any> = () => {
   const modalRef = useRef<any>();
@@ -22,6 +25,7 @@ export const ProfileModal: React.FC<any> = () => {
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
 
   const users = useStoreState<any>(({ users }) => users);
+  const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const modalProfileId = useStoreState<any>(({ modalProfileId }) => modalProfileId);
 
   const objectifiedUsers: any = {};
@@ -39,27 +43,44 @@ export const ProfileModal: React.FC<any> = () => {
     { title: 'Jersey Number', value: foundUser?.jerseyNo },
     { title: 'Phone Number', value: foundUser?.phoneNumber }
   ];
-
+  const userEvents = allEvents.filter((node: any) => (foundUser._id === node.userId));
   return (
     <IonModal ref={modalRef} isOpen onDidDismiss={() => updateModalProfileId("")}>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="end">
-            <IonButton onClick={() => modalRef.current.dismiss()}>
-              <IonIcon slot="icon-only" icon={closeCircle} />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>Profile</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonCol>
-        {profileData.map(({ title, value }) => (
-          <IonItem key={title}>
-            <IonLabel>{title}</IonLabel>
-            <IonNote slot="end">{value}</IonNote>
+      <IonContent>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="end">
+              <IonButton onClick={() => modalRef.current.dismiss()}>
+                <IonIcon slot="icon-only" icon={closeCircle} />
+              </IonButton>
+            </IonButtons>
+            <IonTitle>Profile</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonCol>
+          {profileData.map(({ title, value }) => (
+            <IonItem key={title}>
+              <IonLabel>{title}</IonLabel>
+              <IonNote slot="end">{value}</IonNote>
+            </IonItem>
+          ))}
+          <IonTitle style={{ padding: "12px 0" }}>Enrolled Events</IonTitle>
+          {userEvents.map((node: any) => (
+            <EnrolledItem
+              key={node._id}
+              sportType={node.sportId.sportType}
+              branch={foundUser?.branch}
+              sportName={node.sportId.sportName}
+              genderCategory={node.sportId.genderCategory}
+              position={node.position}
+              attendance={node.attendance}
+            />
+          ))}
+          <IonItem style={{ padding: "24px 0" }}>
+            <QRCode size={256} value={foundUser?.jerseyNo} style={{ margin: "24px auto" }}></QRCode>
           </IonItem>
-        ))}
-      </IonCol>
+        </IonCol>
+      </IonContent>
     </IonModal>
   );
 };
