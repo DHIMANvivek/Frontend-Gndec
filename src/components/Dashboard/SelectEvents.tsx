@@ -66,11 +66,11 @@ export const SelectEvents: React.FC<any> = () => {
       });
   }
 
-  const putSelectedEvents = (e: any) => {
-    if (e.detail.checked) {
-      setSelectedEvents([...selectedEvents, e.detail.value])
+  const putSelectedEvents = (value: string) => {
+    if (!selectedEvents.includes(value)) {
+      setSelectedEvents([...selectedEvents, value])
     } else {
-      setSelectedEvents(selectedEvents.filter((node: string) => node !== e.detail.value))
+      setSelectedEvents(selectedEvents.filter((node: string) => node !== value))
     }
   }
 
@@ -92,7 +92,7 @@ export const SelectEvents: React.FC<any> = () => {
                 <IonCheckbox
                   value={node._id}
                   checked={selectedEvents.includes(node._id)}
-                  onIonChange={putSelectedEvents}
+                  onClick={() => putSelectedEvents(node._id)}
                   disabled={((disableOn || disableFieldOn2) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
                 />
               </IonItem>
@@ -108,7 +108,7 @@ export const SelectEvents: React.FC<any> = () => {
                 <IonCheckbox
                   value={node._id}
                   checked={selectedEvents.includes(node._id)}
-                  onIonChange={putSelectedEvents}
+                  onClick={() => putSelectedEvents(node._id)}
                   disabled={((disableOn || disableTrackOn2) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
                 />
               </IonItem>

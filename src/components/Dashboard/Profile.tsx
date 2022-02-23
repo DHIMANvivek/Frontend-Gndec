@@ -32,7 +32,7 @@ export const Profile: React.FC<any> = () => {
         </IonItem>
       ))}
       <IonItem style={{ padding: "24px 0" }}>
-        <QRCode size={256} value={auth?.user?.jerseyNo} style={{ margin: "24px auto" }}></QRCode>
+        <QRCode size={256} value={`${auth?.user?.jerseyNo}`} style={{ margin: "24px auto" }}></QRCode>
       </IonItem>
     </IonGrid>
   );

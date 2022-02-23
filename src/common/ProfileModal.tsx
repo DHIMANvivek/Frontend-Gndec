@@ -77,7 +77,7 @@ export const ProfileModal: React.FC<any> = () => {
             />
           ))}
           <IonItem style={{ padding: "24px 0" }}>
-            <QRCode size={256} value={foundUser?.jerseyNo} style={{ margin: "24px auto" }}></QRCode>
+            <QRCode size={256} value={`${foundUser?.jerseyNo}`} style={{ margin: "24px auto" }}></QRCode>
           </IonItem>
         </IonCol>
       </IonContent>
