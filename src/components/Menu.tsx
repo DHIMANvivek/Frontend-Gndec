@@ -18,7 +18,7 @@ import {
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
   newspaperOutline, logoSnapchat, personOutline, personSharp, podiumOutline,
-  podiumSharp, trophyOutline, trophySharp
+  podiumSharp, trophyOutline, trophySharp, skullOutline,
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -114,6 +114,12 @@ export const Menu: React.FC<any> = () => {
       url: '/admin/team',
       iosIcon: logoSnapchat,
       mdIcon: logoSnapchat
+    },
+    {
+      title: 'Dev Team',
+      url: '/admin/dev-team',
+      iosIcon: skullOutline,
+      mdIcon: skullOutline
     },
   ];
 
