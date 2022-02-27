@@ -43,7 +43,7 @@ export const ProfileModal: React.FC<any> = () => {
     { title: 'Jersey Number', value: foundUser?.jerseyNo },
     { title: 'Phone Number', value: foundUser?.phoneNumber }
   ];
-  const userEvents = allEvents.filter((node: any) => (foundUser._id === node.userId));
+  const userEvents = allEvents.filter((node: any) => (foundUser?._id === node?.userId));
   return (
     <IonModal ref={modalRef} isOpen onDidDismiss={() => updateModalProfileId("")}>
       <IonContent>
@@ -75,6 +75,7 @@ export const ProfileModal: React.FC<any> = () => {
               genderCategory={node.sportId.genderCategory}
               position={node.position}
               attendance={node.attendance}
+              eventId={node._id}
             />
           ))}
           <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Jersy QR Code</h1>

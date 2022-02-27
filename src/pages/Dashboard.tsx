@@ -77,7 +77,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
       </IonRefresher>
       <IonLoading
         isOpen={loading}
-        message={'Please wait...'}
+        message={'Hold on... Enjoy the wheater meanwhile!'}
       />
       {page === undefined && <SelectEvents />}
       {page === 'profile' && <Profile />}
