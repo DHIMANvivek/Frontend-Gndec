@@ -1,12 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import { IonBadge, IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, IonToggle, useIonToast } from "@ionic/react";
+import { IonBadge, IonButton, IonCard, IonCardContent, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, IonToggle, useIonToast } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, GENDER, mapValue, mergeSearch } from "../../constants";
 import Axios from "axios";
 import { americanFootball, callSharp, megaphone, qrCodeOutline } from "ionicons/icons";
 import { GenderIcon } from "../../common";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
+import { Virtuoso } from "react-virtuoso";
 
 export const AttendanceList: React.FC<any> = ({ view = false }) => {
   const [filterSport, setFilterSport] = useState('none');
@@ -83,8 +84,17 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
     }
   }
 
+  const sortedData = mergeSearch({
+    data: processEvents,
+    search,
+    options: {
+      keys: ["user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll",
+        "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"]
+    }
+  });
+
   return (
-    <IonGrid>
+    <IonGrid className="h-full flex-column">
       <IonRow>
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
@@ -119,62 +129,59 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
           </IonItem>
         </IonCol>
       </IonRow>
-      <IonRow>
-        {mergeSearch({
-          data: processEvents,
-          search,
-          options: {
-            keys: ["user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll",
-              "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"]
-          }
-        })
-          .map((event: any) => {
-            const color = event.isSearched ? "light" : "";
-            const isMale = event.user.gender === GENDER[1].value;
-            const isPresent = present.includes(event._id);
-            return (
-              <IonCol key={event._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
-                <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(event.user._id)}>
-                  <IonRippleEffect />
-                  <IonCardHeader>
-                    <IonItem color="transparent" lines="none">
-                      <IonCardSubtitle>Jersey {event.user.jerseyNo}</IonCardSubtitle>
-                      {view
-                        ? <IonBadge color={isPresent ? "success" : "danger"} slot="end">{mapValue("ATTENDANCE", event.attendance)}</IonBadge>
-                        : <IonToggle color={isPresent ? "success" : "danger"} checked={isPresent} slot="end" onClick={e => {
-                          e.stopPropagation();
-                          selectPresent(e, event._id)
-                        }} />}
-                    </IonItem>
-                    <IonItem color="transparent" lines="none">
-                      <IonCardTitle>{event.user.fullName}</IonCardTitle>
-                      <GenderIcon gender={event.user.gender} slot="end" />
-                    </IonItem>
-                  </IonCardHeader>
-                  <IonCardContent color={color}>
-                    <IonItem color="transparent" lines="none">
-                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={americanFootball} />
-                      <IonLabel>{event.sportId.sportName}</IonLabel>
-                    </IonItem>
-                    <IonItem color="transparent" lines="none">
-                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={megaphone} />
-                      <IonLabel>{mapValue("SPORT_TYPE", event.sportId.sportType)}</IonLabel>
-                    </IonItem>
-                    <IonItem color="transparent" lines="none">
-                      <IonBadge color={isMale ? "tertiary" : "pink"} slot="start">URN</IonBadge>
-                      <IonLabel>{event.user.universityRoll}</IonLabel>
-                    </IonItem>
-                    <IonItem color="transparent" lines="none">
-                      <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={callSharp} />
-                      <IonLabel>{event.user.phoneNumber}</IonLabel>
-                    </IonItem>
-                  </IonCardContent>
-                  {/* <td>{mapValue("COURSE", event.user.course)}</td>
-                    <td>{mapValue("BRANCH", event.user.branch)}</td> */}
-                </IonCard>
-              </IonCol>
-            )
-          })}
+      <IonRow className="h-full">
+        <IonContent className="h-full">
+          <Virtuoso
+            style={{ height: '100%' }}
+            totalCount={sortedData.length}
+            itemContent={index => {
+              const event = sortedData[index];
+              const color = event.isSearched ? "light" : "";
+              const isMale = event.user.gender === GENDER[1].value;
+              const isPresent = present.includes(event._id);
+              return (
+                <IonCol key={event._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
+                  <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(event.user._id)}>
+                    <IonRippleEffect />
+                    <IonCardHeader>
+                      <IonItem color="transparent" lines="none">
+                        <IonCardSubtitle>Jersey {event.user.jerseyNo}</IonCardSubtitle>
+                        {view
+                          ? <IonBadge color={isPresent ? "success" : "danger"} slot="end">{mapValue("ATTENDANCE", event.attendance)}</IonBadge>
+                          : <IonToggle color={isPresent ? "success" : "danger"} checked={isPresent} slot="end" onClick={e => {
+                            e.stopPropagation();
+                            selectPresent(e, event._id)
+                          }} />}
+                      </IonItem>
+                      <IonItem color="transparent" lines="none">
+                        <IonCardTitle>{event.user.fullName}</IonCardTitle>
+                        <GenderIcon gender={event.user.gender} slot="end" />
+                      </IonItem>
+                    </IonCardHeader>
+                    <IonCardContent color={color}>
+                      <IonItem color="transparent" lines="none">
+                        <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={americanFootball} />
+                        <IonLabel>{event.sportId.sportName}</IonLabel>
+                      </IonItem>
+                      <IonItem color="transparent" lines="none">
+                        <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={megaphone} />
+                        <IonLabel>{mapValue("SPORT_TYPE", event.sportId.sportType)}</IonLabel>
+                      </IonItem>
+                      <IonItem color="transparent" lines="none">
+                        <IonBadge color={isMale ? "tertiary" : "pink"} slot="start">URN</IonBadge>
+                        <IonLabel>{event.user.universityRoll}</IonLabel>
+                      </IonItem>
+                      <IonItem color="transparent" lines="none">
+                        <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={callSharp} />
+                        <IonLabel>{event.user.phoneNumber}</IonLabel>
+                      </IonItem>
+                    </IonCardContent>
+                  </IonCard>
+                </IonCol>
+              )
+            }}
+          ></Virtuoso>
+        </IonContent>
       </IonRow>
       <IonGrid>
         {filterSport === "none" && <IonText color="danger">Please select an event to view the list</IonText>}
