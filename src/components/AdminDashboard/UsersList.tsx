@@ -1,21 +1,26 @@
 import React, { useState } from "react";
-import { IonBadge, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonRippleEffect } from "@ionic/react";
+import { IonBadge, IonCard, IonCardContent, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonRippleEffect } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { GENDER, mergeSearch } from "../../constants";
 import { callSharp, checkmarkCircleSharp, closeCircleSharp } from "ionicons/icons";
 import { GenderIcon } from "../../common";
+import { Virtuoso } from 'react-virtuoso';
 
 export const UsersList: React.FC<any> = () => {
   const users = useStoreState<any>(({ users }) => users);
   const [search, setSearch] = useState('');
 
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
+  const sortedData = mergeSearch({
+    data: users,
+    search,
+    options: { keys: ["jerseyNo", "fullName", "email", "universityRoll", "phoneNumber", "gender", "course", "branch", "isVerified"] }
+  });
 
   return (
-    <IonGrid>
+    <IonGrid className="h-full flex-column">
       <IonRow>
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
-          {/* {filters} */}
         </IonCol>
         <IonCol sizeXl="4" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
@@ -27,17 +32,16 @@ export const UsersList: React.FC<any> = () => {
           </IonItem>
         </IonCol>
       </IonRow>
-      <IonRow>
-        {mergeSearch({
-          data: users,
-          search,
-          options: { keys: ["jerseyNo", "fullName", "email", "universityRoll", "phoneNumber", "gender", "course", "branch", "isVerified"] }
-        })
-          .map((user: any) => {
-            const color = user.isSearched ? "light" : "";
-            const isMale = user.gender === GENDER[1].value
-            return (
-              <IonCol key={user._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
+      <IonRow className="h-full">
+        <IonContent className="h-full">
+          <Virtuoso
+            style={{ height: '100%' }}
+            totalCount={sortedData.length}
+            itemContent={index => {
+              const user = sortedData[index];
+              const color = user.isSearched ? "light" : "";
+              const isMale = user.gender === GENDER[1].value
+              return (
                 <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(user._id)}>
                   <IonRippleEffect />
                   <IonCardHeader>
@@ -65,9 +69,10 @@ export const UsersList: React.FC<any> = () => {
                     </IonItem>
                   </IonCardContent>
                 </IonCard>
-              </IonCol>
-            )
-          })}
+              )
+            }}
+          />
+        </IonContent>
       </IonRow>
     </IonGrid>
   );
