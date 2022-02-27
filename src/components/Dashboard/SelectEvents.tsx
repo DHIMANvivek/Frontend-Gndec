@@ -14,15 +14,17 @@ import {
 import { API } from "../../constants";
 import Axios from "axios";
 import { EnrolledItem } from "../../common";
+import { isEqual } from "lodash";
 
 interface SportsData {
   _id: string,
   sportName: string,
   sportType: string,
   genderCategory: string,
+  isActive: boolean,
 }
 
-export const SelectEvents: React.FC<any> = () => {
+export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
   const [showToast] = useIonToast();
 
   const SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
@@ -47,23 +49,35 @@ export const SelectEvents: React.FC<any> = () => {
     setSelectedEvents(userEvents.map((event: any) => (event.sportId._id)))
   }, [SPORTS, userEvents])
 
-  const enrollUserToEvents = () => {
-    const newEnrollEvents: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
-    if (!newEnrollEvents.length) {
-      showToast("Please select atleast one event!", 3000);
-      return;
+  const enrollUserToEvents = async () => {
+    try {
+      const serverSports = await (await Axios.get(API.GET_SPORTS)).data;
+      const serverUserEvents = await (await Axios.get(API.ME)).data.events;
+      if (isEqual(serverSports, SPORTS) && isEqual(serverUserEvents, userEvents)) {
+        const newEnrollEvents: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
+        if (!newEnrollEvents.length) {
+          showToast("Please select atleast one event!", 3000);
+          return;
+        }
+        setLoading(true)
+        Axios.post(API.ENROLL_EVENTS, { sportIds: newEnrollEvents })
+          .then(({ data }) => {
+            storeUserEvents(data.events);
+            showToast("Successfully enrolled the events!", 3000)
+          })
+          .catch(() => {
+            showToast("Something went wrong", 3000)
+          }).finally(() => {
+            setLoading(false)
+          });
+      } else {
+        fetchAll();
+        showToast("Server and local data sync error! Updating...", 3000)
+      }
+    } catch (error) {
+      console.log(error)
+      showToast("Something went wrong!", 3000)
     }
-    setLoading(true)
-    Axios.post(API.ENROLL_EVENTS, { sportIds: newEnrollEvents })
-      .then(({ data }) => {
-        storeUserEvents(data.events);
-        showToast("Successfully enrolled the events!", 3000)
-      })
-      .catch(() => {
-        showToast("Something went wrong", 3000)
-      }).finally(() => {
-        setLoading(false)
-      });
   }
 
   const putSelectedEvents = (value: string) => {
@@ -93,7 +107,10 @@ export const SelectEvents: React.FC<any> = () => {
                   value={node._id}
                   checked={selectedEvents.includes(node._id)}
                   onClick={() => putSelectedEvents(node._id)}
-                  disabled={((disableOn || disableFieldOn2) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
+                  disabled={
+                    ((disableOn || disableFieldOn2) && !selectedEvents.includes(node._id))
+                    || savedEventsIds.includes(node._id)
+                    || !node.isActive}
                 />
               </IonItem>
             </IonCol>
@@ -109,7 +126,10 @@ export const SelectEvents: React.FC<any> = () => {
                   value={node._id}
                   checked={selectedEvents.includes(node._id)}
                   onClick={() => putSelectedEvents(node._id)}
-                  disabled={((disableOn || disableTrackOn2) && !selectedEvents.includes(node._id)) || savedEventsIds.includes(node._id)}
+                  disabled={
+                    ((disableOn || disableTrackOn2) && !selectedEvents.includes(node._id))
+                    || savedEventsIds.includes(node._id)
+                    || !node.isActive}
                 />
               </IonItem>
             </IonCol>

@@ -16,7 +16,8 @@ export const API = {
   ADD_TEAM: "/event/team",
 
   GET_SPORTS: "/sport/fetchAll",
-  
+  TOGGLE_SPORT: "/sport/toggle",
+
   GET_ANNOUNCEMENTS: "/announcement/fetchAll",
   UPDATE_ANNOUNCEMENTS: "/announcement/update",
   CREATE_ANNOUNCEMENTS: "/announcement/create",

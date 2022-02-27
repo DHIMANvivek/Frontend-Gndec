@@ -42,8 +42,8 @@ export const DevTeam: React.FC = () => {
   return (
     <IonGrid>
       <IonRow>
-        {DEV_TEAM.map((member, index) => (
-          <IonCol sizeXl="4" sizeLg="6" sizeMd="6" sizeSm="6" size="12">
+        {DEV_TEAM.map((member) => (
+          <IonCol key={member.name} sizeXl="4" sizeLg="6" sizeMd="6" sizeSm="6" size="12">
             <IonCard className="ion-activatable ripple-parent">
               <IonCardHeader>
                 <IonItem color="transparent" lines="none" className="ion-justify-content-between">
