@@ -96,7 +96,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     <PageLayout className="auth">
       <IonLoading
         isOpen={loading}
-        message={'Please wait...'}
+        message={'Hold on... Enjoy the wheater meanwhile!'}
       />
       <IonGrid className="form-grid">
         <IonRow className="form-container ion-align-items-center ion-justify-content-center">

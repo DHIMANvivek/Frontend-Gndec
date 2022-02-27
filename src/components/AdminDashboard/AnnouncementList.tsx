@@ -104,7 +104,7 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
     <>
       <IonLoading
         isOpen={loading}
-        message={'Please wait...'}
+        message={'Hold on... Enjoy the wheater meanwhile!'}
       />
       {!isPublic && (
         <IonFab vertical="bottom" horizontal="end" slot="fixed">

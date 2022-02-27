@@ -98,7 +98,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       </IonRefresher>
       <IonLoading
         isOpen={loading}
-        message={'Please wait...'}
+        message={'Hold on... Enjoy the wheater meanwhile!'}
       />
       {page === undefined && <UsersList />}
       {page === 'enrolled' && <EnrolledUsers />}

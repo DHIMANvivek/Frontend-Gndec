@@ -82,7 +82,7 @@ export const TeamEvent: React.FC<any> = () => {
     <>
       <IonLoading
         isOpen={loading}
-        message={'Please wait...'}
+        message={'Hold on... Enjoy the wheater meanwhile!'}
       />
       <IonGrid>
         <IonRow>

@@ -92,7 +92,7 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
     <>
       <IonLoading
         isOpen={loading}
-        message={'Please wait...'}
+        message={'Hold on... Enjoy the wheater meanwhile!'}
       />
       <IonGrid>
         <h1>Select Events</h1>
