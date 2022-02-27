@@ -6,11 +6,12 @@ import {
 import { closeCircle, americanFootball, sad, medal, ribbon, } from "ionicons/icons";
 import { ATTENDANCE_COLOR, mapValue, API } from "../constants";
 import Axios from "axios";
-import { useStoreActions } from "easy-peasy";
+import { useStoreActions, useStoreState } from "easy-peasy";
 
 export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, genderCategory, position, attendance, eventId }) => {
   const [loading, setLoading] = useState(false);
   const deleteEventbyId = useStoreActions<any>((actions) => actions.deleteEventbyId);
+  const auth = useStoreState<any>(({ auth }) => auth);
   const [showToast] = useIonToast();
   const [showAlert] = useIonAlert();
 
@@ -80,7 +81,7 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
                     <IonLabel>{mapValue("ATTENDANCE", attendance)}</IonLabel>
                   </IonChip>
                 </IonNote>
-                {mapValue("ATTENDANCE", attendance) === "Not Marked" && (
+                {(mapValue("ATTENDANCE", attendance) !== "Present" && auth?.user?.isAdmin) && (
                   <IonButton
                     slot="end"
                     color="danger"
