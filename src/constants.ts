@@ -53,7 +53,7 @@ export const RESULT: ConstantDataNumber[] = [
 ]
 
 export const ATTENDANCE_COLOR: any = {
-  not_marked: "secondary",
+  not_marked: "warning",
   present: "success",
   absent: "danger"
 }

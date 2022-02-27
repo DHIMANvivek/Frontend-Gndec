@@ -57,6 +57,7 @@ export const ProfileModal: React.FC<any> = () => {
             <IonTitle>Profile</IonTitle>
           </IonToolbar>
         </IonHeader>
+        <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Personal Information</h1>
         <IonCol>
           {profileData.map(({ title, value }) => (
             <IonItem key={title}>
@@ -64,7 +65,7 @@ export const ProfileModal: React.FC<any> = () => {
               <IonNote slot="end">{value}</IonNote>
             </IonItem>
           ))}
-          <IonTitle style={{ padding: "12px 0" }}>Enrolled Events</IonTitle>
+          <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Enrolled Events</h1>
           {userEvents.map((node: any) => (
             <EnrolledItem
               key={node._id}
@@ -76,6 +77,7 @@ export const ProfileModal: React.FC<any> = () => {
               attendance={node.attendance}
             />
           ))}
+          <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Jersy QR Code</h1>
           <IonItem style={{ padding: "24px 0" }}>
             <QRCode size={256} value={`${foundUser?.jerseyNo}`} style={{ margin: "24px auto" }}></QRCode>
           </IonItem>

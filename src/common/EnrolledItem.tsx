@@ -1,31 +1,95 @@
 import PropTypes from "prop-types"
 import React from "react";
 import {
-  IonChip, IonIcon, IonItem, IonLabel, IonNote,
+  IonChip, IonIcon, IonItem, IonLabel, IonNote, IonCol, IonCard, IonCardHeader, useIonAlert, IonButton, IonCardContent
 } from "@ionic/react";
-import { trophyOutline } from "ionicons/icons";
+import { closeCircle, americanFootball, sad, medal, ribbon, } from "ionicons/icons";
 import { ATTENDANCE_COLOR, mapValue } from "../constants";
 
 export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, genderCategory, position, attendance }) => {
+  const [showAlert] = useIonAlert();
+  const genderWiseColor = genderCategory === "Male" ? "tertiary" : "pink";
+  const PositionEventComponent = (icon: string | undefined, varColor: string, position: any) => {
+    return (
+      <>
+        <IonIcon slot="start" icon={icon} color={varColor} />
+        <IonLabel>{position}</IonLabel>
+      </>
+    )
+  }
+
+  const bakePosition = (pos: any) => {
+    switch (pos) {
+      case 1:
+        return (
+          PositionEventComponent(medal, "gold", "1st")
+        );
+      case 2:
+        return (
+          PositionEventComponent(medal, "silver", "2nd")
+        );
+      case 3:
+        return (
+          PositionEventComponent(medal, "bronze", "3rd")
+        );
+      default:
+        return (
+          PositionEventComponent(sad, genderWiseColor, "Participant")
+        );;
+    }
+  }
+
   return (
     <IonItem>
-      <IonLabel>
+      <IonCol size="12">
         {(sportType === "relay" || sportType === "tugofwar") &&
           <h2 color="primary">Team: {mapValue("BRANCH", branch)}</h2>
         }
-        <h2>{sportName}</h2>
-        <h3>{mapValue("SPORT_TYPE", sportType)}</h3>
-        <p>{genderCategory}</p>
-        {[...Array.from({ length: position }, (_, i) => i + 1)].map((node) => (
-          <IonIcon key={node} icon={trophyOutline}></IonIcon>
-        ))}
-      </IonLabel>
-      <IonNote slot="end">
-        <IonChip color={ATTENDANCE_COLOR[attendance]}>
-          <IonLabel>{mapValue("ATTENDANCE", attendance)}</IonLabel>
-        </IonChip>
-      </IonNote>
-    </IonItem>
+        <IonCard className="ion-activatable ripple-parent">
+          <IonCardHeader>
+            <IonItem color="transparent" lines="none">
+              <IonNote slot="start">
+                <IonChip color={ATTENDANCE_COLOR[attendance]}>
+                  <IonLabel>{mapValue("ATTENDANCE", attendance)}</IonLabel>
+                </IonChip>
+              </IonNote>
+              {mapValue("ATTENDANCE", attendance) === "Not Marked" && (
+                < IonButton slot="end" color="danger">
+                  Remove Enrollment
+                  <IonIcon
+                    slot="end"
+                    icon={closeCircle}
+                    style={{ cursor: "pointer" }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      showAlert("Remove from Team?", [
+                        { text: "Yes", handler: () => console.log('log') },
+                        { text: "No" }
+                      ])
+                    }}
+                  />
+                </IonButton>
+              )}
+            </IonItem>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonItem color="transparent" lines="none">
+              <IonIcon slot="start" icon={americanFootball} color={genderWiseColor} />
+              <IonLabel>{mapValue("SPORT_TYPE", sportType)}</IonLabel>
+            </IonItem>
+            <IonItem color="transparent" lines="none">
+              <IonIcon slot="start" icon={ribbon} color={genderWiseColor} />
+              <IonLabel>{sportName}</IonLabel>
+            </IonItem>
+            {mapValue("ATTENDANCE", attendance) !== 'Not Marked' && (
+              <IonItem color="transparent" lines="none">
+                {bakePosition(position)}
+              </IonItem>
+            )}
+          </IonCardContent>
+        </IonCard>
+      </IonCol>
+    </IonItem >
   );
 };
 
