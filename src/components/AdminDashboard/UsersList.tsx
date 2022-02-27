@@ -21,6 +21,7 @@ export const UsersList: React.FC<any> = () => {
     <IonGrid className="h-full flex-column">
       <IonRow>
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
+          {/* {filters} */}
         </IonCol>
         <IonCol sizeXl="4" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
