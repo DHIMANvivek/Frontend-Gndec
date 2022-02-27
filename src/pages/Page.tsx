@@ -8,6 +8,7 @@ const TOOLBAR_TITLE: any = {
   "/dashboard": "Dashboard",
   "/dashboard/profile": "Profile",
   "/dashboard/announcements": "Announcements",
+  "/dashboard/dev-team": "Dev Team",
 
   "/admin": "Admin Dashboard",
   "/admin/enrolled": "Enrolled Users",
@@ -18,6 +19,7 @@ const TOOLBAR_TITLE: any = {
   "/admin/sports": "Sports List",
   "/admin/announcements": "Announcements",
   "/admin/team": "Team Events",
+  "/admin/dev-team": "Dev Team",
 }
 
 export const PageLayout: React.FC<any> = ({ children, className = "" }) => {
