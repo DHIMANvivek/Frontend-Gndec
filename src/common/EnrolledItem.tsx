@@ -33,7 +33,10 @@ EnrolledItem.propTypes = {
   attendance: PropTypes.string.isRequired,
   branch: PropTypes.string.isRequired,
   genderCategory: PropTypes.string.isRequired,
-  position: PropTypes.string.isRequired,
+  position: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   sportName: PropTypes.string.isRequired,
   sportType: PropTypes.string.isRequired
 }

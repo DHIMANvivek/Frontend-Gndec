@@ -79,7 +79,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
         isOpen={loading}
         message={'Please wait...'}
       />
-      {page === undefined && <SelectEvents />}
+      {page === undefined && <SelectEvents fetchAll={me} />}
       {page === 'profile' && <Profile />}
       {page === 'announcements' && <AnnouncementList isPublic />}
     </PageLayout>
