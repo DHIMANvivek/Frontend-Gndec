@@ -5,35 +5,35 @@ import { logoInstagram, logoGithub, logoLinkedin } from 'ionicons/icons';
 const DEV_TEAM = [
   {
     name: 'Divyanshu Garg',
-    github: 'https://github.com/theamanjs',
-    linkedin: 'https://www.linkedin.com/in/theamanjs/',
-    instagram: 'https://www.instagram.com/notoriousgabroo/',
+    github: 'https://github.com/divyanshugarg36',
+    linkedin: 'https://www.linkedin.com/in/divyanshugarg36/',
+    instagram: 'https://www.instagram.com/divyanshugarg36/',
     role: 'Full Stack Developer',
-    image: 'https://cdn141.picsart.com/301439887256201.jpg',
+    image: 'https://avatars.githubusercontent.com/u/37038354?v=4',
   },
   {
     name: 'Amanjot Singh',
     github: 'https://github.com/theamanjs',
     linkedin: 'https://www.linkedin.com/in/theamanjs/',
     instagram: 'https://www.instagram.com/notoriousgabroo/',
-    role: 'Frontend Developer',
+    role: 'Full Stack Developer',
     image: 'https://avatars.githubusercontent.com/u/38748298?v=4',
   },
   {
     name: 'Dashmeet Singh',
-    github: 'https://github.com/theamanjs',
-    linkedin: 'https://www.linkedin.com/in/theamanjs/',
-    instagram: 'https://www.instagram.com/notoriousgabroo/',
+    github: 'https://github.com/vedashmeet',
+    linkedin: '',
+    instagram: '',
     role: 'QA & Testing Engineer',
-    image: 'https://cdn141.picsart.com/301439887256201.jpg',
+    image: 'https://avatars.githubusercontent.com/u/71537375?v=4',
   },
   {
     name: 'Tania Sharma',
-    github: 'https://github.com/theamanjs',
-    linkedin: 'https://www.linkedin.com/in/theamanjs/',
-    instagram: 'https://www.instagram.com/notoriousgabroo/',
+    github: 'https://github.com/taniasharma28',
+    linkedin: 'https://www.linkedin.com/in/tania-sharma-a8686420a/',
+    instagram: 'https://www.instagram.com/tania_sharma._/',
     role: 'QA & Testing Engineer',
-    image: 'https://cdn141.picsart.com/301439887256201.jpg',
+    image: 'https://avatars.githubusercontent.com/u/52241202?v=4',
   },
 
 ]
@@ -58,12 +58,17 @@ export const DevTeam: React.FC = () => {
                         <IonFabButton target="_blank" href={member.github} color="dark" className="ion-social-btn" size="small" style={{ "margin": "2px 4px" }}>
                           <IonIcon icon={logoGithub} />
                         </IonFabButton>
-                        <IonFabButton target="_blank" href={member.linkedin} color="dark" className="ion-social-btn" size="small" style={{ "margin": "2px 4px" }}>
-                          <IonIcon icon={logoLinkedin} />
-                        </IonFabButton>
-                        <IonFabButton target="_blank" href={member.instagram} color="dark" className="ion-social-btn" size="small" style={{ "margin": "2px 4px" }}>
-                          <IonIcon icon={logoInstagram} />
-                        </IonFabButton>
+                        {member.linkedin &&
+                          (<IonFabButton target="_blank" href={member.linkedin} color="dark" className="ion-social-btn" size="small" style={{ "margin": "2px 4px" }}>
+                            <IonIcon icon={logoLinkedin} />
+                          </IonFabButton>)
+                        }
+                        {member.instagram &&
+                          (
+                            <IonFabButton target="_blank" href={member.instagram} color="dark" className="ion-social-btn" size="small" style={{ "margin": "2px 4px" }}>
+                              <IonIcon icon={logoInstagram} />
+                            </IonFabButton>
+                          )}
                       </IonRow>
                     </IonRow>
                   </div>
