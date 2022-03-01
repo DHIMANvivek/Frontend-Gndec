@@ -40,13 +40,13 @@ export const Menu: React.FC<any> = () => {
   const appPages: AppPage[] = [
     {
       title: 'Announcements',
-      url: '/dashboard/announcements',
+      url: '/dashboard',
       iosIcon: listCircle,
       mdIcon: newspaperOutline
     },
     {
-      title: 'Home',
-      url: '/dashboard',
+      title: 'Select Events',
+      url: '/dashboard/select-events',
       iosIcon: homeOutline,
       mdIcon: homeSharp
     },
@@ -55,7 +55,13 @@ export const Menu: React.FC<any> = () => {
       url: '/dashboard/profile',
       iosIcon: personOutline,
       mdIcon: personSharp
-    }
+    },
+    {
+      title: 'Dev Team',
+      url: '/dashboard/dev-team',
+      iosIcon: peopleOutline,
+      mdIcon: peopleOutline
+    },
   ];
 
   const appAdminPages: AppPage[] = [

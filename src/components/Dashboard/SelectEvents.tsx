@@ -10,6 +10,8 @@ import {
   IonLoading,
   IonRow,
   useIonToast,
+  IonCard,
+  IonCardTitle,
 } from "@ionic/react";
 import { API } from "../../constants";
 import Axios from "axios";
@@ -26,6 +28,7 @@ interface SportsData {
 
 export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
   const [showToast] = useIonToast();
+  const [accept, setAccept] = useState(false);
 
   const SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
   const auth = useStoreState<any>(({ auth }) => auth);
@@ -95,9 +98,26 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
         message={'Hold on... Enjoy the wheater meanwhile!'}
       />
       <IonGrid>
-        <h1>Select Events</h1>
-        <p>Note:- You can select only 3 events atmost. It can be 2 field events and 1 track events or 1 field event and 2 track events</p>
-        <h3>Field Events</h3>
+        {userEvents.length > 0 && <h1>Enrolled Events</h1>}
+        {userEvents.map((node: any) => (
+          <IonRow key={node._id}>
+            <IonCol>
+              <EnrolledItem
+                key={node._id}
+                sportType={node.sportId.sportType}
+                branch={auth?.user?.branch}
+                sportName={node.sportId.sportName}
+                genderCategory={node.sportId.genderCategory}
+                position={node.position}
+                attendance={node.attendance}
+              />
+            </IonCol>
+          </IonRow>
+        ))}
+      </IonGrid>
+      <IonGrid>
+        {/* <h1>Select Events</h1> */}
+        <h3 style={{ fontWeight: "bold" }}>Field Events</h3>
         <IonRow>
           {SPORTS.filter(({ sportType, genderCategory }) => sportType === "field" && genderCategory === auth.user?.gender).map((node) => (
             <IonCol key={node._id}>
@@ -116,7 +136,7 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
             </IonCol>
           ))}
         </IonRow>
-        <h3>Track Events</h3>
+        <h3 style={{ fontWeight: "bold" }}>Track Events</h3>
         <IonRow>
           {SPORTS.filter(({ sportType, genderCategory }) => sportType === "track" && genderCategory === auth.user?.gender).map((node) => (
             <IonCol key={node._id}>
@@ -135,25 +155,20 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
             </IonCol>
           ))}
         </IonRow>
-        <IonButton expand="block" onClick={enrollUserToEvents} disabled={savedEventsIds.length >= 3}>Enroll</IonButton>
-      </IonGrid>
-      <IonGrid>
-        <h1>Enrolled Events</h1>
-        {userEvents.map((node: any) => (
-          <IonRow key={node._id}>
-            <IonCol>
-              <EnrolledItem
-                key={node._id}
-                sportType={node.sportId.sportType}
-                branch={auth?.user?.branch}
-                sportName={node.sportId.sportName}
-                genderCategory={node.sportId.genderCategory}
-                position={node.position}
-                attendance={node.attendance}
-              />
-            </IonCol>
-          </IonRow>
-        ))}
+        <IonCard>
+          <IonCardTitle>
+            <p style={{ color: 'red', marginLeft: '10px' }}>IMPORTANT:</p>
+            <ul style={{ fontSize: "16px", paddingRight: "20px", textAlign: "justify" }}>
+              <li>You can select 3 events atmost. It can be either 2 field events and 1 track events or 1 field event and 2 track events.</li>
+              <li>Choose carefully. You will have to contact sports branch to change events later on.</li>
+              <li>Keep watching Announcements for live updates of sports.</li>
+            </ul>
+            <div style={{ padding: "0 20px 10px 20px" }}>
+              <input type="checkbox" checked={accept} onChange={() => setAccept(!accept)} /> I understand and agree to the above terms and conditions.
+              <IonButton expand="block" slot="end" onClick={enrollUserToEvents} disabled={!accept || savedEventsIds.length >= 3}>Enroll</IonButton>
+            </div>
+          </IonCardTitle>
+        </IonCard>
       </IonGrid>
     </>
   );
