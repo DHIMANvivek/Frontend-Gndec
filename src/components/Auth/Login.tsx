@@ -13,8 +13,8 @@ import {
 
 export const Login: React.FC<any> = ({ onSubmit }) => {
   const router = useIonRouter();
-  const [email, setEmail] = useState('amanjot1815119@gndec.ac.in');
-  const [password, setPassword] = useState('this.Unlock(7)');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   return (
     <div className="card-container">
