@@ -4,7 +4,6 @@ import {
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonInput,
   IonItem,
@@ -20,7 +19,6 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
     <div className="card-container">
       <IonCard>
         <IonCardHeader>
-          <IonCardSubtitle>Welcome here!</IonCardSubtitle>
           <IonCardTitle>Login</IonCardTitle>
         </IonCardHeader>
 
@@ -59,6 +57,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
               color="secondary"
               expand="block"
               className="item-text-wrap"
+              style={{ textDecoration: "underline" }}
             >
               Don't have account? click here to signup
             </IonButton>

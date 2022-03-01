@@ -8,7 +8,7 @@ import {
   IonCardTitle,
   useIonRouter,
 } from "@ionic/react";
-import { BRANCH, COURSE, GENDER } from "../../constants";
+import { BRANCH, ARCHITECTURE, COMPUTER_APPLICATION, BUSINESS_ADMINISTRATION, TWO_YEARS, THREE_YEARS, FOUR_YEARS, FIVE_YEARS, COURSE, GENDER } from "../../constants";
 import { IonInputNew, IonSelectNew } from "../../common";
 
 export const Signup: React.FC<any> = ({ onSubmit }) => {
@@ -20,15 +20,56 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
   const [password, setPassword] = useState("");
   const [course, setCourse] = useState("");
   const [branch, setBranch] = useState("");
+  const [year, setYear] = useState("");
   const [gender, setGender] = useState("");
   const [error, setError] = useState<any>({})
+
+  const getBranchCourse = (selectedCourse: any) => {
+    switch (selectedCourse) {
+      case 'b_tech':
+      case 'm_tech':
+        return BRANCH;
+      case 'mca':
+      case 'bca':
+        return COMPUTER_APPLICATION;
+      case 'bba':
+      case 'mba':
+        return BUSINESS_ADMINISTRATION;
+      case 'b_arch':
+        return ARCHITECTURE;
+      default:
+        return [];
+    }
+  }
+
+  const getCourseYears = (selectedCourse: any) => {
+    switch (selectedCourse) {
+      case 'b_tech':
+        return FOUR_YEARS;
+      case 'm_tech':
+        return TWO_YEARS;
+      case 'bca':
+        return THREE_YEARS;
+      case 'mca':
+        return TWO_YEARS;
+      case 'bba':
+        return THREE_YEARS;
+      case 'mba':
+        return TWO_YEARS;
+      case 'b_arch':
+        return FIVE_YEARS;
+      default:
+        return [];
+    }
+  }
+
   return (
     <div className='card-container'>
       {/* <div className='card-Signup'> */}
       <IonCard>
         <IonCardHeader>
           <IonCardSubtitle>Welcome here!</IonCardSubtitle>
-          <IonCardTitle>Signup</IonCardTitle>
+          <IonCardTitle>Signup for GNDEC Annual Sports Meet 2022</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
           <form
@@ -43,6 +84,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
                 password,
                 course,
                 branch,
+                year,
                 gender
               });
               setError(errors);
@@ -61,7 +103,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
               error={error?.email}
             />
             <IonInputNew
-              title="URN"
+              title="University Roll Number"
               value={universityRoll}
               onChange={setUniversityRoll}
               error={error?.universityRoll}
@@ -90,8 +132,15 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
               title="Branch"
               value={branch}
               onChange={setBranch}
-              data={BRANCH}
+              data={getBranchCourse(course)}
               error={error?.branch}
+            />
+            <IonSelectNew
+              title="Year"
+              value={year}
+              onChange={setYear}
+              data={getCourseYears(course)}
+              error={error?.year}
             />
             <IonSelectNew
               title="Gender"
@@ -115,6 +164,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
               color="secondary"
               expand="block"
               className="item-text-wrap"
+              style={{ textDecoration: "underline" }}
             >
               Already have account? click here to login
             </IonButton>

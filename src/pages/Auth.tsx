@@ -64,7 +64,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
 
   const validateData = (userData: SignupData) => {
     const error: any = {};
-    const { fullName, email, universityRoll, phoneNumber, password, course, branch, gender } = userData;
+    const { fullName, email, universityRoll, phoneNumber, password, course, branch, year, gender } = userData;
     if (!fullName) {
       error.fullName = "Please enter your name"
     }
@@ -85,6 +85,10 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     }
     if (!branch) {
       error.branch = "Please select your branch"
+    }
+    if (!year) {
+      console.log(year);
+      error.year = "Choose your year"
     }
     if (!gender) {
       error.gender = "Please select your gender"
