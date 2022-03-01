@@ -10,7 +10,7 @@ import { Profile, SelectEvents } from "../components/Dashboard";
 import Axios from "axios";
 import { API } from "../constants";
 import { PageLayout } from "./Page";
-import { AnnouncementList } from "../components/AdminDashboard";
+import { AnnouncementList, DevTeam } from "../components/AdminDashboard";
 
 export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
   const page = match.params.page;
@@ -79,9 +79,10 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
         isOpen={loading}
         message={'Hold on... Enjoy the wheater meanwhile!'}
       />
-      {page === undefined && <SelectEvents fetchAll={me} />}
+      {page === 'select-events' && <SelectEvents fetchAll={me} />}
       {page === 'profile' && <Profile />}
-      {page === 'announcements' && <AnnouncementList isPublic />}
+      {page === undefined && <AnnouncementList isPublic />}
+      {page === 'dev-team' && <DevTeam />}
     </PageLayout>
   );
 };
