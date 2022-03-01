@@ -6,5 +6,6 @@ export interface SignupData {
   password: string,
   course: string,
   branch: string,
+  year: string,
   gender: string
 }

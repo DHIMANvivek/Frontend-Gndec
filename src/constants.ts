@@ -65,11 +65,31 @@ export const COURSE: ConstantData[] = [
   { title: 'B.Arch', value: 'b_arch' },
   { title: 'BCA', value: 'bca' },
   { title: 'MCA', value: 'mca' },
+  { title: 'BBA', value: 'bba' },
+  { title: 'MBA', value: 'mba' },
 ];
 
 export const BRANCH: ConstantData[] = [
   { title: 'Computer Science', value: 'cse' },
   { title: 'Information Technology', value: 'it' },
+  { title: 'Electrical Engineering', value: 'ee' },
+  { title: 'Electronics Engineering', value: 'ece' },
+  { title: 'Mechanical Engineering', value: 'me' },
+  { title: 'Civil Engineering', value: 'ce' },
+  { title: 'Production Engineering', value: 'pe' },
+];
+export const ARCHITECTURE: ConstantData[] = [
+  { title: 'Bachelor of Architecture', value: 'b_arch' },
+]
+
+export const COMPUTER_APPLICATION: ConstantData[] = [
+  { title: 'Bachelor of Computer Application', value: 'bca' },
+  { title: 'Master of Computer Application', value: 'mca' },
+];
+
+export const BUSINESS_ADMINISTRATION: ConstantData[] = [
+  { title: 'Bachelor of Business Administration', value: 'bba' },
+  { title: 'Master of Business Administration', value: 'mba' },
 ];
 
 export const SPORT_TYPE = [
@@ -77,6 +97,32 @@ export const SPORT_TYPE = [
   { title: 'Track', value: 'track' },
   { title: 'Tug of war', value: 'tugofwar' },
   { title: 'Relay', value: 'relay' }
+];
+
+export const TWO_YEARS: ConstantData[] = [
+  { title: 'First', value: 'first' },
+  { title: 'Second', value: 'second' },
+];
+
+export const THREE_YEARS: ConstantData[] = [
+  { title: 'First', value: 'first' },
+  { title: 'Second', value: 'second' },
+  { title: 'Third', value: 'third' },
+];
+
+export const FOUR_YEARS: ConstantData[] = [
+  { title: 'First', value: 'first' },
+  { title: 'Second', value: 'second' },
+  { title: 'Third', value: 'third' },
+  { title: 'Fourth', value: 'fourth' },
+];
+
+export const FIVE_YEARS: ConstantData[] = [
+  { title: 'First', value: 'first' },
+  { title: 'Second', value: 'second' },
+  { title: 'Third', value: 'third' },
+  { title: 'Fourth', value: 'fourth' },
+  { title: 'Fifth', value: 'fifth' },
 ];
 
 export const mapValue = (key: string, selectedValue: string) => {
