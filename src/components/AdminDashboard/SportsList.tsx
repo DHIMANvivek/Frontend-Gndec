@@ -112,13 +112,15 @@ export const SportsList: React.FC<any> = () => {
                         <IonLabel >
                           {sport.sportName}
                         </IonLabel>
-                        <IonCheckbox slot="end" checked={sport.isActive}
-                          onClick={() => {
-                            showAlert("Remove from Team?", [
-                              { text: "Yes", handler: () => toggleSport(sport._id, !sport.isActive) },
-                              { text: "No", handler: () => getSports() }
-                            ])
-                          }} />
+                        {sport.isPublic && (
+                          <IonCheckbox slot="end" checked={sport.isActive}
+                            onClick={() => {
+                              showAlert("Remove from Team?", [
+                                { text: "Yes", handler: () => toggleSport(sport._id, !sport.isActive) },
+                                { text: "No", handler: () => getSports() }
+                              ])
+                            }} />
+                        )}
                       </IonItem>
                       <IonItem color={color} lines="none">
                         <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={megaphone} />

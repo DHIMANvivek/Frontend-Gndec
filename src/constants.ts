@@ -94,6 +94,8 @@ export const BUSINESS_ADMINISTRATION: ConstantData[] = [
 
 export const SPORT_TYPE = [
   { title: 'Field', value: 'field' },
+  { title: 'Field Semi-Final', value: 'field_semi' },
+  { title: 'Field Final', value: 'field_final' },
   { title: 'Track', value: 'track' },
   { title: 'Tug of war', value: 'tugofwar' },
   { title: 'Relay', value: 'relay' }

@@ -42,9 +42,9 @@ ion-item {
   tr:nth-child(even) {
     background-color: #e3edff;
 
-    @media (prefers-color-scheme: dark) {
-      background-color: #222222;
-    }
+    // @media (prefers-color-scheme: dark) {
+    //   background-color: #222222;
+    // }
   }
 }
 
