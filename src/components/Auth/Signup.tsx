@@ -11,7 +11,7 @@ import {
 import { BRANCH, ARCHITECTURE, COMPUTER_APPLICATION, BUSINESS_ADMINISTRATION, TWO_YEARS, THREE_YEARS, FOUR_YEARS, FIVE_YEARS, COURSE, GENDER } from "../../constants";
 import { IonInputNew, IonSelectNew } from "../../common";
 
-export const Signup: React.FC<any> = ({ onSubmit }) => {
+export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
   const router = useIonRouter();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -165,6 +165,7 @@ export const Signup: React.FC<any> = ({ onSubmit }) => {
               expand="block"
               className="item-text-wrap"
               style={{ textDecoration: "underline" }}
+              disabled={loading}
             >
               Already have account? click here to login
             </IonButton>

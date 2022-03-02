@@ -108,7 +108,9 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
       <IonGrid className="form-grid">
         <IonRow className="form-container ion-align-items-center ion-justify-content-center">
           <IonCol>
-            {isLogin ? (<Login onSubmit={login} />) : (<Signup onSubmit={signup} />)}
+            {isLogin ?
+              (<Login onSubmit={login} loading={loading} />)
+              : (<Signup onSubmit={signup} loading={loading} />)}
           </IonCol>
         </IonRow>
       </IonGrid>
