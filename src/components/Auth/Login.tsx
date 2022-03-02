@@ -59,7 +59,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
               className="item-text-wrap"
               style={{ textDecoration: "underline" }}
             >
-              Don't have account? click here to signup
+              Don't have account? Signup!
             </IonButton>
             <IonButton
               href="https://mail.gndec.ac.in"
@@ -73,6 +73,17 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
               Go to https://mail.gndec.ac.in
             </IonButton>
           </form>
+          <IonButton
+            href="https://forms.gle/cJYcxvhAH1eR3NGcA"
+            buttonType="clear"
+            color="secondary"
+            expand="block"
+            target="_blank"
+            className="item-text-wrap"
+            style={{ textDecoration: "underline", fontSize: "11px" }}
+          >
+            Need help? Click here to contact!
+          </IonButton>
         </IonCardContent>
       </IonCard>
     </div>

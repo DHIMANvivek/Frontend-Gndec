@@ -9,6 +9,8 @@ import {
   IonMenu,
   IonMenuToggle,
   IonNote,
+  IonCardHeader,
+  IonButton,
 } from '@ionic/react';
 import { useStoreState } from 'easy-peasy';
 import { useLocation } from 'react-router-dom';
@@ -148,6 +150,17 @@ export const Menu: React.FC<any> = () => {
           })}
         </IonList>
       </IonContent>
+      <IonCardHeader>
+        <IonButton
+          href="https://forms.gle/cJYcxvhAH1eR3NGcA"
+          color="danger"
+          expand="block"
+          target="_blank"
+          style={{ fontSize: "14px", fontWeight: "bold", color: "black" }}
+        >
+          Need Help?
+        </IonButton>
+      </IonCardHeader>
     </IonMenu>
   );
 };
