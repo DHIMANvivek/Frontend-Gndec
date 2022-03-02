@@ -164,10 +164,20 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
               color="secondary"
               expand="block"
               className="item-text-wrap"
-              style={{ textDecoration: "underline" }}
               disabled={loading}
             >
-              Already have account? click here to login
+              Click Here to Login
+            </IonButton>
+            <IonButton
+              href="https://forms.gle/cJYcxvhAH1eR3NGcA"
+              buttonType="clear"
+              color="secondary"
+              expand="block"
+              target="_blank"
+              className="item-text-wrap"
+              style={{ textDecoration: "underline", fontSize: "11px" }}
+            >
+              Need help? Click here to contact!
             </IonButton>
           </form>
         </IonCardContent>
