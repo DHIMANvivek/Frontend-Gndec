@@ -6,7 +6,9 @@ import {
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
+  IonCheckbox,
   useIonRouter,
+  IonItem,
 } from "@ionic/react";
 import {
   BRANCH,
@@ -35,6 +37,7 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
   const [branch, setBranch] = useState("");
   const [year, setYear] = useState("");
   const [gender, setGender] = useState("");
+  const [acknowledgement, setAcknowledgement] = useState(false);
   const [error, setError] = useState<any>({})
 
   const getBranchCourse = (selectedCourse: any) => {
@@ -164,9 +167,16 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
               data={GENDER}
               error={error?.gender}
             />
+            <IonItem lines="none">
+              <IonCheckbox color="danger" checked={acknowledgement} onIonChange={e => setAcknowledgement(!acknowledgement)} />
+              <p style={{ maxWidth: "90%", textAlign: "justify", margin: "20px auto 0 auto" }}>
+                I have verified my information and I acknowledge that I won't be able to change my information later on by myself.
+              </p>
+            </IonItem>
             <IonButton
               className='item-text-wrap'
               color='primary'
+              disabled={!acknowledgement}
               expand='full'
               shape='round'
               type='submit'
