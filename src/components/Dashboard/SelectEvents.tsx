@@ -165,7 +165,12 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
             </ul>
             <div style={{ padding: "0 20px 10px 20px" }}>
               <input type="checkbox" checked={accept} onChange={() => setAccept(!accept)} /> I understand and agree to the above terms and conditions.
-              <IonButton expand="block" slot="end" onClick={enrollUserToEvents} disabled={!accept || savedEventsIds.length >= 3}>Enroll</IonButton>
+              <IonButton
+                expand="block"
+                slot="end"
+                onClick={enrollUserToEvents}
+                disabled={!accept || savedEventsIds.length >= 3 || loading}
+              >Enroll</IonButton>
             </div>
           </IonCardTitle>
         </IonCard>
