@@ -8,7 +8,20 @@ import {
   IonCardTitle,
   useIonRouter,
 } from "@ionic/react";
-import { BRANCH, ARCHITECTURE, COMPUTER_APPLICATION, BUSINESS_ADMINISTRATION, TWO_YEARS, THREE_YEARS, FOUR_YEARS, FIVE_YEARS, COURSE, GENDER } from "../../constants";
+import {
+  BRANCH,
+  ARCHITECTURE,
+  TWO_YEARS,
+  THREE_YEARS,
+  FOUR_YEARS,
+  FIVE_YEARS,
+  COURSE,
+  GENDER,
+  B_BUSINESS_ADMINISTRATION,
+  M_BUSINESS_ADMINISTRATION,
+  B_COMPUTER_APPLICATION,
+  M_COMPUTER_APPLICATION
+} from "../../constants";
 import { IonInputNew, IonSelectNew } from "../../common";
 
 export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
@@ -30,11 +43,13 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
       case 'm_tech':
         return BRANCH;
       case 'mca':
+        return M_COMPUTER_APPLICATION;
       case 'bca':
-        return COMPUTER_APPLICATION;
+        return B_COMPUTER_APPLICATION;
       case 'bba':
+        return B_BUSINESS_ADMINISTRATION;
       case 'mba':
-        return BUSINESS_ADMINISTRATION;
+        return M_BUSINESS_ADMINISTRATION;
       case 'b_arch':
         return ARCHITECTURE;
       default:

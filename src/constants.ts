@@ -82,13 +82,19 @@ export const ARCHITECTURE: ConstantData[] = [
   { title: 'Bachelor of Architecture', value: 'b_arch' },
 ]
 
-export const COMPUTER_APPLICATION: ConstantData[] = [
+export const B_COMPUTER_APPLICATION: ConstantData[] = [
   { title: 'Bachelor of Computer Application', value: 'bca' },
+];
+
+export const M_COMPUTER_APPLICATION: ConstantData[] = [
   { title: 'Master of Computer Application', value: 'mca' },
 ];
 
-export const BUSINESS_ADMINISTRATION: ConstantData[] = [
+export const B_BUSINESS_ADMINISTRATION: ConstantData[] = [
   { title: 'Bachelor of Business Administration', value: 'bba' },
+];
+
+export const M_BUSINESS_ADMINISTRATION: ConstantData[] = [
   { title: 'Master of Business Administration', value: 'mba' },
 ];
 
