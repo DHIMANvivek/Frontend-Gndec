@@ -61,6 +61,16 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
             >
               Don't have account? click here to signup
             </IonButton>
+            <IonButton
+              onClick={() => router.push('/signup')}
+              buttonType="clear"
+              color="secondary"
+              expand="block"
+              className="item-text-wrap"
+              style={{ textDecoration: "underline", textTransform: "unset" }}
+            >
+              Go to https://mail.gndec.ac.in
+            </IonButton>
           </form>
         </IonCardContent>
       </IonCard>
