@@ -63,6 +63,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
             </IonButton>
             <IonButton
               href="https://mail.gndec.ac.in"
+              target="_blank"
               buttonType="clear"
               color="secondary"
               expand="block"
