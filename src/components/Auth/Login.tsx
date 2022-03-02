@@ -62,7 +62,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
               Don't have account? click here to signup
             </IonButton>
             <IonButton
-              onClick={() => router.push('/signup')}
+              href="https://mail.gndec.ac.in"
               buttonType="clear"
               color="secondary"
               expand="block"
