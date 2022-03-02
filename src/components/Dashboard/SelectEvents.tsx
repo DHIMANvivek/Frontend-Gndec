@@ -23,6 +23,7 @@ interface SportsData {
   sportName: string,
   sportType: string,
   genderCategory: string,
+  isPublic: boolean,
   isActive: boolean,
 }
 
@@ -30,7 +31,8 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
   const [showToast] = useIonToast();
   const [accept, setAccept] = useState(false);
 
-  const SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
+  const ALL_SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
+  const SPORTS = ALL_SPORTS.filter((sport: SportsData) => sport.isPublic);
   const auth = useStoreState<any>(({ auth }) => auth);
   const userEvents = useStoreState<any>(({ userEvents }) => userEvents);
   const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
