@@ -25,12 +25,7 @@ export const TeamEvent: React.FC<any> = () => {
   const [userList, setUserList] = useState<any>([]);
   const [pSearch, setPSearch] = useState('');
 
-  const teamSports = sports.filter((sport: any) => !(
-    sport.sportType === "field"
-    || sport.sportType === "field_semi"
-    || sport.sportType === "field_final"
-    || sport.sportType === "track"
-  ));
+  const teamSports = sports.filter((sport: any) => !(sport.sportType === "field" || sport.sportType === "track"));
   const selectedSport = teamSports.find((sport: any) => sport._id === filterSport);
 
   const processedUsers: any = {};

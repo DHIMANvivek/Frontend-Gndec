@@ -379,3 +379,10 @@ $desktop-large: 1840px;
     --ion-safe-area-left: 0px;
   }
 }
+
+ion-segment-button {
+  min-width: unset;
+  min-height: 36px;
+  --padding-start: 0;
+  --padding-end: 0;
+}
