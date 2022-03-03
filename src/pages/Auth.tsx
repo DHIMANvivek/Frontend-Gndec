@@ -30,7 +30,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     Axios.post(API.SIGNUP, userData)
       .then(result => {
         router.push("/login")
-        showToast(`Please verify your email at ${userData.email}!`, 10000)
+        showToast(`You can now login, but you will have to verify your account to enroll in events.`, 10000)
       })
       .catch((e) => {
         switch (e?.response?.data?.message) {
