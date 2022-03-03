@@ -76,8 +76,10 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
             <h2 color="primary">Team: {mapValue("BRANCH", branch)}</h2>
           }
           <IonCard className="ion-activatable ripple-parent">
-            <IonCardHeader>
+            <IonCardContent>
               <IonItem color="transparent" lines="none">
+                <IonIcon slot="start" icon={americanFootball} color={genderWiseColor} />
+                <IonLabel>{mapValue("SPORT_TYPE", sportType)}</IonLabel>
                 {(mapValue("ATTENDANCE", attendance) !== "Present" && auth?.user?.isAdmin) && (
                   <IonButton
                     slot="end"
@@ -97,12 +99,6 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
                     />
                   </IonButton>
                 )}
-              </IonItem>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonItem color="transparent" lines="none">
-                <IonIcon slot="start" icon={americanFootball} color={genderWiseColor} />
-                <IonLabel>{mapValue("SPORT_TYPE", sportType)}</IonLabel>
               </IonItem>
               <IonItem color="transparent" lines="none">
                 <IonIcon slot="start" icon={ribbon} color={genderWiseColor} />
