@@ -11,6 +11,7 @@ export const API = {
   ENROLL_EVENTS: "/event/create",
   GET_ENROLLMENTS: "/event/fetchAll",
   MARK_ATTENDANCE: "/event/attendance",
+  MARK_SINGLE_ATTENDANCE: "/event/markSingleAttendance",
   MARK_RESULT: "/event/result",
   DELETE_EVENT: "/event/delete",
   ADD_TEAM: "/event/team",

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
-import { IonBadge, IonButton, IonCard, IonCardContent, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, IonToggle, useIonToast } from "@ionic/react";
+import React, { useState } from "react";
+import { IonBadge, IonCard, IonCardContent, IonSegment, IonSegmentButton, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, useIonToast } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { API, GENDER, mapValue, mergeSearch } from "../../constants";
+import { API, GENDER, mapValue, ATTENDANCE, mergeSearch } from "../../constants";
 import Axios from "axios";
 import { americanFootball, callSharp, megaphone, qrCodeOutline } from "ionicons/icons";
 import { GenderIcon } from "../../common";
@@ -18,8 +18,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const storeAllEvents = useStoreActions<any>(({ storeAllEvents }) => storeAllEvents);
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
-
-  const [present, setPresent] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState('');
 
   const objectifiedUsers: any = {};
@@ -29,46 +28,29 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
     .map((event: any) => ({ ...event, user: objectifiedUsers[event.userId] }))
     .filter((event: any) => event.sportId._id === filterSport);
 
-  useEffect(() => {
-    setAlreadyPresent();
-  }, [filterSport])
-
-  const setAlreadyPresent = () => { // For initial render
-    const presentEvents = processEvents
-      .filter((event: any) => { return event.attendance === "present" })
-      .map((event: any) => event._id)
-    setPresent(presentEvents)
-  }
-
-  const markAttendance = () => {
-    const absent = processEvents
-      .filter((event: any) => !present.includes(event._id))
-      .map((event: any) => event._id);
-    Axios.post(API.MARK_ATTENDANCE, { present, absent })
+  const markAttendance = (attendance: any, id: string) => {
+    setIsLoading(true);
+    const attendanceData = {
+      eventId: id,
+      attendance
+    }
+    Axios.post(API.MARK_ATTENDANCE, attendanceData)
       .then(() => {
         const updatedAllEvents: any = allEvents.map((event: any) => {
-          if (present.includes(event._id)) {
-            event.attendance = "present";
-          } else if (absent.includes(event._id)) {
-            event.attendance = "absent";
+          if (event._id === attendanceData.eventId) {
+            event.attendance = attendanceData.attendance;
           }
           return event;
         });
         storeAllEvents(updatedAllEvents);
-        showToast("Successfully marked attendance!", 3000);
+        showToast(`Attendance marked as ${mapValue("ATTENDANCE", attendanceData.attendance)}!`, 1000);
       })
       .catch(() => {
         showToast("Something went wrong!", 3000);
       })
-  }
-
-  const selectPresent = (e: any, id: string) => {
-    console.log(id)
-    if (e.target.checked) {
-      setPresent([...new Set([...present, id])])
-    } else {
-      setPresent(present.filter((a) => a !== id))
-    }
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   const onQRScan = (jerseyNo: string) => {
@@ -76,8 +58,8 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
       const event = processEvents.find((event: any) => Number(event.user.jerseyNo) === Number(jerseyNo));
       const sportName = sports?.find((sport: any) => sport?._id === event?.sportId?._id)?.sportName;
       if (event) {
-        showToast(`${event.user.fullName} marked present for ${sportName}!`, 3000);
-        setPresent([...new Set([...present, event._id])])
+        showToast(`${event?.user?.fullName} marked present for ${sportName}!`, 3000);
+        markAttendance('present', event?._id);
       } else {
         showToast(`This user has not enrolled in ${sportName}!`, 3000);
       }
@@ -137,25 +119,18 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
             itemContent={index => {
               const event = sortedData[index];
               const color = event.isSearched ? "light" : "";
-              const isMale = event.user.gender === GENDER[1].value;
-              const isPresent = present.includes(event._id);
+              const isMale = event?.user?.gender === GENDER[1].value;
               return (
                 <IonCol key={event._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
-                  <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(event.user._id)}>
+                  <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(event?.user?._id)}>
                     <IonRippleEffect />
                     <IonCardHeader>
                       <IonItem color="transparent" lines="none">
-                        <IonCardSubtitle>Jersey {event.user.jerseyNo}</IonCardSubtitle>
-                        {view
-                          ? <IonBadge color={isPresent ? "success" : "danger"} slot="end">{mapValue("ATTENDANCE", event.attendance)}</IonBadge>
-                          : <IonToggle color={isPresent ? "success" : "danger"} checked={isPresent} slot="end" onClick={e => {
-                            e.stopPropagation();
-                            selectPresent(e, event._id)
-                          }} />}
+                        <IonCardSubtitle>Jersey {event?.user?.jerseyNo}</IonCardSubtitle>
                       </IonItem>
                       <IonItem color="transparent" lines="none">
-                        <IonCardTitle>{event.user.fullName}</IonCardTitle>
-                        <GenderIcon gender={event.user.gender} slot="end" />
+                        <IonCardTitle>{event?.user?.fullName}</IonCardTitle>
+                        <GenderIcon gender={event?.user?.gender} slot="end" />
                       </IonItem>
                     </IonCardHeader>
                     <IonCardContent color={color}>
@@ -169,13 +144,29 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                       </IonItem>
                       <IonItem color="transparent" lines="none">
                         <IonBadge color={isMale ? "tertiary" : "pink"} slot="start">URN</IonBadge>
-                        <IonLabel>{event.user.universityRoll}</IonLabel>
+                        <IonLabel>{event?.user?.universityRoll}</IonLabel>
                       </IonItem>
                       <IonItem color="transparent" lines="none">
                         <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={callSharp} />
-                        <IonLabel>{event.user.phoneNumber}</IonLabel>
+                        <IonLabel>{event?.user?.phoneNumber}</IonLabel>
                       </IonItem>
                     </IonCardContent>
+                    {!view && (
+                      <IonCardHeader>
+                        <IonSegment
+                          mode="ios"
+                          onClick={(e) => e.stopPropagation()}
+                          value={event.attendance}
+                          disabled={isLoading}
+                        >
+                          {ATTENDANCE.map((attendance: any) => (
+                            <IonSegmentButton key={attendance.value} value={attendance.value} onClick={() => markAttendance(attendance.value, event._id)}>
+                              <IonLabel>{attendance.title}</IonLabel>
+                            </IonSegmentButton>
+                          ))}
+                        </IonSegment>
+                      </IonCardHeader>
+                    )}
                   </IonCard>
                 </IonCol>
               )
@@ -187,30 +178,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
         {filterSport === "none" && <IonText color="danger">Please select an event to view the list</IonText>}
         {filterSport !== "none" && processEvents.length === 0 && <IonText color="danger">No records found</IonText>}
       </IonGrid>
-      {processEvents.length !== 0 && (
-        <IonGrid>
-          <IonLabel>Final Attendance</IonLabel>
-          <IonRow>
-            {processEvents.map((event: any) => {
-              const isPresent = present.includes(event._id);
-              return (
-                <IonBadge
-                  key={event._id}
-                  style={{ margin: 3 }}
-                  color={isPresent ? "success" : "danger"}
-                  onClick={e => {
-                    if (!view) {
-                      e.stopPropagation();
-                      selectPresent({ target: { checked: !isPresent } }, event._id)
-                    }
-                  }}
-                >Jersey {event.user.jerseyNo}</IonBadge>
-              )
-            })}
-          </IonRow>
-        </IonGrid>
-      )}
-      {!view && processEvents.length !== 0 && <IonButton expand="block" onClick={markAttendance}>Mark Attendance</IonButton>}
+      {/* TO DO: Badge should be created here again in Modal or something like that */}
     </IonGrid >
   );
 };
