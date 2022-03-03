@@ -95,10 +95,10 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
             onSubmit={(e) => {
               e.preventDefault();
               const errors = onSubmit({
-                fullName,
-                email,
-                universityRoll,
-                phoneNumber,
+                fullName: fullName.trim(),
+                email: email.trim(),
+                universityRoll: universityRoll.trim(),
+                phoneNumber: phoneNumber.trim(),
                 password,
                 course,
                 branch,

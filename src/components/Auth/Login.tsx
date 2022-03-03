@@ -23,7 +23,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
         </IonCardHeader>
 
         <IonCardContent>
-          <form method="post" onSubmit={(e) => { e.preventDefault(); onSubmit({ email, password }) }}>
+          <form method="post" onSubmit={(e) => { e.preventDefault(); onSubmit({ email: email.trim(), password }) }}>
             <IonItem>
               <IonInput
                 type="email"
