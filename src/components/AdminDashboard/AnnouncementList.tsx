@@ -124,11 +124,6 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
                     <IonCardTitle>{announcement.announcementTitle}</IonCardTitle>
                     {!isPublic && (
                       <>
-                        {/* <IonIcon
-                          slot="end"
-                          color="primary"
-                          icon={createOutline}
-                        /> */}
                         <IonIcon
                           slot="end"
                           color="danger"

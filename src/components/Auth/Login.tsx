@@ -92,15 +92,15 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
           </IonCardHeader>
 
           <IonCardContent>
-            <IonButton size="small" color="" expand="block" href="https://mail.gndec.ac.in" target="_blank" rel="noreferrer"> Go to mail.gndec.ac.in</IonButton>
-            <IonButton size="small" color="" expand="block" href="https://forms.gle/cJYcxvhAH1eR3NGcA" target="_blank" rel="noreferrer"> Need help? Click here to contact!</IonButton>
+            <IonButton size="small" color="danger" expand="block" href="https://mail.gndec.ac.in" target="_blank" rel="noreferrer"> Go to mail.gndec.ac.in</IonButton>
+            <IonButton size="small" color="danger" expand="block" href="https://forms.gle/cJYcxvhAH1eR3NGcA" target="_blank" rel="noreferrer"> Need help? Click here to contact!</IonButton>
             <IonButton
               expand="block"
               onClick={() => setInstructionModal(true)}
-              color=""
+              color="danger"
               size="small"
             >
-              Verification mail not arriving!
+              Issues with Verification Email!
             </IonButton>
           </IonCardContent>
         </IonCard>
