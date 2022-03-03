@@ -38,7 +38,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
             showToast("Incorrect password", 10000);
             break;
           case "EMAIL_ALREADY_USED":
-            showToast("User not found, Sign up!", 10000);
+            showToast("Email Already in use!", 10000);
             break;
           default:
             showToast("Please fill correct information and try again!", 3000)
@@ -54,15 +54,13 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     setLoading(true);
     Axios.post(API.LOGIN, userData)
       .then(({ data }) => {
-        if (data.user.isVerified) {
-          storeUserData({ user: data.user, token: data.token })
-          if (data.user.isAdmin) {
-            router.push("/admin");
-          } else {
-            router.push("/dashboard");
-          }
+        storeUserData({ user: data.user, token: data.token })
+        if (data.user.isAdmin) {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard");
         }
-        else {
+        if (!data.user.isVerified) {
           showToast("Go to mail.gndec.ac.in, open verification mail link and verify your email", 10000)
         }
       })

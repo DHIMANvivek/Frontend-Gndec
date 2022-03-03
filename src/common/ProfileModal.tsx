@@ -37,6 +37,7 @@ export const ProfileModal: React.FC<any> = () => {
     { title: 'Name', value: foundUser?.fullName },
     { title: 'Course', value: mapValue("COURSE", foundUser?.course) },
     { title: 'Branch', value: mapValue("BRANCH", foundUser?.branch) },
+    { title: 'Year', value: mapValue("YEARS", foundUser?.year) },
     { title: 'URN', value: foundUser?.universityRoll },
     { title: 'Email', value: foundUser?.email },
     { title: 'Gender', value: foundUser?.gender },

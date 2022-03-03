@@ -157,6 +157,9 @@ export const mapValue = (key: string, selectedValue: string) => {
     case 'RESULT':
       data = RESULT;
       break;
+    case 'YEARS':
+      data = FIVE_YEARS;
+      break;
     default:
       data = [];
   }
