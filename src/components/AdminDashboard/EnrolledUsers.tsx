@@ -22,7 +22,7 @@ export const EnrolledUsers: React.FC<any> = () => {
     search,
     options: {
       keys: [
-        "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName",
+        "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.year",
         "user.universityRoll", "user.phoneNumber", "user.gender", "user.course", "user.branch"
       ]
     }

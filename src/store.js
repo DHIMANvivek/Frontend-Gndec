@@ -2,6 +2,7 @@
 /* eslint-disable no-param-reassign */
 import { action, createStore, persist } from "easy-peasy";
 import { original } from "immer";
+import { uniqBy } from "lodash";
 
 const store = createStore(
   persist(
@@ -58,7 +59,7 @@ const store = createStore(
       }),
 
       appendAllEvents: action((state, payload) => {
-        state.allEvents = [...state.allEvents, ...payload];
+        state.allEvents = uniqBy([...state.allEvents, ...payload], (event) => event._id);
       }),
 
       deleteEventbyId: action((state, payload) => {
