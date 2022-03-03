@@ -52,13 +52,13 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
 
   useEffect(() => {
     setSelectedEvents(userEvents.map((event: any) => (event.sportId._id)))
-  }, [SPORTS, userEvents])
+  }, [ALL_SPORTS, userEvents])
 
   const enrollUserToEvents = async () => {
     try {
       const serverSports = await (await Axios.get(API.GET_SPORTS)).data;
       const serverUserEvents = await (await Axios.get(API.ME)).data.events;
-      if (isEqual(serverSports, SPORTS) && isEqual(serverUserEvents, userEvents)) {
+      if (isEqual(serverSports, ALL_SPORTS) && isEqual(serverUserEvents, userEvents)) {
         const newEnrollEvents: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
         if (!newEnrollEvents.length) {
           showToast("Please select atleast one event!", 3000);
