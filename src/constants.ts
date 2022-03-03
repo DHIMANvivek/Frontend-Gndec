@@ -49,9 +49,14 @@ export const ATTENDANCE: ConstantData[] = [
 
 export const RESULT: ConstantDataNumber[] = [
   { title: 'None', value: 0 },
-  { title: 'First', value: 1 },
-  { title: 'Second', value: 2 },
-  { title: 'Third', value: 3 },
+  { title: '1st', value: 1 },
+  { title: '2nd', value: 2 },
+  { title: '3rd', value: 3 },
+]
+
+export const QUALIFY: ConstantDataNumber[] = [
+  { title: 'None', value: 0 },
+  { title: 'Qualified', value: 4 },
 ]
 
 export const ATTENDANCE_COLOR: any = {
@@ -101,8 +106,6 @@ export const M_BUSINESS_ADMINISTRATION: ConstantData[] = [
 
 export const SPORT_TYPE = [
   { title: 'Field', value: 'field' },
-  { title: 'Field Semi-Final', value: 'field_semi' },
-  { title: 'Field Final', value: 'field_final' },
   { title: 'Track', value: 'track' },
   { title: 'Tug of war', value: 'tugofwar' },
   { title: 'Relay', value: 'relay' }
@@ -155,6 +158,9 @@ export const mapValue = (key: string, selectedValue: string) => {
     case 'RESULT':
       data = RESULT;
       break;
+    case 'YEARS':
+      data = FIVE_YEARS;
+      break;
     default:
       data = [];
   }
@@ -170,7 +176,7 @@ export const REGEX = {
   PHONE_NUMBER: /^[0-9]{10}$/,
   UNIVERSITY_NO: /^[0-9]{7}$/,
   PASSWORD: /^[\s\S]{8,25}$/,
-  EMAIL: /^[a-zA-Z]+\d{7}@gndec.ac.in$/i
+  EMAIL: /^[a-zA-Z0-9]+@gndec.ac.in$/i
 }
 
 export const mergeSearch = ({ search, data, options: newOptions }: { search: string; data: any, options: any }) => {

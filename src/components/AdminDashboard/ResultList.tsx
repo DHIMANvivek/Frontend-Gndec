@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { IonBadge, IonButton, IonCard, IonContent, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, IonToggle, useIonToast } from "@ionic/react";
+import { IonBadge, IonButton, IonCard, IonContent, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, IonToggle, useIonToast, IonSegment, IonSegmentButton } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { API, GENDER, mapValue, mergeSearch } from "../../constants";
+import { API, GENDER, mapValue, mergeSearch, QUALIFY, RESULT } from "../../constants";
 import Axios from "axios";
 import { americanFootball, callSharp, megaphone, trophyOutline } from "ionicons/icons";
 import { GenderIcon } from "../../common";
@@ -9,6 +9,8 @@ import { Virtuoso } from "react-virtuoso";
 
 export const ResultList: React.FC<any> = ({ view = false }) => {
   const [filterSport, setFilterSport] = useState('none');
+  const [search, setSearch] = useState('');
+  const [result, setResult] = useState<any>([]);
 
   const [showToast] = useIonToast();
   const users = useStoreState<any>(({ users }) => users);
@@ -16,8 +18,6 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const storeAllEvents = useStoreActions<any>(({ storeAllEvents }) => storeAllEvents);
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
-
-  const [search, setSearch] = useState('');
 
   const processedUsers: any = {};
   users.forEach((user: any) => { processedUsers[user._id] = user; });
@@ -31,8 +31,6 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
       return event;
     })
     .filter((event: any) => filterSport === "all" || event.sportId._id === filterSport);
-
-  const [result, setResult] = useState<any>([]);
 
   useEffect(() => {
     setAlreadyResult();
@@ -66,6 +64,8 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
         showToast("Something went wrong!", 3000);
       })
   }
+
+  const selectedSport = sports.find((sport: any) => sport._id === filterSport)
 
   const sortedData = mergeSearch({
     data: processData,
@@ -151,9 +151,9 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
                         <IonLabel>{event.user.phoneNumber}</IonLabel>
                       </IonItem>
                       {!view && (
-                        <IonSelect interface="popover"
+                        <IonSegment
+                          mode="ios"
                           onClick={(e) => e.stopPropagation()}
-                          onIonChange={e => selectResult({ _id: event._id, value: e.detail.value })}
                           value={(() => {
                             const found = result.find((node: any) => node._id === event._id);
                             if (!found) {
@@ -161,13 +161,16 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
                             }
                             return found.value;
                           })()}
+                          onIonChange={e => selectResult({ _id: event._id, value: e.detail.value })}
                         >
-                          <IonSelectOption value={0}>None</IonSelectOption>
-                          <IonSelectOption value={1}>First</IonSelectOption>
-                          <IonSelectOption value={2}>Second</IonSelectOption>
-                          <IonSelectOption value={3}>Third</IonSelectOption>
-                        </IonSelect>
+                          {(selectedSport?.isEndGame ? RESULT : QUALIFY).map(({ title, value }) => (
+                            <IonSegmentButton key={title} value={`${value}`}>
+                              <IonLabel>{title}</IonLabel>
+                            </IonSegmentButton>
+                          ))}
+                        </IonSegment>
                       )}
+
                     </IonCardContent>
                   </IonCard>
                 </IonCol>

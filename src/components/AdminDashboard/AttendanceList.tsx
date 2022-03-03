@@ -53,9 +53,9 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
       });
   }
 
-  const onQRScan = (rollNumber: string) => {
+  const onQRScan = (jerseyNo: string) => {
     if (processEvents.length) {
-      const event = processEvents.find((event: any) => Number(event?.user?.jerseyNo) === Number(rollNumber));
+      const event = processEvents.find((event: any) => Number(event.user.jerseyNo) === Number(jerseyNo));
       const sportName = sports?.find((sport: any) => sport?._id === event?.sportId?._id)?.sportName;
       if (event) {
         showToast(`${event?.user?.fullName} marked present for ${sportName}!`, 3000);

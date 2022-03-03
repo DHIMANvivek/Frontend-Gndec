@@ -16,6 +16,7 @@ export const Profile: React.FC<any> = () => {
     { title: 'Name', value: auth?.user?.fullName },
     { title: 'Course', value: mapValue("COURSE", auth?.user?.course) },
     { title: 'Branch', value: mapValue("BRANCH", auth?.user?.branch) },
+    { title: 'Year', value: mapValue("YEARS", auth?.user?.year) },
     { title: 'URN', value: auth?.user?.universityRoll },
     { title: 'Email', value: auth?.user?.email },
     { title: 'Gender', value: auth?.user?.gender },

@@ -30,10 +30,19 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     Axios.post(API.SIGNUP, userData)
       .then(result => {
         router.push("/login")
-        showToast(`Please verify your email at ${userData.email}!`, 10000)
+        showToast(`You can now login, but you will have to verify your account to enroll in events.`, 10000)
       })
-      .catch(() => {
-        showToast("Something went wrong", 3000)
+      .catch((e) => {
+        switch (e?.response?.data?.message) {
+          case "DATA_MISSING":
+            showToast("Incorrect password", 10000);
+            break;
+          case "EMAIL_ALREADY_USED":
+            showToast("Email Already in use!", 10000);
+            break;
+          default:
+            showToast("Please fill correct information and try again!", 3000)
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -45,20 +54,30 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     setLoading(true);
     Axios.post(API.LOGIN, userData)
       .then(({ data }) => {
-        if (data.user.isVerified) {
-          storeUserData({ user: data.user, token: data.token })
-          if (data.user.isAdmin) {
-            router.push("/admin");
-          } else {
-            router.push("/dashboard");
-          }
+        storeUserData({ user: data.user, token: data.token })
+        if (data.user.isAdmin) {
+          router.push("/admin");
+        } else {
+          router.push("/dashboard");
         }
-        else {
-          showToast("Please verify your email", 3000)
+        if (!data.user.isVerified) {
+          showToast("Go to mail.gndec.ac.in, open verification mail link and verify your email", 10000)
         }
       })
-      .catch(() => {
-        showToast("Something went wrong", 3000)
+      .catch((e) => {
+        switch (e?.response?.data?.message || e?.message) {
+          case "INCORRECT_PASSWORD":
+            showToast("Incorrect password", 10000);
+            break;
+          case "USER_NOT_FOUND":
+            showToast("User not found, Sign up!", 10000);
+            break;
+          case "Network Error":
+            alert("Please check your internet connection!");
+            break;
+          default:
+            showToast("Please fill contact us form!", 3000)
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -72,29 +91,28 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
       error.fullName = "Please enter your name"
     }
     if (!REGEX.EMAIL.test(email)) {
-      error.email = "Please use GNDEC college email"
+      error.email = "Please use GNDEC college Email"
     }
     if (!REGEX.UNIVERSITY_NO.test(universityRoll)) {
-      error.universityRoll = "Please enter valid university rollnumber"
+      error.universityRoll = "Please enter valid 7 digit University Roll Number"
     }
     if (!REGEX.PHONE_NUMBER.test(phoneNumber)) {
-      error.phoneNumber = "Please enter valid phone number"
+      error.phoneNumber = "Please enter valid Phone Number"
     }
     if (!REGEX.PASSWORD.test(password)) {
-      error.password = "Please enter valid password"
+      error.password = "Password must be 8-25 characters long"
     }
     if (!course) {
-      error.course = "Please select your course"
+      error.course = "Please select your Course"
     }
     if (!branch) {
-      error.branch = "Please select your branch"
+      error.branch = "Please select your Branch"
     }
     if (!year) {
-      console.log(year);
-      error.year = "Choose your year"
+      error.year = "Choose your Year"
     }
     if (!gender) {
-      error.gender = "Please select your gender"
+      error.gender = "Please select your Gender"
     }
     return error;
   }

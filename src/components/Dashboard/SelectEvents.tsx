@@ -12,6 +12,10 @@ import {
   useIonToast,
   IonCard,
   IonCardTitle,
+  IonCardHeader,
+  IonCardContent,
+  IonModal,
+  IonCardSubtitle,
 } from "@ionic/react";
 import { API } from "../../constants";
 import Axios from "axios";
@@ -30,6 +34,7 @@ interface SportsData {
 export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
   const [showToast] = useIonToast();
   const [accept, setAccept] = useState(false);
+  const [instructionModal, setInstructionModal] = useState(false);
 
   const ALL_SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
   const SPORTS = ALL_SPORTS.filter((sport: SportsData) => sport.isPublic);
@@ -52,13 +57,13 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
 
   useEffect(() => {
     setSelectedEvents(userEvents.map((event: any) => (event.sportId._id)))
-  }, [SPORTS, userEvents])
+  }, [ALL_SPORTS, userEvents])
 
   const enrollUserToEvents = async () => {
     try {
       const serverSports = await (await Axios.get(API.GET_SPORTS)).data;
       const serverUserEvents = await (await Axios.get(API.ME)).data.events;
-      if (isEqual(serverSports, SPORTS) && isEqual(serverUserEvents, userEvents)) {
+      if (isEqual(serverSports, ALL_SPORTS) && isEqual(serverUserEvents, userEvents)) {
         const newEnrollEvents: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
         if (!newEnrollEvents.length) {
           showToast("Please select atleast one event!", 3000);
@@ -99,6 +104,23 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
         isOpen={loading}
         message={'Hold on... Enjoy the wheater meanwhile!'}
       />
+      <IonModal
+        isOpen={instructionModal}
+      >
+        <IonCardHeader>
+          <h1 style={{ textAlign: "center" }}>Important Instructions ⚠️</h1>
+          <IonCardHeader>
+            <ol>
+              <li style={{ margin: "8px 0" }}>These instrctions are for you if you have not received verification email on your college email account.</li>
+              <li style={{ margin: "8px 0" }}>Go to Help form <a href="https://forms.gle/cJYcxvhAH1eR3NGcA" target="_blank" rel="noreferrer">https://forms.gle/cJYcxvhAH1eR3NGcA</a></li>
+              <li style={{ margin: "8px 0" }}>Fill the option <code style={{ background: "rgba(255,0,0,0.2)" }}>Have you signed up in the Sports Application</code> as Yes</li>
+              <li style={{ margin: "8px 0" }}>Upload the Image of your College ID card or Library card.</li>
+              <li style={{ margin: "8px 0" }}>Sit back and relax. We will get you verified. 🥳</li>
+            </ol>
+          </IonCardHeader>
+          <IonButton onClick={() => setInstructionModal(false)} expand="block">Got it!</IonButton>
+        </IonCardHeader>
+      </IonModal>
       <IonGrid>
         {userEvents.length > 0 && <h1>Enrolled Events</h1>}
         {userEvents.map((node: any) => (
@@ -118,64 +140,90 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
         ))}
       </IonGrid>
       <IonGrid>
-        {/* <h1>Select Events</h1> */}
-        <h3 style={{ fontWeight: "bold" }}>Field Events</h3>
-        <IonRow>
-          {SPORTS.filter(({ sportType, genderCategory }) => sportType === "field" && genderCategory === auth.user?.gender).map((node) => (
-            <IonCol key={node._id}>
-              <IonItem>
-                <IonLabel>{node.sportName}: &nbsp;</IonLabel>
-                <IonCheckbox
-                  value={node._id}
-                  checked={selectedEvents.includes(node._id)}
-                  onClick={() => putSelectedEvents(node._id)}
-                  disabled={
-                    ((disableOn || disableFieldOn2) && !selectedEvents.includes(node._id))
-                    || savedEventsIds.includes(node._id)
-                    || !node.isActive}
-                />
-              </IonItem>
-            </IonCol>
-          ))}
-        </IonRow>
-        <h3 style={{ fontWeight: "bold" }}>Track Events</h3>
-        <IonRow>
-          {SPORTS.filter(({ sportType, genderCategory }) => sportType === "track" && genderCategory === auth.user?.gender).map((node) => (
-            <IonCol key={node._id}>
-              <IonItem lines="full">
-                <IonLabel>{node.sportName}: &nbsp;</IonLabel>
-                <IonCheckbox
-                  value={node._id}
-                  checked={selectedEvents.includes(node._id)}
-                  onClick={() => putSelectedEvents(node._id)}
-                  disabled={
-                    ((disableOn || disableTrackOn2) && !selectedEvents.includes(node._id))
-                    || savedEventsIds.includes(node._id)
-                    || !node.isActive}
-                />
-              </IonItem>
-            </IonCol>
-          ))}
-        </IonRow>
-        <IonCard>
-          <IonCardTitle>
-            <p style={{ color: 'red', marginLeft: '10px' }}>IMPORTANT:</p>
-            <ul style={{ fontSize: "16px", paddingRight: "20px", textAlign: "justify" }}>
-              <li>You can select 3 events atmost. It can be either 2 field events and 1 track events or 1 field event and 2 track events.</li>
-              <li>Choose carefully. You will have to contact sports branch to change events later on.</li>
-              <li>Keep watching Announcements for live updates of sports.</li>
-            </ul>
-            <div style={{ padding: "0 20px 10px 20px" }}>
-              <input type="checkbox" checked={accept} onChange={() => setAccept(!accept)} /> I understand and agree to the above terms and conditions.
-              <IonButton
-                expand="block"
-                slot="end"
-                onClick={enrollUserToEvents}
-                disabled={!accept || savedEventsIds.length >= 3 || loading}
-              >Enroll</IonButton>
-            </div>
-          </IonCardTitle>
-        </IonCard>
+        {!auth?.user?.isVerified ? (
+          <>
+            <IonCardHeader>
+              <IonCardTitle>Uh Oh! Still haven't verified email? ☹️</IonCardTitle>
+              <IonCardSubtitle>Your email is not verified. Go to mail.gndec.ac.in, open the verification email and click on the link to verify your account. You cannot enroll into any event before verifying your email.</IonCardSubtitle>
+            </IonCardHeader>
+            <IonCard>
+              <IonCardHeader>
+                <IonCardTitle>Important Links</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                <IonButton size="small" color="danger" expand="block" href="https://mail.gndec.ac.in" target="_blank" rel="noreferrer"> Go to mail.gndec.ac.in</IonButton>
+                <IonButton size="small" color="danger" expand="block" href="https://forms.gle/cJYcxvhAH1eR3NGcA" target="_blank" rel="noreferrer"> Need help? Click here to contact!</IonButton>
+                <IonButton
+                  expand="block"
+                  onClick={() => setInstructionModal(true)}
+                  color="danger"
+                  size="small"
+                >
+                  Verify with ID, Library Card!
+                </IonButton>
+              </IonCardContent>
+            </IonCard>
+          </>
+        ) : (
+          <>
+            <h3 style={{ fontWeight: "bold" }}>Field Events</h3>
+            <IonRow>
+              {SPORTS.filter(({ sportType, genderCategory }) => sportType === "field" && genderCategory === auth.user?.gender).map((node) => (
+                <IonCol key={node._id}>
+                  <IonItem>
+                    <IonLabel>{node.sportName}: &nbsp;</IonLabel>
+                    <IonCheckbox
+                      value={node._id}
+                      checked={selectedEvents.includes(node._id)}
+                      onClick={() => putSelectedEvents(node._id)}
+                      disabled={
+                        ((disableOn || disableFieldOn2) && !selectedEvents.includes(node._id))
+                        || savedEventsIds.includes(node._id)
+                        || !node.isActive}
+                    />
+                  </IonItem>
+                </IonCol>
+              ))}
+            </IonRow>
+            <h3 style={{ fontWeight: "bold" }}>Track Events</h3>
+            <IonRow>
+              {SPORTS.filter(({ sportType, genderCategory }) => sportType === "track" && genderCategory === auth.user?.gender).map((node) => (
+                <IonCol key={node._id}>
+                  <IonItem lines="full">
+                    <IonLabel>{node.sportName}: &nbsp;</IonLabel>
+                    <IonCheckbox
+                      value={node._id}
+                      checked={selectedEvents.includes(node._id)}
+                      onClick={() => putSelectedEvents(node._id)}
+                      disabled={
+                        ((disableOn || disableTrackOn2) && !selectedEvents.includes(node._id))
+                        || savedEventsIds.includes(node._id)
+                        || !node.isActive}
+                    />
+                  </IonItem>
+                </IonCol>
+              ))}
+            </IonRow>
+            <IonCard>
+              <IonCardTitle>
+                <p style={{ color: 'red', marginLeft: '10px' }}>IMPORTANT:</p>
+                <ul style={{ fontSize: "16px", paddingRight: "20px", textAlign: "justify" }}>
+                  <li>You can select 3 events atmost. It can be either 2 field events and 1 track events or 1 field event and 2 track events.</li>
+                  <li>Choose carefully. You will have to contact sports branch to change events later on.</li>
+                  <li>Keep watching Announcements for live updates of sports.</li>
+                </ul>
+                <div style={{ padding: "0 20px 10px 20px" }}>
+                  <input type="checkbox" checked={accept} onChange={() => setAccept(!accept)} /> I understand and agree to the above terms and conditions.
+                  <IonButton
+                    expand="block"
+                    slot="end"
+                    onClick={enrollUserToEvents}
+                    disabled={!accept || savedEventsIds.length >= 3 || loading}
+                  >Enroll</IonButton>
+                </div>
+              </IonCardTitle>
+            </IonCard>
+          </>)}
       </IonGrid>
     </>
   );
