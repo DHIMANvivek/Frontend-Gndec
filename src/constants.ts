@@ -172,7 +172,7 @@ export const REGEX = {
   PHONE_NUMBER: /^[0-9]{10}$/,
   UNIVERSITY_NO: /^[0-9]{7}$/,
   PASSWORD: /^[\s\S]{8,25}$/,
-  EMAIL: /^[a-zA-Z]+\d{7}@gndec.ac.in$/i
+  EMAIL: /^[a-zA-Z0-9]+@gndec.ac.in$/i
 }
 
 export const mergeSearch = ({ search, data, options: newOptions }: { search: string; data: any, options: any }) => {
