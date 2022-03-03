@@ -14,6 +14,7 @@ export const API = {
   MARK_RESULT: "/event/result",
   DELETE_EVENT: "/event/delete",
   ADD_TEAM: "/event/team",
+  PROMOTE_EVENTS: "/event/promote",
 
   GET_SPORTS: "/sport/fetchAll",
   TOGGLE_SPORT: "/sport/toggle",
@@ -55,6 +56,14 @@ export const RESULT: ConstantDataNumber[] = [
 
 export const QUALIFY: ConstantDataNumber[] = [
   { title: 'None', value: 0 },
+  { title: 'Qualified', value: 4 },
+]
+
+export const USER_RESULT: ConstantDataNumber[] = [
+  { title: 'Participant', value: 0 },
+  { title: '1st', value: 1 },
+  { title: '2nd', value: 2 },
+  { title: '3rd', value: 3 },
   { title: 'Qualified', value: 4 },
 ]
 
@@ -156,6 +165,9 @@ export const mapValue = (key: string, selectedValue: string) => {
       break;
     case 'RESULT':
       data = RESULT;
+      break;
+    case 'USER_RESULT':
+      data = USER_RESULT;
       break;
     case 'YEARS':
       data = FIVE_YEARS;

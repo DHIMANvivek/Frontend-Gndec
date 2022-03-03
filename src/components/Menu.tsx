@@ -20,7 +20,7 @@ import {
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
   newspaperOutline, logoSnapchat, personOutline, personSharp, podiumOutline,
-  podiumSharp, trophyOutline, trophySharp, peopleOutline,
+  podiumSharp, trophyOutline, trophySharp, peopleOutline, trendingUpOutline, trendingUpSharp,
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -104,6 +104,12 @@ export const Menu: React.FC<any> = () => {
       url: '/admin/view-result',
       iosIcon: trophyOutline,
       mdIcon: trophySharp
+    },
+    {
+      title: 'Promote Event',
+      url: '/admin/promote-event',
+      iosIcon: trendingUpOutline,
+      mdIcon: trendingUpSharp
     },
     {
       title: 'Sports List',

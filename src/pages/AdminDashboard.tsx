@@ -5,7 +5,7 @@ import {
 import { useStoreActions, useStoreRehydrated, useStoreState } from 'easy-peasy';
 import Axios from "axios";
 import { API } from "../constants";
-import { AttendanceList, EnrolledUsers, SportsList, UsersList, AnnouncementList, TeamEvent, DevTeam } from "../components/AdminDashboard";
+import { AttendanceList, EnrolledUsers, SportsList, UsersList, AnnouncementList, TeamEvent, DevTeam, PromoteEvent } from "../components/AdminDashboard";
 import { ResultList } from "../components/AdminDashboard/ResultList";
 import { PageLayout } from "./Page";
 import { ProfileModal } from "../common";
@@ -107,6 +107,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       {page === 'view-attendance' && <AttendanceList view={true} />}
       {page === 'mark-result' && <ResultList />}
       {page === 'view-result' && <ResultList view={true} />}
+      {page === 'promote-event' && <PromoteEvent />}
       {page === 'announcements' && <AnnouncementList />}
       {page === 'team' && <TeamEvent />}
       {page === 'dev-team' && <DevTeam />}

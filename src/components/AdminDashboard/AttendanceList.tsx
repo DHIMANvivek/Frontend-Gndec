@@ -88,7 +88,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
     data: processEvents,
     search,
     options: {
-      keys: ["user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll",
+      keys: ["user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll", "user.year",
         "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"]
     }
   });
