@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {
   IonChip, IonIcon, IonItem, IonLabel, IonLoading, IonNote, IonCol, IonCard, IonCardHeader, useIonAlert, useIonToast, IonButton, IonCardContent
 } from "@ionic/react";
-import { closeCircle, americanFootball, sad, medal, ribbon, } from "ionicons/icons";
+import { closeCircle, americanFootball, sad, medal, ribbon, create } from "ionicons/icons";
 import { ATTENDANCE_COLOR, mapValue, API } from "../constants";
 import Axios from "axios";
 import { useStoreActions, useStoreState } from "easy-peasy";
@@ -76,11 +76,6 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
           <IonCard className="ion-activatable ripple-parent">
             <IonCardHeader>
               <IonItem color="transparent" lines="none">
-                <IonNote slot="start">
-                  <IonChip color={ATTENDANCE_COLOR[attendance]}>
-                    <IonLabel>{mapValue("ATTENDANCE", attendance)}</IonLabel>
-                  </IonChip>
-                </IonNote>
                 {(mapValue("ATTENDANCE", attendance) !== "Present" && auth?.user?.isAdmin) && (
                   <IonButton
                     slot="end"
@@ -92,7 +87,7 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
                         { text: "No" }
                       ])
                     }}>
-                    Remove Enrollment
+                    Remove
                     <IonIcon
                       slot="end"
                       icon={closeCircle}
@@ -110,6 +105,10 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
               <IonItem color="transparent" lines="none">
                 <IonIcon slot="start" icon={ribbon} color={genderWiseColor} />
                 <IonLabel>{sportName}</IonLabel>
+              </IonItem>
+              <IonItem color="transparent" lines="none">
+                <IonIcon slot="start" icon={create} color={genderWiseColor} />
+                <IonLabel color={ATTENDANCE_COLOR[attendance]}>{mapValue("ATTENDANCE", attendance)}</IonLabel>
               </IonItem>
               {mapValue("ATTENDANCE", attendance) !== 'Not Marked' && (
                 <IonItem color="transparent" lines="none">
