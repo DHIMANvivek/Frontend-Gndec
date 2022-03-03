@@ -54,11 +54,21 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
           }
         }
         else {
-          showToast("Please verify your email", 3000)
+          showToast("Please verify your email", 10000)
         }
       })
-      .catch(() => {
-        showToast("Something went wrong", 3000)
+      .catch((e) => {
+        console.dir(e)
+        switch (e?.response?.data?.message) {
+          case "INCORRECT_PASSWORD":
+            showToast("Incorrect password", 10000);
+            break;
+          case "USER_NOT_FOUND":
+            showToast("User not found, Sign up!", 10000);
+            break;
+          default:
+            showToast("Please fill contact us form!", 3000)
+        }
       })
       .finally(() => {
         setLoading(false);
