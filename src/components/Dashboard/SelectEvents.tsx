@@ -159,7 +159,7 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
                   color="danger"
                   size="small"
                 >
-                  Verification mail not arriving!
+                  Verify with ID, Library Card!
                 </IonButton>
               </IonCardContent>
             </IonCard>
