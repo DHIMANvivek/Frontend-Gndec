@@ -45,15 +45,17 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
   const [selectedEvents, setSelectedEvents] = useState<any>([]);
   const [loading, setLoading] = useState(false);
 
-  const allSelectedEvents: SportsData[] = selectedEvents
+  const allSelectedSports: SportsData[] = selectedEvents
     .map((eve: string) => SPORTS.find((node) => (node._id === eve)));
-  const fieldEventCount = allSelectedEvents.filter((event) => event?.sportType === "field").length;
-  const trackEventCount = allSelectedEvents.filter((event) => event?.sportType === "track").length;
+  const fieldSportCount = allSelectedSports.filter((sport) => sport?.sportType === "field").length;
+  const trackSportCount = allSelectedSports.filter((sport) => sport?.sportType === "track").length;
 
-  const savedEventsIds = userEvents.map((node: any) => (node.sportId._id))
-  const disableOn = (fieldEventCount === 2 && trackEventCount === 1) || (fieldEventCount === 1 && trackEventCount === 2)
-  const disableFieldOn2 = fieldEventCount === 2;
-  const disableTrackOn2 = trackEventCount === 2;
+  const disableOn = (fieldSportCount === 2 && trackSportCount === 1) || (fieldSportCount === 1 && trackSportCount === 2)
+  const disableFieldOn2 = fieldSportCount === 2;
+  const disableTrackOn2 = trackSportCount === 2;
+
+  const savedEventsIds = userEvents.map((node: any) => (node.sportId._id)).filter((node: any) => node);
+  const newEnrollSports: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
 
   useEffect(() => {
     setSelectedEvents(userEvents.map((event: any) => (event.sportId._id)))
@@ -64,13 +66,13 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
       const serverSports = await (await Axios.get(API.GET_SPORTS)).data;
       const serverUserEvents = await (await Axios.get(API.ME)).data.events;
       if (isEqual(serverSports, ALL_SPORTS) && isEqual(serverUserEvents, userEvents)) {
-        const newEnrollEvents: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
-        if (!newEnrollEvents.length) {
+        const newEnrollSports: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
+        if (!newEnrollSports.length) {
           showToast("Please select atleast one event!", 3000);
           return;
         }
         setLoading(true)
-        Axios.post(API.ENROLL_EVENTS, { sportIds: newEnrollEvents })
+        Axios.post(API.ENROLL_EVENTS, { sportIds: newEnrollSports })
           .then(({ data }) => {
             storeUserEvents(data.events);
             showToast("Successfully enrolled the events!", 3000)
@@ -218,7 +220,7 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
                     expand="block"
                     slot="end"
                     onClick={enrollUserToEvents}
-                    disabled={!accept || savedEventsIds.length >= 3 || loading}
+                    disabled={!accept || !newEnrollSports.length || loading}
                   >Enroll</IonButton>
                 </div>
               </IonCardTitle>

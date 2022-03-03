@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import React, { useState } from "react";
 import {
-  IonChip, IonIcon, IonItem, IonLabel, IonLoading, IonNote, IonCol, IonCard, IonCardHeader, useIonAlert, useIonToast, IonButton, IonCardContent
+  IonIcon, IonItem, IonLabel, IonLoading, IonCol, IonCard, IonCardHeader, useIonAlert, useIonToast, IonButton, IonCardContent
 } from "@ionic/react";
 import { closeCircle, americanFootball, sad, medal, ribbon, create } from "ionicons/icons";
 import { ATTENDANCE_COLOR, mapValue, API } from "../constants";
@@ -42,24 +42,26 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
   }
 
   const bakePosition = (pos: any) => {
+    let theme = genderWiseColor;
+    let icon = pos === 0 ? sad : medal;
     switch (pos) {
       case 1:
-        return (
-          PositionEventComponent(medal, "gold", "1st")
-        );
+        theme = "gold";
+        break;
       case 2:
-        return (
-          PositionEventComponent(medal, "silver", "2nd")
-        );
+        theme = "silver";
+        break;
       case 3:
-        return (
-          PositionEventComponent(medal, "bronze", "3rd")
-        );
+        theme = "bronze";
+        break;
+      case 4:
+        theme = genderWiseColor;
+        break;
       default:
-        return (
-          PositionEventComponent(sad, genderWiseColor, "Participant")
-        );;
+        theme = genderWiseColor;
+        break;
     }
+    return PositionEventComponent(icon, theme, mapValue("USER_RESULT", pos))
   }
 
   return (
@@ -74,8 +76,10 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
             <h2 color="primary">Team: {mapValue("BRANCH", branch)}</h2>
           }
           <IonCard className="ion-activatable ripple-parent">
-            <IonCardHeader>
+            <IonCardContent>
               <IonItem color="transparent" lines="none">
+                <IonIcon slot="start" icon={americanFootball} color={genderWiseColor} />
+                <IonLabel>{mapValue("SPORT_TYPE", sportType)}</IonLabel>
                 {(mapValue("ATTENDANCE", attendance) !== "Present" && auth?.user?.isAdmin) && (
                   <IonButton
                     slot="end"
@@ -95,12 +99,6 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
                     />
                   </IonButton>
                 )}
-              </IonItem>
-            </IonCardHeader>
-            <IonCardContent>
-              <IonItem color="transparent" lines="none">
-                <IonIcon slot="start" icon={americanFootball} color={genderWiseColor} />
-                <IonLabel>{mapValue("SPORT_TYPE", sportType)}</IonLabel>
               </IonItem>
               <IonItem color="transparent" lines="none">
                 <IonIcon slot="start" icon={ribbon} color={genderWiseColor} />
