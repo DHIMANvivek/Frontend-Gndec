@@ -145,7 +145,7 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
         {!auth?.user?.isVerified ? (
           <>
             <IonCardHeader>
-              <IonCardTitle>Uh Oh! You account is not verified</IonCardTitle>
+              <IonCardTitle>Uh Oh! Your account is not verified</IonCardTitle>
               <IonCardSubtitle>Either you can verify your account with the link sent to your college email or you can verify your account with college ID, Library card. You cannot enroll into any event before verifying your account.</IonCardSubtitle>
             </IonCardHeader>
             <IonCard>
