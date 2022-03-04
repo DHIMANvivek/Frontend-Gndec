@@ -38,10 +38,13 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
             showToast("Incorrect password", 10000);
             break;
           case "EMAIL_ALREADY_USED":
-            showToast("Email Already in use!", 10000);
+            showToast("Email already in use!", 10000);
+            break;
+          case "URN_ALREADY_USED":
+            showToast("University Roll Number already in use!", 10000);
             break;
           default:
-            showToast("Please fill correct information and try again!", 3000)
+            showToast("Please fill your correct information and try again!", 3000)
         }
       })
       .finally(() => {
