@@ -61,7 +61,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
           router.push("/dashboard");
         }
         if (!data.user.isVerified) {
-          showToast("Go to mail.gndec.ac.in, open verification mail link and verify your email", 10000)
+          showToast("Now login to the app and follow further instructions", 10000)
         }
       })
       .catch((e) => {
