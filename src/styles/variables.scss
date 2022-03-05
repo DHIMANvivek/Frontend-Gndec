@@ -386,3 +386,22 @@ ion-segment-button {
   --padding-start: 0;
   --padding-end: 0;
 }
+
+ion-alert {
+  --min-width: 480px !important;
+
+  @include tablet {
+    --min-width: 320px !important;
+  }
+
+  .alert-radio-group {
+    max-height: 800px !important;
+  }
+
+  .select-interface-option {
+
+    .alert-radio-label {
+      padding-left: 36px;
+    }
+  }
+}

@@ -27,7 +27,6 @@ interface SportsData {
   sportName: string,
   sportType: string,
   genderCategory: string,
-  isPublic: boolean,
   isActive: boolean,
 }
 
@@ -36,8 +35,7 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
   const [accept, setAccept] = useState(false);
   const [instructionModal, setInstructionModal] = useState(false);
 
-  const ALL_SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
-  const SPORTS = ALL_SPORTS.filter((sport: SportsData) => sport.isPublic);
+  const SPORTS: SportsData[] = useStoreState<any>(({ sports }) => sports);
   const auth = useStoreState<any>(({ auth }) => auth);
   const userEvents = useStoreState<any>(({ userEvents }) => userEvents);
   const storeUserEvents = useStoreActions<any>((actions) => actions.storeUserEvents);
@@ -59,13 +57,13 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
 
   useEffect(() => {
     setSelectedEvents(userEvents.map((event: any) => (event.sportId._id)))
-  }, [ALL_SPORTS, userEvents])
+  }, [SPORTS, userEvents])
 
   const enrollUserToEvents = async () => {
     try {
       const serverSports = await (await Axios.get(API.GET_SPORTS)).data;
       const serverUserEvents = await (await Axios.get(API.ME)).data.events;
-      if (isEqual(serverSports, ALL_SPORTS) && isEqual(serverUserEvents, userEvents)) {
+      if (isEqual(serverSports, SPORTS) && isEqual(serverUserEvents, userEvents)) {
         const newEnrollSports: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
         if (!newEnrollSports.length) {
           showToast("Please select atleast one event!", 3000);

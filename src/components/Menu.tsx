@@ -105,12 +105,12 @@ export const Menu: React.FC<any> = () => {
       iosIcon: trophyOutline,
       mdIcon: trophySharp
     },
-    {
-      title: 'Promote Event',
-      url: '/admin/promote-event',
-      iosIcon: trendingUpOutline,
-      mdIcon: trendingUpSharp
-    },
+    // {
+    //   title: 'Promote Event',
+    //   url: '/admin/promote-event',
+    //   iosIcon: trendingUpOutline,
+    //   mdIcon: trendingUpSharp
+    // },
     {
       title: 'Sports List',
       url: '/admin/sports',
@@ -123,12 +123,12 @@ export const Menu: React.FC<any> = () => {
       iosIcon: listCircle,
       mdIcon: newspaperOutline
     },
-    {
-      title: 'Team Events',
-      url: '/admin/team',
-      iosIcon: logoSnapchat,
-      mdIcon: logoSnapchat
-    },
+    // {
+    //   title: 'Team Events',
+    //   url: '/admin/team',
+    //   iosIcon: logoSnapchat,
+    //   mdIcon: logoSnapchat
+    // },
     {
       title: 'Dev Team',
       url: '/admin/dev-team',

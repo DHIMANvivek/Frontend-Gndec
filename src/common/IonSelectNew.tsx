@@ -22,7 +22,7 @@ export const IonSelectNew: React.FC<IProps> = ({ title, value, onChange, data, e
       <IonItem>
         <IonLabel position='floating'>{title}</IonLabel>
         <IonSelect
-          interface="popover"
+          interface="alert"
           value={value}
           onIonChange={(e) => onChange(e.detail.value)}
         >

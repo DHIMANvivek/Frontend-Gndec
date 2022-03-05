@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState } from "react";
-import { IonBadge, IonCard, IonCardContent, IonSegment, IonSegmentButton, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, useIonToast } from "@ionic/react";
+import { IonBadge, IonCard, IonCardContent, IonSegment, IonSegmentButton, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, useIonToast, IonChip } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, GENDER, mapValue, ATTENDANCE, mergeSearch } from "../../constants";
 import Axios from "axios";
@@ -26,7 +26,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
 
   const processEvents = allEvents
     .map((event: any) => ({ ...event, user: objectifiedUsers[event.userId] }))
-    .filter((event: any) => event.sportId._id === filterSport);
+    .filter((event: any) => event?.sportId?._id === filterSport);
 
   const markAttendance = (attendance: any, id: string) => {
     setIsLoading(true);
@@ -65,13 +65,15 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
       }
     }
   }
-
   const sortedData = mergeSearch({
     data: processEvents,
     search,
+    sort: (a: any, b: any) => {
+      return a?.user?.jerseyNo - b?.user?.jerseyNo;
+    },
     options: {
       keys: ["user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll", "user.year",
-        "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"]
+        "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"],
     }
   });
 
@@ -81,8 +83,8 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
             <IonSelect
-              interface="popover"
-              style={{ width: "100%" }}
+              interface="alert"
+              style={{ width: "100%", maxWidth: "100%" }}
               value={filterSport}
               onIonChange={(e) => setFilterSport(e.detail.value)}
             >

@@ -55,17 +55,11 @@ export const RESULT: ConstantDataNumber[] = [
   { title: '3rd', value: 3 },
 ]
 
-export const QUALIFY: ConstantDataNumber[] = [
-  { title: 'None', value: 0 },
-  { title: 'Qualified', value: 4 },
-]
-
 export const USER_RESULT: ConstantDataNumber[] = [
   { title: 'Participant', value: 0 },
   { title: '1st', value: 1 },
   { title: '2nd', value: 2 },
   { title: '3rd', value: 3 },
-  { title: 'Qualified', value: 4 },
 ]
 
 export const ATTENDANCE_COLOR: any = {
@@ -92,7 +86,14 @@ export const BRANCH: ConstantData[] = [
   { title: 'Mechanical Engineering', value: 'me' },
   { title: 'Civil Engineering', value: 'ce' },
   { title: 'Production Engineering', value: 'pe' },
+
+  { title: 'B.Arch', value: 'b_arch' },
+  { title: 'BCA', value: 'bca' },
+  { title: 'MCA', value: 'mca' },
+  { title: 'BBA', value: 'bba' },
+  { title: 'MBA', value: 'mba' },
 ];
+
 export const ARCHITECTURE: ConstantData[] = [
   { title: 'Bachelor of Architecture', value: 'b_arch' },
 ]
@@ -191,7 +192,7 @@ export const REGEX = {
   EMAIL: /^[a-zA-Z0-9]+@gndec.ac.in$/i
 }
 
-export const mergeSearch = ({ search, data, options: newOptions }: { search: string; data: any, options: any }) => {
+export const mergeSearch = ({ search, data, options: newOptions, sort = () => { } }: { search: string; data: any, options: any, sort?: any }) => {
   const options = {
     // isCaseSensitive: false,
     // includeScore: false,
@@ -210,8 +211,8 @@ export const mergeSearch = ({ search, data, options: newOptions }: { search: str
   const fuse = new Fuse(data, options);
   const searchedItems = fuse.search(search).map((node) => node.item);
   if (searchedItems.length) {
-    const allOtherObjects = difference(data, searchedItems);
-    return [...searchedItems.map((node: any) => ({ ...node, isSearched: true })), ...allOtherObjects]
+    const allOtherObjects = (difference(data, searchedItems));
+    return [...searchedItems.map((node: any) => ({ ...node, isSearched: true })), ...(allOtherObjects.sort(sort))]
   }
-  return data;
+  return data.sort(sort);
 }

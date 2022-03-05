@@ -107,7 +107,7 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       {page === 'view-attendance' && <AttendanceList view={true} />}
       {page === 'mark-result' && <ResultList />}
       {page === 'view-result' && <ResultList view={true} />}
-      {page === 'promote-event' && <PromoteEvent />}
+      {/* {page === 'promote-event' && <PromoteEvent />} */}
       {page === 'announcements' && <AnnouncementList />}
       {page === 'team' && <TeamEvent />}
       {page === 'dev-team' && <DevTeam />}

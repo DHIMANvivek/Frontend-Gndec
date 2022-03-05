@@ -91,8 +91,8 @@ export const TeamEvent: React.FC<any> = () => {
           >
             <IonItem>
               <IonSelect
-                interface="popover"
-                style={{ width: "100%" }}
+                interface="alert"
+                style={{ width: "100%", maxWidth: "100%" }}
                 value={filterSport}
                 onIonChange={(e) => setFilterSport(e.detail.value)}
               >
