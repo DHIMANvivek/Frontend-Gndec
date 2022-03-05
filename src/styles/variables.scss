@@ -269,6 +269,15 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-tint: #d99e3a;
 }
 
+.ion-color-green {
+  --ion-color-base: #006600;
+  --ion-color-base-rgb: 0, 102, 0;
+  --ion-color-contrast: #ffffff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: #005a00;
+  --ion-color-tint: #1a751a;
+}
+
 $mobile-small: 365px;
 $mobile: 550px;
 $mobile-large: 581px;
