@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IonCard, IonCardContent, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonRow, IonSelect, IonSelectOption, IonCheckbox, useIonToast, useIonAlert } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { SPORT_TYPE, mapValue, GENDER, mergeSearch, API } from "../../constants";
@@ -51,10 +51,8 @@ export const SportsList: React.FC<any> = () => {
         setLoading(false);
       });
   }
-
-  const countSportIds = allEvents.map((event: any) => {
-    return event?.sportId?._id;
-  });
+  const countSportIds: any = useMemo(() => allEvents.map((event: any) => (event?.sportId?._id)), [allEvents]);
+  const countSportIdsObject = useMemo(() => countBy(countSportIds), [countSportIds]);
   return (
     <>
       <IonLoading
@@ -133,7 +131,7 @@ export const SportsList: React.FC<any> = () => {
                       <IonItem color={color} lines="none">
                         <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={accessibility} />
                         <IonLabel >
-                          {countBy(countSportIds)[sport._id] || 0} Users
+                          {countSportIdsObject[sport._id] || 0} Users
                         </IonLabel>
                         <IonCheckbox slot="end" checked={sport.isActive}
                           onClick={() => {
