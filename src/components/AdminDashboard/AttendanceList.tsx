@@ -184,15 +184,17 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
               )
             }}
           />
-          <IonFab vertical="bottom" horizontal="end" slot="fixed">
-            <IonFabButton>
-              <IonIcon icon={caretUp} />
-            </IonFabButton>
-            <IonFabList side="top">
-              <IonFabButton onClick={() => setIsModal(true)}><IonIcon icon={reader} /></IonFabButton>
-              <IonFabButton><IonIcon icon={skull} /></IonFabButton>
-            </IonFabList>
-          </IonFab>
+          {filterSport !== "none" && (
+            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+              <IonFabButton>
+                <IonIcon icon={caretUp} />
+              </IonFabButton>
+              <IonFabList side="top">
+                <IonFabButton onClick={() => setIsModal(true)}><IonIcon icon={reader} /></IonFabButton>
+                <IonFabButton><IonIcon icon={skull} /></IonFabButton>
+              </IonFabList>
+            </IonFab>
+          )}
         </IonContent>
       </IonRow>
       <IonGrid>
