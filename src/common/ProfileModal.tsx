@@ -37,6 +37,7 @@ export const ProfileModal: React.FC<any> = () => {
   const [showToast] = useIonToast();
 
   const users = useStoreState<any>(({ users }) => users);
+  const auth = useStoreState<any>(({ auth }) => auth);
   const { storeUsers } = useStoreActions<any>((actions) => actions);
   const [loading, setLoading] = useState(false);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
@@ -128,7 +129,7 @@ export const ProfileModal: React.FC<any> = () => {
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
               <h1 style={{ textAlign: "center", fontWeight: "bold", margin: "0" }}>Personal Information</h1>
 
-              {[1, 2].includes(foundUser?.adminLevel) && <IonFabButton size="small" color="danger" onClick={setUpdate}>
+              {[1, 2].includes(auth?.user?.adminLevel) && <IonFabButton size="small" color="danger" onClick={setUpdate}>
                 {isUpdating ? (
                   <IonIcon icon={checkmarkSharp}></IonIcon>
                 ) : (
