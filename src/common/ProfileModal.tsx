@@ -18,6 +18,7 @@ import {
   useIonToast,
   IonGrid,
   IonRow,
+  useIonAlert,
 } from "@ionic/react";
 import { pencil, checkmarkSharp } from "ionicons/icons";
 import QRCode from "react-qr-code";
@@ -29,6 +30,7 @@ import Axios from "axios";
 
 export const ProfileModal: React.FC<any> = () => {
   const modalRef = useRef<any>();
+  const [showAlert] = useIonAlert();
   const [isUpdating, setIsUpdating] = useState<any>(false);
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
   const [showToast] = useIonToast();
@@ -143,7 +145,12 @@ export const ProfileModal: React.FC<any> = () => {
                 <IonItem>
                   <IonLabel>Verified</IonLabel>
                   {!foundUser?.isVerified ? (
-                    <IonButton color="danger" size="small" onClick={verifyUser}>Verify Now!</IonButton>
+                    <IonButton color="danger" size="small" onClick={() => {
+                      showAlert(`Do you want to verify ${foundUser?.fullName}?`, [
+                        { text: "Yes", handler: () => verifyUser() },
+                        { text: "No" },
+                      ]);
+                    }}>Verify Now!</IonButton>
                   ) : (
                     <IonNote slot="end">{foundUser?.isVerified ? 'Yes' : 'No'}</IonNote>
                   )}
