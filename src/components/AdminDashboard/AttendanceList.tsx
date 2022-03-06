@@ -111,7 +111,6 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
 
   const currentSport = sports?.find((sport: any) => sport?._id === filterSport);
   const attendanceColor: any = { present: "success", absent: "danger", not_marked: "medium" };
-  const attendanceIcon: any = { present: checkmarkCircle, absent: closeCircle, not_marked: ellipseSharp };
   return (
     <IonGrid className="h-full flex-column">
       <IonRow>
@@ -309,7 +308,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                         )}
                       </IonLabel>
                     </IonListHeader>
-                    {view && (<IonIcon color={attendanceColor[event.attendance]} icon={attendanceIcon[event.attendance]} slot="end" />)}
+                    {view && (<IonIcon color={attendanceColor[event.attendance]} icon={ellipseSharp} slot="end" />)}
                   </IonItem>
                 )
               }}
