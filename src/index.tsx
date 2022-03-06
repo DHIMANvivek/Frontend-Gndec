@@ -15,7 +15,11 @@ if (isPlatform("android")) {
 
 ReactDOM.render(
   <StoreProvider store={store}>
-    <App />
+    {process.env.REACT_APP_MAINTAINANCE_MODE ?
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', width: '100vw', margin: 'auto' }}>
+        We are under Maintainance and will be back soon!
+      </div> :
+      <App />}
   </StoreProvider>,
   document.getElementById('root')
 );
