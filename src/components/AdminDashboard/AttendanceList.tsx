@@ -6,7 +6,7 @@ import {
   IonCardSubtitle, IonCardTitle, IonCol, IonGrid,
   IonIcon, IonInput, IonItem, IonLabel,
   IonRippleEffect, IonRow, IonSelect, IonSelectOption,
-  IonText, useIonToast, IonFab, IonFabButton, IonFabList, IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonList, IonListHeader
+  IonText, useIonToast, IonFab, IonFabButton, IonFabList, IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonList, IonListHeader, useIonAlert
 } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, GENDER, mapValue, ATTENDANCE, mergeSearch } from "../../constants";
@@ -15,7 +15,7 @@ import {
   americanFootball, callSharp, caretUp, checkmarkCircle, closeCircle,
   ellipseSharp, megaphone, qrCodeOutline, reader, skull
 } from "ionicons/icons";
-import { GenderIcon, Excel } from "../../common";
+import { GenderIcon } from "../../common";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 import { Virtuoso } from "react-virtuoso";
 
@@ -24,6 +24,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   const [isModal, setIsModal] = useState(false);
   const [filterSport, setFilterSport] = useState('none');
 
+  const [showAlert] = useIonAlert();
   const [showToast] = useIonToast();
   const users = useStoreState<any>(({ users }) => users);
   const sports = useStoreState<any>(({ sports }) => sports);
@@ -65,6 +66,24 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
       });
   }
 
+  const markAllUnmarkedAbsent = () => {
+    Axios.post(API.MARK_UNMARKED_ABSENT, { sportId: filterSport })
+      .then(({ data }) => {
+        const absentEventIds = data.eventIds.map((event: any) => event._id);
+        const updatedAllEvents: any = allEvents.map((event: any) => {
+          if (absentEventIds.includes(event._id)) {
+            event.attendance = "absent";
+          }
+          return event;
+        });
+        storeAllEvents(updatedAllEvents);
+        showToast("Successfully updated `Not Marked` students to `Absent`!", 3000);
+      })
+      .catch(() => {
+        showToast("Something went wrong!", 3000);
+      })
+  }
+
   const onQRScan = (jerseyNo: string) => {
     if (processEvents.length) {
       const event = processEvents.find((event: any) => Number(event.user.jerseyNo) === Number(jerseyNo));
@@ -93,7 +112,6 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   return (
     <IonGrid className="h-full flex-column">
       <IonRow>
-        <Excel />
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
             <IonSelect
@@ -195,7 +213,12 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
               </IonFabButton>
               <IonFabList side="top">
                 <IonFabButton onClick={() => setIsModal(true)}><IonIcon icon={reader} /></IonFabButton>
-                <IonFabButton><IonIcon icon={skull} /></IonFabButton>
+                <IonFabButton
+                  onClick={() => showAlert("Update all `Not Marked` students to Absent for this sport event?", [
+                    { text: "Yes", handler: () => markAllUnmarkedAbsent() },
+                    { text: "No", handler: () => { } }
+                  ])}
+                ><IonIcon icon={skull} /></IonFabButton>
               </IonFabList>
             </IonFab>
           )}

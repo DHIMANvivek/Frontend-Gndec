@@ -389,11 +389,16 @@ $desktop-large: 1840px;
   }
 }
 
+ion-segment {
+  outline: 4px solid #eee;
+}
+
 ion-segment-button {
   min-width: unset;
   min-height: 36px;
   --padding-start: 0;
   --padding-end: 0;
+  margin: 0;
 }
 
 ion-alert {

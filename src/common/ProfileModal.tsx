@@ -70,10 +70,10 @@ export const ProfileModal: React.FC<any> = () => {
           {userEvents.map((node: any) => (
             <EnrolledItem
               key={node._id}
-              sportType={node.sportId.sportType}
+              sportType={node?.sportId?.sportType}
               branch={foundUser?.branch}
-              sportName={node.sportId.sportName}
-              genderCategory={node.sportId.genderCategory}
+              sportName={node?.sportId?.sportName}
+              genderCategory={node?.sportId?.genderCategory}
               position={node.position}
               attendance={node.attendance}
               eventId={node._id}
