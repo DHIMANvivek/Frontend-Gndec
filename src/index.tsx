@@ -3,15 +3,15 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { isPlatform, setupConfig, getPlatforms } from '@ionic/react';
+// import { isPlatform, setupConfig, getPlatforms } from '@ionic/react';
 
 import store from './store';
 import { StoreProvider } from 'easy-peasy';
 
-console.log(getPlatforms())
-if (isPlatform("android")) {
-  setupConfig({ mode: 'ios' });
-}
+// console.log(getPlatforms())
+// if (isPlatform("android")) {
+//   setupConfig({ mode: 'ios' });
+// }
 
 ReactDOM.render(
   <StoreProvider store={store}>

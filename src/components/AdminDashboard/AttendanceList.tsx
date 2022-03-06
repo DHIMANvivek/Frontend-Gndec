@@ -1,17 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
-import { IonBadge, IonCard, IonCardContent, IonSegment, IonSegmentButton, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, useIonToast } from "@ionic/react";
+import React, { useRef, useState } from "react";
+import {
+  IonBadge, IonCard, IonCardContent, IonSegment,
+  IonSegmentButton, IonContent, IonCardHeader,
+  IonCardSubtitle, IonCardTitle, IonCol, IonGrid,
+  IonIcon, IonInput, IonItem, IonLabel,
+  IonRippleEffect, IonRow, IonSelect, IonSelectOption,
+  IonText, useIonToast, IonFab, IonFabButton, IonFabList, IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonList, IonListHeader, useIonAlert
+} from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, GENDER, mapValue, ATTENDANCE, mergeSearch } from "../../constants";
 import Axios from "axios";
-import { americanFootball, callSharp, megaphone, qrCodeOutline } from "ionicons/icons";
+import {
+  americanFootball, callSharp, caretUp, checkmarkCircle, closeCircle,
+  ellipseSharp, megaphone, qrCodeOutline, reader, skull
+} from "ionicons/icons";
 import { GenderIcon } from "../../common";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 import { Virtuoso } from "react-virtuoso";
 
 export const AttendanceList: React.FC<any> = ({ view = false }) => {
+  const modalRef = useRef<any>();
+  const [isModal, setIsModal] = useState(false);
   const [filterSport, setFilterSport] = useState('none');
 
+  const [showAlert] = useIonAlert();
   const [showToast] = useIonToast();
   const users = useStoreState<any>(({ users }) => users);
   const sports = useStoreState<any>(({ sports }) => sports);
@@ -26,7 +39,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
 
   const processEvents = allEvents
     .map((event: any) => ({ ...event, user: objectifiedUsers[event.userId] }))
-    .filter((event: any) => event.sportId._id === filterSport);
+    .filter((event: any) => event?.sportId?._id === filterSport);
 
   const markAttendance = (attendance: any, id: string) => {
     setIsLoading(true);
@@ -53,6 +66,24 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
       });
   }
 
+  const markAllUnmarkedAbsent = () => {
+    Axios.post(API.MARK_UNMARKED_ABSENT, { sportId: filterSport })
+      .then(({ data }) => {
+        const absentEventIds = data.eventIds.map((event: any) => event._id);
+        const updatedAllEvents: any = allEvents.map((event: any) => {
+          if (absentEventIds.includes(event._id)) {
+            event.attendance = "absent";
+          }
+          return event;
+        });
+        storeAllEvents(updatedAllEvents);
+        showToast("Successfully updated `Not Marked` students to `Absent`!", 3000);
+      })
+      .catch(() => {
+        showToast("Something went wrong!", 3000);
+      })
+  }
+
   const onQRScan = (jerseyNo: string) => {
     if (processEvents.length) {
       const event = processEvents.find((event: any) => Number(event.user.jerseyNo) === Number(jerseyNo));
@@ -65,24 +96,27 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
       }
     }
   }
-
   const sortedData = mergeSearch({
     data: processEvents,
     search,
+    sort: (a: any, b: any) => {
+      return a?.user?.jerseyNo - b?.user?.jerseyNo;
+    },
     options: {
       keys: ["user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.universityRoll", "user.year",
-        "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"]
+        "user.phoneNumber", "user.gender", "user.course", "user.branch", "attendance"],
     }
   });
 
+  const currentSport = sports?.find((sport: any) => sport?._id === filterSport);
   return (
     <IonGrid className="h-full flex-column">
       <IonRow>
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
             <IonSelect
-              interface="popover"
-              style={{ width: "100%" }}
+              interface="alert"
+              style={{ width: "100%", maxWidth: "100%" }}
               value={filterSport}
               onIonChange={(e) => setFilterSport(e.detail.value)}
             >
@@ -171,14 +205,114 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                 </IonCol>
               )
             }}
-          ></Virtuoso>
+          />
+          {filterSport !== "none" && (
+            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+              <IonFabButton>
+                <IonIcon icon={caretUp} />
+              </IonFabButton>
+              <IonFabList side="top">
+                <IonFabButton onClick={() => setIsModal(true)}><IonIcon icon={reader} /></IonFabButton>
+                <IonFabButton
+                  onClick={() => showAlert("Update all `Not Marked` students to Absent for this sport event?", [
+                    { text: "Yes", handler: () => markAllUnmarkedAbsent() },
+                    { text: "No", handler: () => { } }
+                  ])}
+                ><IonIcon icon={skull} /></IonFabButton>
+              </IonFabList>
+            </IonFab>
+          )}
         </IonContent>
       </IonRow>
       <IonGrid>
         {filterSport === "none" && <IonText color="danger">Please select an event to view the list</IonText>}
         {filterSport !== "none" && processEvents.length === 0 && <IonText color="danger">No records found</IonText>}
       </IonGrid>
-      {/* TO DO: Badge should be created here again in Modal or something like that */}
+
+      <IonModal ref={modalRef} isOpen={isModal} onDidDismiss={() => setIsModal(false)}>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="end">
+              <IonButton onClick={() => modalRef.current.dismiss()}>
+                <IonIcon slot="icon-only" icon={closeCircle} />
+              </IonButton>
+            </IonButtons>
+            <IonTitle style={{ textAlign: "center" }}>
+              {`Attendance ${currentSport?.sportName} (${mapValue("GENDER", currentSport?.genderCategory)})`}
+            </IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonItem>
+          <IonInput
+            onIonChange={(e: any) => setSearch(e.detail.value)}
+            placeholder="Search"
+            clearInput
+          />
+          {filterSport !== "none" && (
+            <IonIcon icon={qrCodeOutline}
+              onClick={async () => {
+                const data = await BarcodeScanner.scan();
+                if (data.format === "QR_CODE") {
+                  onQRScan(data.text)
+                }
+              }}
+            />
+          )}
+        </IonItem>
+        <IonContent className="h-full">
+          <IonList className="h-full" style={{ padding: 0 }}>
+            <Virtuoso
+              style={{ height: '100%' }}
+              totalCount={sortedData.length}
+              itemContent={index => {
+                const event = sortedData[index];
+                return (
+                  <IonItem
+                    style={{ display: "flex", flexDirection: "column" }}
+                    onClick={() => updateModalProfileId(event?.user?._id)}
+                  >
+                    <IonListHeader>
+                      <IonLabel style={{ padding: "12px 0" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between" }}>
+                          <h2 style={{ marginRight: "24px", fontWeight: "bold" }}>Jersey {event?.user?.jerseyNo}</h2>
+                          <h2 style={{ textTransform: "capitalize" }}>{event?.user?.fullName}</h2>
+                        </div>
+                        {!view && (
+                          <IonSegment
+                            mode="ios"
+                            onClick={(e) => e.stopPropagation()}
+                            value={event.attendance}
+                            disabled={isLoading}
+                            style={{ marginTop: "12px" }}
+                          >
+                            {ATTENDANCE.map((attendance: any) => (
+                              <IonSegmentButton
+                                key={attendance.value}
+                                value={attendance.value}
+                                onClick={() => markAttendance(attendance.value, event._id)}
+                              >
+                                <IonLabel>{attendance.title}</IonLabel>
+                              </IonSegmentButton>
+                            ))}
+                          </IonSegment>
+                        )}
+                      </IonLabel>
+                    </IonListHeader>
+                    {view && (
+                      <>
+                        {event.attendance === "present" && <IonIcon color="green" icon={checkmarkCircle} slot="end" />}
+                        {event.attendance === "absent" && <IonIcon color="danger" icon={closeCircle} slot="end" />}
+                        {event.attendance === "not_marked" && <IonIcon color="medium" icon={ellipseSharp} slot="end" />}
+                      </>
+                    )}
+                  </IonItem>
+                )
+              }}
+            />
+          </IonList>
+        </IonContent>
+      </IonModal>
+
     </IonGrid >
   );
 };

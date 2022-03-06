@@ -6,3 +6,4 @@ export { AnnouncementList } from "./AnnouncementList"
 export { TeamEvent } from "./TeamEvent";
 export { DevTeam } from './DevTeam';
 export { PromoteEvent } from './PromoteEvent';
+export { ExcelExport } from "./ExcelExport";

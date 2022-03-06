@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { IonCard, IonCardContent, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonLoading, IonRow, IonSelect, IonSelectOption, IonCheckbox, useIonToast, useIonAlert } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { SPORT_TYPE, mapValue, GENDER, mergeSearch, API } from "../../constants";
-import { americanFootball, female, male, megaphone } from "ionicons/icons";
+import { accessibility, americanFootball, female, male, megaphone } from "ionicons/icons";
 import Axios from "axios";
+import { countBy } from "lodash";
 
 export const SportsList: React.FC<any> = () => {
   const [showAlert] = useIonAlert();
   const [showToast] = useIonToast();
   const sports = useStoreState<any>(({ sports }) => sports);
+  const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const storeSports = useStoreActions<any>((actions) => actions.storeSports);
   const [filterSportType, setFilterSportType] = useState('all');
   const [filterGender, setFilterGender] = useState('all');
@@ -49,7 +51,8 @@ export const SportsList: React.FC<any> = () => {
         setLoading(false);
       });
   }
-
+  const countSportIds: any = useMemo(() => allEvents.map((event: any) => (event?.sportId?._id)), [allEvents]);
+  const countSportIdsObject = useMemo(() => countBy(countSportIds), [countSportIds]);
   return (
     <>
       <IonLoading
@@ -63,7 +66,7 @@ export const SportsList: React.FC<any> = () => {
               <IonRow>
                 <IonCol>
                   <IonSelect
-                    interface="popover"
+                    interface="alert"
                     value={filterSportType}
                     onIonChange={(e) => setFilterSportType(e.detail.value)}
                   >
@@ -73,7 +76,7 @@ export const SportsList: React.FC<any> = () => {
                 </IonCol>
                 <IonCol>
                   <IonSelect
-                    interface="popover"
+                    interface="alert"
                     value={filterGender}
                     onIonChange={(e) => setFilterGender(e.detail.value)}
                   >
@@ -104,7 +107,7 @@ export const SportsList: React.FC<any> = () => {
               const color = sport.isSearched ? "light" : "";
               const isMale = sport.genderCategory === GENDER[1].value
               return (
-                <IonCol key={sport._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
+                <IonCol key={sport._id} sizeXl="4" sizeLg="6" sizeMd="6" sizeSm="12" size="12">
                   <IonCard color={color}>
                     <IonCardContent color={color}>
                       <IonItem color={color} lines="none">
@@ -112,15 +115,6 @@ export const SportsList: React.FC<any> = () => {
                         <IonLabel >
                           {sport.sportName}
                         </IonLabel>
-                        {sport.isPublic && (
-                          <IonCheckbox slot="end" checked={sport.isActive}
-                            onClick={() => {
-                              showAlert("Remove from Team?", [
-                                { text: "Yes", handler: () => toggleSport(sport._id, !sport.isActive) },
-                                { text: "No", handler: () => getSports() }
-                              ])
-                            }} />
-                        )}
                       </IonItem>
                       <IonItem color={color} lines="none">
                         <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={megaphone} />
@@ -133,6 +127,19 @@ export const SportsList: React.FC<any> = () => {
                         <IonLabel >
                           {sport.genderCategory}
                         </IonLabel>
+                      </IonItem>
+                      <IonItem color={color} lines="none">
+                        <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={accessibility} />
+                        <IonLabel >
+                          {countSportIdsObject[sport._id] || 0} Users
+                        </IonLabel>
+                        <IonCheckbox slot="end" checked={sport.isActive}
+                          onClick={() => {
+                            showAlert(`${!sport.isActive ? "Enable" : "Disable"} ${sport.sportName}`, [
+                              { text: "Yes", handler: () => toggleSport(sport._id, !sport.isActive) },
+                              { text: "No", handler: () => getSports() }
+                            ])
+                          }} />
                       </IonItem>
                     </IonCardContent>
                   </IonCard>

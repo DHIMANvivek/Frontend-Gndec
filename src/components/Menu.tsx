@@ -19,8 +19,8 @@ import {
   checkmarkDoneOutline, checkmarkDoneSharp, checkmarkOutline,
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
-  newspaperOutline, logoSnapchat, personOutline, personSharp, podiumOutline,
-  podiumSharp, trophyOutline, trophySharp, peopleOutline, trendingUpOutline, trendingUpSharp,
+  newspaperOutline, personOutline, personSharp, podiumOutline,
+  podiumSharp, trophyOutline, trophySharp, peopleOutline, downloadOutline, download,
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -105,12 +105,12 @@ export const Menu: React.FC<any> = () => {
       iosIcon: trophyOutline,
       mdIcon: trophySharp
     },
-    {
-      title: 'Promote Event',
-      url: '/admin/promote-event',
-      iosIcon: trendingUpOutline,
-      mdIcon: trendingUpSharp
-    },
+    // {
+    //   title: 'Promote Event',
+    //   url: '/admin/promote-event',
+    //   iosIcon: trendingUpOutline,
+    //   mdIcon: trendingUpSharp
+    // },
     {
       title: 'Sports List',
       url: '/admin/sports',
@@ -123,11 +123,17 @@ export const Menu: React.FC<any> = () => {
       iosIcon: listCircle,
       mdIcon: newspaperOutline
     },
+    // {
+    //   title: 'Team Events',
+    //   url: '/admin/team',
+    //   iosIcon: logoSnapchat,
+    //   mdIcon: logoSnapchat
+    // },
     {
-      title: 'Team Events',
-      url: '/admin/team',
-      iosIcon: logoSnapchat,
-      mdIcon: logoSnapchat
+      title: 'Export',
+      url: '/admin/excel',
+      iosIcon: download,
+      mdIcon: downloadOutline
     },
     {
       title: 'Dev Team',

@@ -62,8 +62,8 @@ export const PromoteEvent: React.FC<any> = () => {
         <IonCol sizeXl="4" sizeLg="3" sizeSm="12" sizeXs="12">
           <IonItem>
             <IonSelect
-              interface="popover"
-              style={{ width: "100%" }}
+              interface="alert"
+              style={{ width: "100%", maxWidth: "100%" }}
               value={sourceSport}
               onIonChange={(e) => setSourceSport(e.detail.value)}
             >
@@ -77,7 +77,7 @@ export const PromoteEvent: React.FC<any> = () => {
         <IonCol sizeXl="4" sizeLg="3" sizeSm="12" sizeXs="12">
           <IonItem>
             <IonSelect
-              interface="popover"
+              interface="alert"
               style={{ width: "100%" }}
               value={targetSport}
               onIonChange={(e) => setTargetSport(e.detail.value)}

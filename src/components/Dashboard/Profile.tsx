@@ -4,6 +4,8 @@ import {
   IonItem,
   IonLabel,
   IonNote,
+  IonRow,
+  IonCol,
 } from "@ionic/react";
 import QRCode from "react-qr-code";
 import { useStoreState } from "easy-peasy";
@@ -26,18 +28,22 @@ export const Profile: React.FC<any> = () => {
 
   return (
     <IonGrid>
-      {profileData.map(({ title, value }) => (
-        <IonItem key={title}>
-          <IonLabel>{title}</IonLabel>
-          <IonNote slot="end">{value}</IonNote>
-        </IonItem>
-      ))}
-      <IonItem style={{ padding: "24px 0" }}>
-        <div style={{ display: "flex", flexDirection: "column", margin: "auto" }}>
-          <h2 style={{ textAlign: 'center' }}>Chest Number QR</h2>
-          <QRCode size={256} value={`${auth?.user?.jerseyNo}`} style={{ margin: "24px auto" }}></QRCode>
-        </div>
-      </IonItem>
+      <IonRow>
+        <IonCol>
+          {profileData.map(({ title, value }) => (
+            <IonItem key={title}>
+              <IonLabel>{title}</IonLabel>
+              <IonNote slot="end">{value}</IonNote>
+            </IonItem>
+          ))}
+          <IonItem style={{ padding: "24px 0" }}>
+            <div style={{ display: "flex", flexDirection: "column", margin: "auto" }}>
+              <h2 style={{ textAlign: 'center' }}>Chest Number QR</h2>
+              <QRCode size={256} value={`${auth?.user?.jerseyNo}`} style={{ margin: "24px auto" }}></QRCode>
+            </div>
+          </IonItem>
+        </IonCol>
+      </IonRow>
     </IonGrid>
   );
 };

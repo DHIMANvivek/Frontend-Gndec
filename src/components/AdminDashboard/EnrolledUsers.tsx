@@ -20,6 +20,9 @@ export const EnrolledUsers: React.FC<any> = () => {
   const sortedData = mergeSearch({
     data: processData,
     search,
+    sort: (a: any, b: any) => {
+      return a?.user?.jerseyNo - b?.user?.jerseyNo;
+    },
     options: {
       keys: [
         "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.year",

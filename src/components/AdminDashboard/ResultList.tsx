@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IonBadge, IonButton, IonCard, IonContent, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonChip, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRippleEffect, IonRow, IonSelect, IonSelectOption, IonText, IonToggle, useIonToast, IonSegment, IonSegmentButton } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import { API, GENDER, mapValue, mergeSearch, QUALIFY, RESULT } from "../../constants";
+import { API, GENDER, mapValue, mergeSearch, RESULT } from "../../constants";
 import Axios from "axios";
 import { americanFootball, callSharp, megaphone, trophyOutline } from "ionicons/icons";
 import { GenderIcon } from "../../common";
@@ -30,7 +30,7 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
       }
       return event;
     })
-    .filter((event: any) => filterSport === "all" || event.sportId._id === filterSport);
+    .filter((event: any) => filterSport === "all" || event?.sportId?._id === filterSport);
 
   useEffect(() => {
     setAlreadyResult();
@@ -70,6 +70,9 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
   const sortedData = mergeSearch({
     data: processData,
     search,
+    sort: (a: any, b: any) => {
+      return a.user.jerseyNo - b.user.jerseyNo;
+    },
     options: {
       keys: [
         "user.jerseyNo", "sportId.sportName", "sportId.sportType", "user.fullName", "user.year",
@@ -84,8 +87,8 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
             <IonSelect
-              interface="popover"
-              style={{ width: "100%" }}
+              interface="alert"
+              style={{ width: "100%", maxWidth: "100%" }}
               value={filterSport}
               onIonChange={(e) => setFilterSport(e.detail.value)}
             >
@@ -163,14 +166,13 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
                           })()}
                           onIonChange={e => selectResult({ _id: event._id, value: e.detail.value })}
                         >
-                          {(selectedSport?.isEndGame ? RESULT : QUALIFY).map(({ title, value }) => (
+                          {RESULT.map(({ title, value }) => (
                             <IonSegmentButton key={title} value={`${value}`}>
                               <IonLabel>{title}</IonLabel>
                             </IonSegmentButton>
                           ))}
                         </IonSegment>
                       )}
-
                     </IonCardContent>
                   </IonCard>
                 </IonCol>
@@ -183,28 +185,25 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
         {filterSport === "none" && <IonText color="danger">Please select an sport to view the list</IonText>}
         {filterSport !== "none" && processData.length === 0 && <IonText color="danger">No records found</IonText>}
       </IonGrid>
-      {/* {processData.length !== 0 && (
-        <IonGrid>
+      {processData.length !== 0 && (
+        <IonGrid style={{ width: "100%" }}>
           <IonLabel>Final Result</IonLabel>
           <IonRow>
             {processData.map((event: any) => {
               const position = result.find((node: any) => event._id === node._id)?.value;
-              return position ? (
+              return (position > 0 && position < 4) ? (
                 <IonBadge
                   key={event._id}
                   style={{ margin: 3 }}
                   color="success"
                 >
-                  {`Jersey ${event.user.jerseyNo} : `}
-                  {[...Array.from({ length: position }, (_, i) => i + 1)].map((node) => (
-                    <IonIcon key={node} icon={trophyOutline}></IonIcon>
-                  ))}
+                  {`Jersey ${event.user.jerseyNo} : ${mapValue("RESULT", position)}`}
                 </IonBadge>
               ) : " "
             })}
           </IonRow>
         </IonGrid>
-      )} */}
+      )}
       {!view && processData.length !== 0 && <IonButton expand="block" onClick={markResult}>Save Result</IonButton>}
     </IonGrid >
   );
