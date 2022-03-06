@@ -16,6 +16,8 @@ import {
   IonLoading,
   IonInput,
   useIonToast,
+  IonGrid,
+  IonRow,
 } from "@ionic/react";
 import { pencil, checkmarkSharp } from "ionicons/icons";
 import QRCode from "react-qr-code";
@@ -78,18 +80,24 @@ export const ProfileModal: React.FC<any> = () => {
 
   const setUpdate = () => {
     if (isUpdating && password.length > 0) {
-      setLoading(true);
-      Axios.post(API.UPDATE_USER, { userId: foundUser?._id, password })
-        .then(() => {
-          showToast({ color: "primary", message: "Password has been changed!", duration: 3000 });
-        })
-        .catch(() => {
-          showToast({ color: "danger", message: "Something went wrong changing password!", duration: 3000 });
-        })
-        .finally(() => {
-          setLoading(false);
-          setPassword("");
-        });
+      if (password.length > 7 && password.length < 26) {
+        setLoading(true);
+        Axios.post(API.UPDATE_USER, { userId: foundUser?._id, password })
+          .then(() => {
+            showToast({ color: "primary", message: "Password has been changed!", duration: 3000 });
+          })
+          .catch(() => {
+            showToast({ color: "danger", message: "Something went wrong changing password!", duration: 3000 });
+          })
+          .finally(() => {
+            setLoading(false);
+            setPassword("");
+          });
+      }
+      else {
+        showToast({ color: "danger", message: "Password must be 8 to 25 characters long!", duration: 3000 });
+        setPassword("");
+      }
     }
     setIsUpdating(!isUpdating);
   }
@@ -123,45 +131,49 @@ export const ProfileModal: React.FC<any> = () => {
               )}
             </IonFabButton>
           </div>
-          <IonCol>
-            {profileData.map(({ title, value }) => (
-              <IonItem key={title}>
-                <IonLabel>{title}</IonLabel>
-                <IonNote slot="end">{value}</IonNote>
-              </IonItem>
-            ))}
-            <IonItem>
-              <IonLabel>Verified</IonLabel>
-              {!foundUser?.isVerified ? (
-                <IonButton color="danger" size="small" onClick={verifyUser}>Verify Now!</IonButton>
-              ) : (
-                <IonNote slot="end">{foundUser?.isVerified ? 'Yes' : 'No'}</IonNote>
-              )}
-            </IonItem>
-            {isUpdating && (
-              <IonItem>
-                <IonLabel>Password</IonLabel>
-                <IonInput placeholder="New Password" slot="end" value={password} onIonChange={e => setPassword(e.detail.value)} />
-              </IonItem>
-            )}
-            <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Enrolled Events</h1>
-            {userEvents.map((node: any) => (
-              <EnrolledItem
-                key={node?._id}
-                sportType={node?.sportId?.sportType}
-                branch={foundUser?.branch}
-                sportName={node?.sportId?.sportName}
-                genderCategory={node?.sportId?.genderCategory}
-                position={node?.position}
-                attendance={node?.attendance}
-                eventId={node?._id}
-              />
-            ))}
-            <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Jersy QR Code</h1>
-            <IonItem style={{ padding: "24px 0" }}>
-              <QRCode size={256} value={`${foundUser?.jerseyNo}`} style={{ margin: "24px auto" }}></QRCode>
-            </IonItem>
-          </IonCol>
+          <IonGrid>
+            <IonRow>
+              <IonCol>
+                {profileData.map(({ title, value }) => (
+                  <IonItem key={title}>
+                    <IonLabel>{title}</IonLabel>
+                    <IonNote slot="end">{value}</IonNote>
+                  </IonItem>
+                ))}
+                <IonItem>
+                  <IonLabel>Verified</IonLabel>
+                  {!foundUser?.isVerified ? (
+                    <IonButton color="danger" size="small" onClick={verifyUser}>Verify Now!</IonButton>
+                  ) : (
+                    <IonNote slot="end">{foundUser?.isVerified ? 'Yes' : 'No'}</IonNote>
+                  )}
+                </IonItem>
+                {isUpdating && (
+                  <IonItem>
+                    <IonLabel>Password</IonLabel>
+                    <IonInput placeholder="New Password" slot="end" value={password} onIonChange={e => setPassword(e.detail.value)} />
+                  </IonItem>
+                )}
+                {!!userEvents.length && <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Enrolled Events</h1>}
+                {userEvents.map((node: any) => (
+                  <EnrolledItem
+                    key={node?._id}
+                    sportType={node?.sportId?.sportType}
+                    branch={foundUser?.branch}
+                    sportName={node?.sportId?.sportName}
+                    genderCategory={node?.sportId?.genderCategory}
+                    position={node?.position}
+                    attendance={node?.attendance}
+                    eventId={node?._id}
+                  />
+                ))}
+                <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Jersy QR Code</h1>
+                <IonItem style={{ padding: "24px 0" }}>
+                  <QRCode size={256} value={`${foundUser?.jerseyNo}`} style={{ margin: "24px auto" }}></QRCode>
+                </IonItem>
+              </IonCol>
+            </IonRow>
+          </IonGrid>
         </IonContent>
       </IonModal>
     </>

@@ -274,7 +274,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                     <IonListHeader>
                       <IonLabel style={{ padding: "12px 0" }}>
                         <div style={{ display: "flex", justifyContent: "space-between" }}>
-                          <h2 style={{ marginRight: "24px" }}>Jersey {event?.user?.jerseyNo}</h2>
+                          <h2 style={{ marginRight: "24px", fontWeight: "bold" }}>Jersey {event?.user?.jerseyNo}</h2>
                           <h2 style={{ textTransform: "capitalize" }}>{event?.user?.fullName}</h2>
                         </div>
                         {!view && (
