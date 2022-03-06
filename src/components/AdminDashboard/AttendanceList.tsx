@@ -6,13 +6,16 @@ import {
   IonCardSubtitle, IonCardTitle, IonCol, IonGrid,
   IonIcon, IonInput, IonItem, IonLabel,
   IonRippleEffect, IonRow, IonSelect, IonSelectOption,
-  IonText, useIonToast, IonFab, IonFabButton, IonFabList, IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonList, IonToggle, IonListHeader
+  IonText, useIonToast, IonFab, IonFabButton, IonFabList, IonModal, IonHeader, IonToolbar, IonButtons, IonButton, IonTitle, IonList, IonListHeader
 } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, GENDER, mapValue, ATTENDANCE, mergeSearch } from "../../constants";
 import Axios from "axios";
-import { americanFootball, callSharp, caretUp, checkmarkCircle, closeCircle, closeOutline, ellipseSharp, logoVimeo, megaphone, qrCodeOutline, reader, share, skull } from "ionicons/icons";
-import { GenderIcon } from "../../common";
+import {
+  americanFootball, callSharp, caretUp, checkmarkCircle, closeCircle,
+  ellipseSharp, megaphone, qrCodeOutline, reader, skull
+} from "ionicons/icons";
+import { GenderIcon, Excel } from "../../common";
 import { BarcodeScanner } from "@ionic-native/barcode-scanner";
 import { Virtuoso } from "react-virtuoso";
 
@@ -90,6 +93,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   return (
     <IonGrid className="h-full flex-column">
       <IonRow>
+        <Excel />
         <IonCol sizeXl="8" sizeLg="6" sizeSm="12" sizeXs="12">
           <IonItem>
             <IonSelect

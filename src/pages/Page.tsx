@@ -17,6 +17,7 @@ const TOOLBAR_TITLE: any = {
   "/admin/mark-result": "Mark Result",
   "/admin/view-result": "View Result",
   // "/admin/promote-event": "Promote Event",
+  "/admin/excel": "Export",
   "/admin/sports": "Sports List",
   "/admin/announcements": "Announcements",
   "/admin/team": "Team Events",

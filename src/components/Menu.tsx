@@ -19,8 +19,8 @@ import {
   checkmarkDoneOutline, checkmarkDoneSharp, checkmarkOutline,
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
-  newspaperOutline, logoSnapchat, personOutline, personSharp, podiumOutline,
-  podiumSharp, trophyOutline, trophySharp, peopleOutline, trendingUpOutline, trendingUpSharp,
+  newspaperOutline, personOutline, personSharp, podiumOutline,
+  podiumSharp, trophyOutline, trophySharp, peopleOutline, downloadOutline, download,
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -129,6 +129,12 @@ export const Menu: React.FC<any> = () => {
     //   iosIcon: logoSnapchat,
     //   mdIcon: logoSnapchat
     // },
+    {
+      title: 'Export',
+      url: '/admin/excel',
+      iosIcon: download,
+      mdIcon: downloadOutline
+    },
     {
       title: 'Dev Team',
       url: '/admin/dev-team',
