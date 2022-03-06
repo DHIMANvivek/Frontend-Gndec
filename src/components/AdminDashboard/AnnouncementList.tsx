@@ -31,7 +31,7 @@ import {
   IonLoading,
 } from "@ionic/react";
 import { API } from "../../constants";
-import { add, closeCircle, createOutline } from "ionicons/icons";
+import { add, closeCircle } from "ionicons/icons";
 import { useStoreActions, useStoreState } from "easy-peasy";
 
 export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
@@ -41,6 +41,7 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
 
   const storeAnnouncement = useStoreActions<any>((actions) => actions.storeAnnouncement);
   const announcements = useStoreState<any>(({ announcements }) => announcements);
+  const auth = useStoreState<any>(({ auth }) => auth);
 
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -106,7 +107,7 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
         isOpen={loading}
         message={'Hold on... Enjoy the wheater meanwhile!'}
       />
-      {!isPublic && (
+      {!isPublic && [1].includes(auth?.user?.adminLevel) && (
         <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton onClick={() => setIsOpen(true)}>
             <IonIcon icon={add} />
@@ -122,7 +123,7 @@ export const AnnouncementList: React.FC<any> = ({ isPublic }) => {
                 <IonCardHeader>
                   <IonItem color="transparent" lines="none">
                     <IonCardTitle>{announcement.announcementTitle}</IonCardTitle>
-                    {!isPublic && (
+                    {!isPublic && [1].includes(auth?.user?.adminLevel) && (
                       <>
                         <IonIcon
                           slot="end"

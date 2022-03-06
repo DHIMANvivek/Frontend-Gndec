@@ -19,6 +19,7 @@ import {
   IonGrid,
   IonRow,
   useIonAlert,
+  IonCardHeader,
 } from "@ionic/react";
 import { pencil, checkmarkSharp } from "ionicons/icons";
 import QRCode from "react-qr-code";
@@ -123,16 +124,20 @@ export const ProfileModal: React.FC<any> = () => {
               <IonTitle>Profile</IonTitle>
             </IonToolbar>
           </IonHeader>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <h1 style={{ textAlign: "center", fontWeight: "bold", margin: "0" }}>Personal Information</h1>
-            <IonFabButton size="small" color="danger" onClick={setUpdate}>
-              {isUpdating ? (
-                <IonIcon icon={checkmarkSharp}></IonIcon>
-              ) : (
-                <IonIcon icon={pencil}></IonIcon>
-              )}
-            </IonFabButton>
-          </div>
+          <IonCardHeader>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <h1 style={{ textAlign: "center", fontWeight: "bold", margin: "0" }}>Personal Information</h1>
+
+              {[1, 2].includes(foundUser?.adminLevel) && <IonFabButton size="small" color="danger" onClick={setUpdate}>
+                {isUpdating ? (
+                  <IonIcon icon={checkmarkSharp}></IonIcon>
+                ) : (
+                  <IonIcon icon={pencil}></IonIcon>
+                )}
+              </IonFabButton>
+              }
+            </div>
+          </IonCardHeader>
           <IonGrid>
             <IonRow>
               <IonCol>

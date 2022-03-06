@@ -66,7 +66,25 @@ export const Menu: React.FC<any> = () => {
     },
   ];
 
-  const appAdminPages: AppPage[] = [
+  const markAttendance = () => {
+    return [1, 2, 3].includes(auth?.user?.adminLevel) ? {
+      title: 'Mark Attendance',
+      url: '/admin/mark-attendance',
+      iosIcon: checkmarkOutline,
+      mdIcon: checkmarkSharp
+    } : null;
+  };
+
+  const markResult = () => {
+    return [1].includes(auth?.user?.adminLevel) ? {
+      title: 'Mark Result',
+      url: '/admin/mark-result',
+      iosIcon: podiumOutline,
+      mdIcon: podiumSharp
+    } : null;
+  };
+
+  const appAdminPages: any = [
     {
       title: 'Admin Home',
       url: '/admin',
@@ -81,24 +99,14 @@ export const Menu: React.FC<any> = () => {
       mdIcon: gameControllerSharp,
       badge: allEvents.length
     },
-    {
-      title: 'Mark Attendance',
-      url: '/admin/mark-attendance',
-      iosIcon: checkmarkOutline,
-      mdIcon: checkmarkSharp
-    },
+    markAttendance(),
     {
       title: 'View Attendance',
       url: '/admin/view-attendance',
       iosIcon: checkmarkDoneOutline,
       mdIcon: checkmarkDoneSharp
     },
-    {
-      title: 'Mark Result',
-      url: '/admin/mark-result',
-      iosIcon: podiumOutline,
-      mdIcon: podiumSharp
-    },
+    markResult(),
     {
       title: 'View Result',
       url: '/admin/view-result',
@@ -141,7 +149,7 @@ export const Menu: React.FC<any> = () => {
       iosIcon: peopleOutline,
       mdIcon: peopleOutline
     },
-  ];
+  ].filter((page) => page);
 
   return (
     <IonMenu contentId="main" type="overlay" disabled={pathname === "/login" || pathname === "/signup"} className="side-bar">
@@ -149,7 +157,7 @@ export const Menu: React.FC<any> = () => {
         <IonList id="inbox-list">
           <IonListHeader>{auth.user?.fullName}</IonListHeader>
           <IonNote>{auth.user?.email}</IonNote>
-          {(auth.user?.isAdmin ? appAdminPages : appPages).map((appPage, index) => {
+          {(auth.user?.isAdmin ? appAdminPages : appPages).map((appPage: any, index: any) => {
             return (
               <IonMenuToggle key={index} autoHide={false}>
                 <IonItem className={pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
