@@ -89,12 +89,6 @@ export const BRANCH: ConstantData[] = [
   { title: 'Mechanical Engineering', value: 'me' },
   { title: 'Civil Engineering', value: 'ce' },
   { title: 'Production Engineering', value: 'pe' },
-
-  { title: 'B.Arch', value: 'b_arch' },
-  { title: 'BCA', value: 'bca' },
-  { title: 'MCA', value: 'mca' },
-  { title: 'BBA', value: 'bba' },
-  { title: 'MBA', value: 'mba' },
 ];
 
 export const ARCHITECTURE: ConstantData[] = [
@@ -163,7 +157,14 @@ export const mapValue = (key: string, selectedValue: string) => {
       data = COURSE;
       break;
     case 'BRANCH':
-      data = BRANCH;
+      data = [
+        ...BRANCH,
+        ...ARCHITECTURE,
+        ...B_COMPUTER_APPLICATION,
+        ...M_COMPUTER_APPLICATION,
+        ...B_BUSINESS_ADMINISTRATION,
+        ...M_BUSINESS_ADMINISTRATION
+      ];
       break;
     case 'SPORT_TYPE':
       data = SPORT_TYPE;
