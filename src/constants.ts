@@ -7,6 +7,8 @@ export const API = {
   ME: "/me",
 
   ALL_USERS: "/users",
+  UPDATE_USER: "/user/update",
+  VERIFY_USER: "/verify",
 
   ENROLL_EVENTS: "/event/create",
   GET_ENROLLMENTS: "/event/fetchAll",
