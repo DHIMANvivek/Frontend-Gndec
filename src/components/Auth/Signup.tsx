@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonButton,
   IonCard,
@@ -39,6 +39,8 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
   const [gender, setGender] = useState("");
   const [acknowledgement, setAcknowledgement] = useState(false);
   const [error, setError] = useState<any>({})
+
+  useEffect(() => setBranch(""), [course])
 
   const getBranchCourse = (selectedCourse: any) => {
     switch (selectedCourse) {
