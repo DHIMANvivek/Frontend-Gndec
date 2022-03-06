@@ -20,7 +20,7 @@ import {
   checkmarkSharp, gameControllerOutline, gameControllerSharp,
   homeOutline, homeSharp, listCircle, listOutline,
   newspaperOutline, personOutline, personSharp, podiumOutline,
-  podiumSharp, trophyOutline, trophySharp, peopleOutline, downloadOutline, download,
+  podiumSharp, trophyOutline, trophySharp, peopleOutline, downloadOutline, download, analyticsOutline, analyticsSharp,
 } from 'ionicons/icons';
 
 interface AppPage {
@@ -67,6 +67,12 @@ export const Menu: React.FC<any> = () => {
   ];
 
   const appAdminPages: AppPage[] = [
+    {
+      title: 'Analytics',
+      url: '/admin/analytics',
+      iosIcon: analyticsOutline,
+      mdIcon: analyticsSharp,
+    },
     {
       title: 'Admin Home',
       url: '/admin',

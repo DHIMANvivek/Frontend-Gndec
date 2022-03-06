@@ -236,10 +236,12 @@ http://ionicframework.com/docs/theming/ */
 // }
 
 .ion-color-pink {
-  --ion-color-base: #F06292 !important;
-  --ion-color-base-rgb: var(--ion-color-success-rgb, 45, 211, 111) !important;
-  --ion-color-contrast: var(--ion-color-success-contrast, #fff) !important;
-  --ion-color-contrast-rgb: var(--ion-color-success-contrast-rgb, 255, 255, 255) !important;
+  --ion-color-base: #F06292;
+  --ion-color-base-rgb: 240, 98, 146;
+  --ion-color-contrast: #fff;
+  --ion-color-contrast-rgb: 255, 255, 255;
+  --ion-color-shade: #d35680;
+  --ion-color-tint: #f2729d;
 }
 
 .ion-color-gold {

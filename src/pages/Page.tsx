@@ -10,6 +10,7 @@ const TOOLBAR_TITLE: any = {
   "/dashboard/announcements": "Announcements",
   "/dashboard/dev-team": "Dev Team",
 
+  '/admin/analytics': "Analytics",
   "/admin": "Admin Dashboard",
   "/admin/enrolled": "Enrolled Users",
   "/admin/mark-attendance": "Mark Attendance",
