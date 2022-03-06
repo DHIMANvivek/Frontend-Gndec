@@ -14,8 +14,10 @@ import {
   IonTitle,
   IonToolbar,
   IonLoading,
+  IonInput,
+  useIonToast,
 } from "@ionic/react";
-import { pencil } from "ionicons/icons";
+import { pencil, checkmarkSharp } from "ionicons/icons";
 import QRCode from "react-qr-code";
 import { mapValue, API } from "../constants";
 import { closeCircle } from "ionicons/icons";
@@ -27,8 +29,10 @@ export const ProfileModal: React.FC<any> = () => {
   const modalRef = useRef<any>();
   const [isUpdating, setIsUpdating] = useState<any>(false);
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
+  const [showToast] = useIonToast();
 
   const users = useStoreState<any>(({ users }) => users);
+  const { storeUsers } = useStoreActions<any>((actions) => actions);
   const [loading, setLoading] = useState(false);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const modalProfileId = useStoreState<any>(({ modalProfileId }) => modalProfileId);
@@ -37,6 +41,7 @@ export const ProfileModal: React.FC<any> = () => {
   users.forEach((user: any) => { objectifiedUsers[user._id] = user; });
 
   const foundUser = objectifiedUsers[modalProfileId];
+  const [password, setPassword] = useState<any>("");
 
   const profileData = [
     { title: 'Name', value: foundUser?.fullName },
@@ -54,14 +59,40 @@ export const ProfileModal: React.FC<any> = () => {
     setLoading(true);
     Axios.post(API.VERIFY_USER, { userId: foundUser?._id })
       .then(() => {
-        updateModalProfileId(foundUser?._id);
-        setLoading(false);
+        const updatedUsers: any = users.map((user: any) => {
+          if (user._id === foundUser?._id) {
+            user.isVerified = true;
+          }
+          return user;
+        });
+        storeUsers(updatedUsers);
+        showToast({ color: "primary", message: "User is now verified!", duration: 3000 });
       })
       .catch(() => {
+        showToast({ color: "danger", message: "Something went wrong verifying user!", duration: 3000 });
+      })
+      .finally(() => {
         setLoading(false);
-      });
+      })
   };
 
+  const setUpdate = () => {
+    if (isUpdating && password.length > 0) {
+      setLoading(true);
+      Axios.post(API.UPDATE_USER, { userId: foundUser?._id, password })
+        .then(() => {
+          showToast({ color: "primary", message: "Password has been changed!", duration: 3000 });
+        })
+        .catch(() => {
+          showToast({ color: "danger", message: "Something went wrong changing password!", duration: 3000 });
+        })
+        .finally(() => {
+          setLoading(false);
+          setPassword("");
+        });
+    }
+    setIsUpdating(!isUpdating);
+  }
 
   const userEvents = allEvents.filter((node: any) => (foundUser?._id === node?.userId));
   return (
@@ -84,8 +115,12 @@ export const ProfileModal: React.FC<any> = () => {
           </IonHeader>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <h1 style={{ textAlign: "center", fontWeight: "bold", margin: "0" }}>Personal Information</h1>
-            <IonFabButton size="small" color="danger" onClick={() => setIsUpdating(!isUpdating)}>
-              <IonIcon icon={pencil}></IonIcon>
+            <IonFabButton size="small" color="danger" onClick={setUpdate}>
+              {isUpdating ? (
+                <IonIcon icon={checkmarkSharp}></IonIcon>
+              ) : (
+                <IonIcon icon={pencil}></IonIcon>
+              )}
             </IonFabButton>
           </div>
           <IonCol>
@@ -103,6 +138,12 @@ export const ProfileModal: React.FC<any> = () => {
                 <IonNote slot="end">{foundUser?.isVerified ? 'Yes' : 'No'}</IonNote>
               )}
             </IonItem>
+            {isUpdating && (
+              <IonItem>
+                <IonLabel>Password</IonLabel>
+                <IonInput placeholder="New Password" slot="end" value={password} onIonChange={e => setPassword(e.detail.value)} />
+              </IonItem>
+            )}
             <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Enrolled Events</h1>
             {userEvents.map((node: any) => (
               <EnrolledItem
