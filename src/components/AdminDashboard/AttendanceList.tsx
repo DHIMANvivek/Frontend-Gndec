@@ -26,6 +26,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
 
   const [showAlert] = useIonAlert();
   const [showToast] = useIonToast();
+  const auth = useStoreState<any>(({ auth }) => auth);
   const users = useStoreState<any>(({ users }) => users);
   const sports = useStoreState<any>(({ sports }) => sports);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
@@ -221,12 +222,14 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
               </IonFabButton>
               <IonFabList side="top">
                 <IonFabButton onClick={() => setIsModal(true)}><IonIcon icon={reader} /></IonFabButton>
-                <IonFabButton
-                  onClick={() => showAlert("Update all `Not Marked` students to Absent for this sport event?", [
-                    { text: "Yes", handler: () => markAllUnmarkedAbsent() },
-                    { text: "No", handler: () => { } }
-                  ])}
-                ><IonIcon icon={skull} /></IonFabButton>
+                {[1].includes(auth?.user?.adminLevel) &&
+                  <IonFabButton
+                    onClick={() => showAlert("Update all `Not Marked` students to Absent for this sport event?", [
+                      { text: "Yes", handler: () => markAllUnmarkedAbsent() },
+                      { text: "No", handler: () => { } }
+                    ])}>
+                    <IonIcon icon={skull} />
+                  </IonFabButton>}
               </IonFabList>
             </IonFab>
           )}

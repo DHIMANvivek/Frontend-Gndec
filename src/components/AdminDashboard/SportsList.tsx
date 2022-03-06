@@ -12,6 +12,7 @@ export const SportsList: React.FC<any> = () => {
   const sports = useStoreState<any>(({ sports }) => sports);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const storeSports = useStoreActions<any>((actions) => actions.storeSports);
+  const auth = useStoreState<any>(({ auth }) => auth);
   const [filterSportType, setFilterSportType] = useState('all');
   const [filterGender, setFilterGender] = useState('all');
   const [search, setSearch] = useState('');
@@ -133,13 +134,14 @@ export const SportsList: React.FC<any> = () => {
                         <IonLabel >
                           {countSportIdsObject[sport._id] || 0} Users
                         </IonLabel>
-                        <IonCheckbox slot="end" checked={sport.isActive}
-                          onClick={() => {
-                            showAlert(`${!sport.isActive ? "Enable" : "Disable"} ${sport.sportName}`, [
-                              { text: "Yes", handler: () => toggleSport(sport._id, !sport.isActive) },
-                              { text: "No", handler: () => getSports() }
-                            ])
-                          }} />
+                        {[1].includes(auth?.user?.adminLevel) &&
+                          <IonCheckbox slot="end" checked={sport.isActive}
+                            onClick={() => {
+                              showAlert(`${!sport.isActive ? "Enable" : "Disable"} ${sport.sportName}`, [
+                                { text: "Yes", handler: () => toggleSport(sport._id, !sport.isActive) },
+                                { text: "No", handler: () => getSports() }
+                              ])
+                            }} />}
                       </IonItem>
                     </IonCardContent>
                   </IonCard>
