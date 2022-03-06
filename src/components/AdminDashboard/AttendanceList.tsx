@@ -109,6 +109,8 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   });
 
   const currentSport = sports?.find((sport: any) => sport?._id === filterSport);
+  const attendanceColor: any = { present: "success", absent: "danger", not_marked: "medium" };
+  const attendanceIcon: any = { present: checkmarkCircle, absent: closeCircle, not_marked: ellipseSharp };
   return (
     <IonGrid className="h-full flex-column">
       <IonRow>
@@ -161,6 +163,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                     <IonCardHeader>
                       <IonItem color="transparent" lines="none">
                         <IonCardSubtitle>Jersey {event?.user?.jerseyNo}</IonCardSubtitle>
+                        {view && <IonBadge color={attendanceColor[event.attendance]} slot="end">{mapValue("ATTENDANCE", event.attendance)}</IonBadge>}
                       </IonItem>
                       <IonItem color="transparent" lines="none">
                         <IonCardTitle>{event?.user?.fullName}</IonCardTitle>
@@ -192,10 +195,15 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                           onClick={(e) => e.stopPropagation()}
                           value={event.attendance}
                           disabled={isLoading}
+
                         >
                           {ATTENDANCE.map((attendance: any) => (
-                            <IonSegmentButton key={attendance.value} value={attendance.value} onClick={() => markAttendance(attendance.value, event._id)}>
-                              <IonLabel>{attendance.title}</IonLabel>
+                            <IonSegmentButton
+                              key={attendance.value}
+                              value={attendance.value}
+                              onClick={() => markAttendance(attendance.value, event._id)}
+                            >
+                              <IonLabel color={attendanceColor[attendance.value]}>{attendance.title}</IonLabel>
                             </IonSegmentButton>
                           ))}
                         </IonSegment>
@@ -298,13 +306,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
                         )}
                       </IonLabel>
                     </IonListHeader>
-                    {view && (
-                      <>
-                        {event.attendance === "present" && <IonIcon color="green" icon={checkmarkCircle} slot="end" />}
-                        {event.attendance === "absent" && <IonIcon color="danger" icon={closeCircle} slot="end" />}
-                        {event.attendance === "not_marked" && <IonIcon color="medium" icon={ellipseSharp} slot="end" />}
-                      </>
-                    )}
+                    {view && (<IonIcon color={attendanceColor[event.attendance]} icon={attendanceIcon[event.attendance]} slot="end" />)}
                   </IonItem>
                 )
               }}
