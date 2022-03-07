@@ -86,7 +86,7 @@ export const ExcelExport: React.FC<any> = () => {
       const userEvents = allEvents
         .filter((event: any) => event.userId === user._id)
         .filter((event: any) => event.attendance === "present")
-      userEvents.forEach((event: any) => {
+      userEvents.forEach((event: any, index: number) => {
         participation += `${event.sportId.sportName}`;
         // if (event.attendance === "present") {
         //   participation += ` - ${mapValue("ATTENDANCE", event.attendance)}`;
@@ -94,7 +94,9 @@ export const ExcelExport: React.FC<any> = () => {
         if (event.position) {
           participation += `(${mapValue("USER_RESULT", event.position)})`;
         }
-        participation += `\n`;
+        if (userEvents.length !== index + 1) {
+          participation += ", "
+        }
       });
       return { ...user, participation };
     })
