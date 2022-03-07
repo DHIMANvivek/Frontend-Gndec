@@ -25,7 +25,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   const [filterSport, setFilterSport] = useState('none');
 
   const [showAlert] = useIonAlert();
-  const [showToast] = useIonToast();
+  const [showToast, dismissToast] = useIonToast();
   const auth = useStoreState<any>(({ auth }) => auth);
   const users = useStoreState<any>(({ users }) => users);
   const sports = useStoreState<any>(({ sports }) => sports);
@@ -44,6 +44,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
     .filter((event: any) => event?.sportId?._id === filterSport);
 
   const markAttendance = (attendance: any, id: string) => {
+    dismissToast();
     setIsLoading(true);
     const attendanceData = {
       eventId: id,
@@ -66,7 +67,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
         } else {
           color = "warning";
         }
-        showToast({ color, message: `Attendance marked as ${mapValue("ATTENDANCE", attendanceData.attendance)}!`, duration: 2000 });
+        showToast({ color, message: `Attendance is marked as ${mapValue("ATTENDANCE", attendanceData.attendance)}!`, duration: 5000 });
       })
       .catch(() => {
         showToast("Something went wrong!", 3000);
@@ -95,13 +96,14 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   }
 
   const onQRScan = (jerseyNo: string) => {
+    dismissToast();
     if (processEvents.length) {
       const event = processEvents.find((event: any) => Number(event.user.jerseyNo) === Number(jerseyNo));
       if (event) {
-        showToast({ color: "success", message: `Jersey No ${event?.user?.jerseyNo} marked present for ${currentSport?.sportName}!`, duration: 2000 });
+        showToast({ color: "success", message: `Jersey No ${event?.user?.jerseyNo} marked present for ${currentSport?.sportName}!`, duration: 5000 });
         markAttendance('present', event?._id);
       } else {
-        showToast({ color: "warning", message: `Jersey No ${event?.user?.jerseyNo} has not enrolled in ${currentSport?.sportName}!`, duration: 2000 });
+        showToast({ color: "warning", message: `Jersey No ${event?.user?.jerseyNo} has not enrolled in ${currentSport?.sportName}!`, duration: 5000 });
       }
     }
   }
