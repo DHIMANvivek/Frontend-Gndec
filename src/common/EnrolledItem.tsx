@@ -80,7 +80,7 @@ export const EnrolledItem: React.FC<any> = ({ sportType, branch, sportName, gend
               <IonItem color="transparent" lines="none">
                 <IonIcon slot="start" icon={americanFootball} color={genderWiseColor} />
                 <IonLabel>{mapValue("SPORT_TYPE", sportType)}</IonLabel>
-                {(mapValue("ATTENDANCE", attendance) !== "Present" && [1].includes(auth?.user?.adminLevel)) && (
+                {(mapValue("ATTENDANCE", attendance) !== "Present" && [1, 2].includes(auth?.user?.adminLevel)) && (
                   <IonButton
                     slot="end"
                     color="danger"
