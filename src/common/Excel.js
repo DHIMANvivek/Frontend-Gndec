@@ -6,65 +6,28 @@ const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-const dataSet1 = [
-  {
-    name: "Johson",
-    amount: 30000,
-    sex: 'M',
-    is_married: true
-  },
-  {
-    name: "Monika",
-    amount: 355000,
-    sex: 'F',
-    is_married: false
-  },
-  {
-    name: "John",
-    amount: 250000,
-    sex: 'M',
-    is_married: false
-  },
-  {
-    name: "Josef",
-    amount: 450500,
-    sex: 'M',
-    is_married: true
-  }
-];
-
-const dataSet2 = [
-  {
-    name: "Johnson",
-    total: 25,
-    remainig: 16
-  },
-  {
-    name: "Josef",
-    total: 25,
-    remainig: 7
-  }
-];
-
-export const Excel = ({ fileName }) => {
+export const Excel = ({ fileName, dataSet, dataLayout }) => {
   return (
     <ExcelFile
-      fileName={fileName}
+      filename={fileName}
       style={{ width: "100%" }}
       element={<IonButton style={{ width: "100%" }}>Download Excel</IonButton>}
     >
-      <ExcelSheet data={dataSet1} name="Employees">
-        <ExcelColumn label="Name" value="name" />
-        <ExcelColumn label="Wallet Money" value="amount" />
-        <ExcelColumn label="Gender" value="sex" />
-        <ExcelColumn label="Marital Status" value={(col) => col.is_married ? "Married" : "Single"} />
+      <ExcelSheet data={dataSet} name={fileName}>
+        {dataLayout.map(({ label, value }) => (
+          <ExcelColumn key={label + value} label={label} value={value} />
+        ))}
       </ExcelSheet>
     </ExcelFile>
   );
 }
 Excel.propTypes = {
-  fileName: PropTypes.string
+  fileName: PropTypes.string,
+  dataSet: PropTypes.instanceOf(Array),
+  dataLayout: PropTypes.instanceOf(Array)
 }
 Excel.defaultProps = {
-  fileName: "Download"
+  fileName: "Download",
+  dataSet: [],
+  dataLayout: []
 }
