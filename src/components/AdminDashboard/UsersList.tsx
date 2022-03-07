@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IonBadge, IonCard, IonCardContent, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonRippleEffect } from "@ionic/react";
+import { IonBadge, IonCard, IonCardContent, IonContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonGrid, IonIcon, IonInput, IonItem, IonLabel, IonRow, IonRippleEffect, IonChip } from "@ionic/react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { GENDER, mergeSearch } from "../../constants";
 import { callSharp, checkmarkCircleSharp, closeCircleSharp } from "ionicons/icons";
@@ -7,7 +7,7 @@ import { GenderIcon } from "../../common";
 import { Virtuoso } from 'react-virtuoso';
 
 export const UsersList: React.FC<any> = () => {
-  const users = useStoreState<any>(({ users }) => users);
+  const { users, allEvents } = useStoreState<any>((store) => store);
   const [search, setSearch] = useState('');
 
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
@@ -44,7 +44,8 @@ export const UsersList: React.FC<any> = () => {
             itemContent={index => {
               const user = sortedData[index];
               const color = user.isSearched ? "light" : "";
-              const isMale = user.gender === GENDER[1].value
+              const isMale = user.gender === GENDER[1].value;
+              const userEvents = allEvents.filter((node: any) => (user?._id === node?.userId));
               return (
                 <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(user._id)}>
                   <IonRippleEffect />
@@ -70,6 +71,7 @@ export const UsersList: React.FC<any> = () => {
                     <IonItem color="transparent" lines="none">
                       <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={callSharp} />
                       <IonLabel>{user.phoneNumber}</IonLabel>
+                      <IonChip color={userEvents?.length < 4 ? "primary" : "danger"} slot="end">{userEvents?.length}</IonChip>
                     </IonItem>
                   </IonCardContent>
                 </IonCard>
