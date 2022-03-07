@@ -73,7 +73,7 @@ export const ExcelExport: React.FC<any> = () => {
       sportType,
       empty: ""
     }))
-    .sort((a: any, b: any) => a.jerseyNo - b.jerseyNo);
+    .sort((a: any, b: any) => a?.jerseyNo - b?.jerseyNo);
 
   const departmentList = users
     .map((user: any) => ({ ...user }))
@@ -112,7 +112,7 @@ export const ExcelExport: React.FC<any> = () => {
       empty: ""
     }))
     .filter(({ participation }: any) => participation)
-    .sort((a: any, b: any) => a.jerseyNo - b.jerseyNo);
+    .sort((a: any, b: any) => a?.jerseyNo - b?.jerseyNo);
 
   const currentSport = sports.filter((sport: any) => sport._id === filterSport);
   const sportName = currentSport?.[0]?.sportName || "All Sports";
