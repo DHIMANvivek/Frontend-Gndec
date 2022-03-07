@@ -120,12 +120,13 @@ export const ExcelExport: React.FC<any> = () => {
 
   const currentSport = sports.filter((sport: any) => sport._id === filterSport);
   const sportName = currentSport?.[0]?.sportName || "All Sports";
+  const genderCategory = currentSport?.[0]?.genderCategory || "All Genders";
   const currentAttendance = mapValue("ATTENDANCE", attendanceStatus) || "All Attendance";
 
   const currentBranch = mapValue("BRANCH", filterBranch) || "All Branches";
   const currentCourse = mapValue("COURSE", filterCourse) || "All Courses";
 
-  const eventFileName = `${sportName} - ${currentAttendance}`;
+  const eventFileName = `${sportName} - ${currentAttendance} - ${mapValue("GENDER", genderCategory)}`;
   const departmentFileName = `${currentCourse} - ${currentBranch}`
 
   const eventFileLayout = [
