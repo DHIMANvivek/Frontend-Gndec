@@ -127,7 +127,7 @@ export const ExcelExport: React.FC<any> = () => {
   const departmentFileName = `${currentCourse} - ${currentBranch}`
 
   const eventFileLayout = [
-    // { label: "Jersey No.", value: "jerseyNo" },
+    { label: "Jersey No.", value: "jerseyNo" },
     { label: "Name", value: "fullName" },
     { label: "Branch", value: "branch" },
     { label: "URN", value: "universityRoll" },
