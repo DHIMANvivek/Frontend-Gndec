@@ -19,31 +19,31 @@ export const Analytics: React.FC<any> = () => {
     {
       group: "User Analytics",
       ANALYTICS: [
-        { title: "Total Users", value: users.length, color: "primary" },
-        { title: "Verified Users", value: isVerifiedStatus.true, color: "green" },
-        { title: "Unverified Users", value: isVerifiedStatus.false, color: "danger" },
-        { title: "Male Users", value: genderStatus.Male, color: "tertiary" },
-        { title: "Female Users", value: genderStatus.Female, color: "pink" }
+        { title: "Total Users", value: users.length || 0, color: "primary" },
+        { title: "Verified Users", value: isVerifiedStatus.true || 0, color: "green" },
+        { title: "Unverified Users", value: isVerifiedStatus.false || 0, color: "danger" },
+        { title: "Male Users", value: genderStatus.Male || 0, color: "tertiary" },
+        { title: "Female Users", value: genderStatus.Female || 0, color: "pink" }
       ]
     },
     {
       group: "Enrollment Analytics",
       ANALYTICS: [
-        { title: "Total Enrollments", value: allEvents.length, color: "primary" },
-        { title: "Male Enrollments", value: enrollmentGenderStatus.Male, color: "tertiary" },
-        { title: "Female Enrollments", value: enrollmentGenderStatus.Female, color: "pink" },
-        { title: "Track Male Enrollments", value: maleEventType.track, color: "tertiary" },
-        { title: "Field Male Enrollments", value: maleEventType.field, color: "tertiary" },
-        { title: "Track Female Enrollments", value: femaleEventType.track, color: "pink" },
-        { title: "Field Female Enrollments", value: femaleEventType.field, color: "pink" },
+        { title: "Total Enrollments", value: allEvents.length || 0, color: "primary" },
+        { title: "Male Enrollments", value: enrollmentGenderStatus.Male || 0, color: "tertiary" },
+        { title: "Female Enrollments", value: enrollmentGenderStatus.Female || 0, color: "pink" },
+        { title: "Track Male Enrollments", value: maleEventType.track || 0, color: "tertiary" },
+        { title: "Field Male Enrollments", value: maleEventType.field || 0, color: "tertiary" },
+        { title: "Track Female Enrollments", value: femaleEventType.track || 0, color: "pink" },
+        { title: "Field Female Enrollments", value: femaleEventType.field || 0, color: "pink" },
       ]
     },
     {
       group: "Attendance Analytics",
       ANALYTICS: [
-        { title: "Present", value: eventAttendanceStatus.present, color: "green" },
-        { title: "Absent", value: eventAttendanceStatus.absent, color: "danger" },
-        { title: "Not Marked", value: eventAttendanceStatus.not_marked },
+        { title: "Present", value: eventAttendanceStatus.present || 0, color: "green" },
+        { title: "Absent", value: eventAttendanceStatus.absent || 0, color: "danger" },
+        { title: "Not Marked", value: eventAttendanceStatus.not_marked || 0 },
       ]
     }
   ]
