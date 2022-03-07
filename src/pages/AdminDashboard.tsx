@@ -105,9 +105,9 @@ export const AdminDashboard: React.FC<any> = ({ match = { url: "" } }) => {
       {page === 'enrolled' && <EnrolledUsers />}
       {page === 'sports' && <SportsList />}
       {page === 'mark-attendance' && [1, 2, 3].includes(auth?.user?.adminLevel) && <AttendanceList />}
-      {page === 'view-attendance' && <AttendanceList view={true} />}
+      {page === 'view-attendance' && <AttendanceList view />}
       {page === 'mark-result' && [1, 2, 3].includes(auth?.user?.adminLevel) && <ResultList />}
-      {page === 'view-result' && <ResultList view={true} />}
+      {page === 'view-result' && <ResultList view />}
       {/* {page === 'promote-event' && <PromoteEvent />} */}
       {page === 'excel' && <ExcelExport />}
       {page === 'announcements' && <AnnouncementList />}

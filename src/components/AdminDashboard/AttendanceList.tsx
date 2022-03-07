@@ -100,10 +100,10 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
     if (processEvents.length) {
       const event = processEvents.find((event: any) => Number(event.user.jerseyNo) === Number(jerseyNo));
       if (event) {
-        showToast({ color: "success", message: `Jersey No ${event?.user?.jerseyNo} marked present for ${currentSport?.sportName}!`, duration: 5000 });
+        showToast({ color: "success", message: `Jersey No ${jerseyNo} marked present for ${currentSport?.sportName}!`, duration: 1500 });
         markAttendance('present', event?._id);
       } else {
-        showToast({ color: "warning", message: `Jersey No ${event?.user?.jerseyNo} has not enrolled in ${currentSport?.sportName}!`, duration: 5000 });
+        showToast({ color: "warning", message: `Jersey No ${jerseyNo} has not enrolled in ${currentSport?.sportName}!`, duration: 1500 });
       }
     }
   }
@@ -143,7 +143,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
               placeholder="Search"
               clearInput
             />
-            {filterSport !== "none" && (
+            {(filterSport !== "none" && !view) && (
               <IonIcon icon={qrCodeOutline}
                 onClick={async () => {
                   const data = await BarcodeScanner.scan();
@@ -267,9 +267,10 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
             placeholder="Search"
             clearInput
           />
-          {filterSport !== "none" && (
+          {(filterSport !== "none" && !view) && (
             <IonIcon icon={qrCodeOutline}
               onClick={async () => {
+                dismissToast();
                 const data = await BarcodeScanner.scan();
                 if (data.format === "QR_CODE") {
                   onQRScan(data.text)
