@@ -17,7 +17,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
 
   useEffect(() => {
     if (!isEmpty(auth.token)) {
-      router.push("/dashboard");
+      router.push("/dashboard", "none", "replace");
     }
   }, [])
 
@@ -29,7 +29,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
     setLoading(true);
     Axios.post(API.SIGNUP, userData)
       .then(result => {
-        router.push("/login")
+        router.push("/login", "none", "replace")
         showToast(`You can now login, but you will have to verify your account to enroll in events.`, 10000)
       })
       .catch((e) => {
@@ -59,9 +59,9 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
       .then(({ data }) => {
         storeUserData({ user: data.user, token: data.token })
         if (data.user.isAdmin) {
-          router.push("/admin");
+          router.push("/admin", "none", "replace");
         } else {
-          router.push("/dashboard");
+          router.push("/dashboard", "none", "replace");
         }
         if (!data.user.isVerified) {
           showToast("Now login to the app and follow further instructions", 10000)

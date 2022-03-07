@@ -3,7 +3,7 @@ import { IonBadge, IonButton, IonCard, IonContent, IonCardContent, IonCardHeader
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, GENDER, mapValue, mergeSearch, RESULT } from "../../constants";
 import Axios from "axios";
-import { americanFootball, callSharp, megaphone, trophyOutline } from "ionicons/icons";
+import { americanFootball, callSharp, megaphone } from "ionicons/icons";
 import { GenderIcon } from "../../common";
 import { Virtuoso } from "react-virtuoso";
 
@@ -65,7 +65,7 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
       })
   }
 
-  const selectedSport = sports.find((sport: any) => sport._id === filterSport)
+  // const selectedSport = sports.find((sport: any) => sport._id === filterSport)
 
   const sortedData = mergeSearch({
     data: processData,
@@ -81,6 +81,7 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
     }
   });
 
+  const attendanceColor: any = { 1: "gold", 2: "silver", 3: "bronze" };
   return (
     <IonGrid className="h-full flex-column">
       <IonRow>
@@ -124,10 +125,8 @@ export const ResultList: React.FC<any> = ({ view = false }) => {
                       <IonItem color="transparent" lines="none">
                         <IonCardSubtitle>Jersey {event.user.jerseyNo}</IonCardSubtitle>
                         {view && (
-                          <IonChip style={{ padding: 0, margin: 0 }} color="transparent" slot="end">
-                            {[...Array.from({ length: event.position }, (_, i) => i + 1)].map((node) => (
-                              <IonIcon style={{ margin: 3, marginRight: 0 }} color="success" key={node} icon={trophyOutline}></IonIcon>
-                            ))}
+                          <IonChip style={{ margin: 0 }} color={attendanceColor[event.position]} slot="end">
+                            {mapValue("RESULT", event.position)}
                           </IonChip>
                         )}
                       </IonItem>

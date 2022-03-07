@@ -61,15 +61,16 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
 
   const enrollUserToEvents = async () => {
     try {
+      setLoading(true)
       const serverSports = await (await Axios.get(API.GET_SPORTS)).data;
       const serverUserEvents = await (await Axios.get(API.ME)).data.events;
       if (isEqual(serverSports, SPORTS) && isEqual(serverUserEvents, userEvents)) {
         const newEnrollSports: any = selectedEvents.filter((x: string) => !savedEventsIds.includes(x));
         if (!newEnrollSports.length) {
           showToast("Please select atleast one event!", 3000);
+          setLoading(false)
           return;
         }
-        setLoading(true)
         Axios.post(API.ENROLL_EVENTS, { sportIds: newEnrollSports })
           .then(({ data }) => {
             storeUserEvents(data.events);
@@ -82,10 +83,12 @@ export const SelectEvents: React.FC<any> = ({ fetchAll }) => {
           });
       } else {
         fetchAll();
+        setLoading(false);
         showToast("Server and local data sync error! Updating...", 3000)
       }
     } catch (error) {
       console.log(error)
+      setLoading(false);
       showToast("Something went wrong!", 3000)
     }
   }

@@ -118,6 +118,7 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
             />
             <IonInputNew
               title="Email"
+              type="email"
               value={email}
               onChange={setEmail}
               error={error?.email}
