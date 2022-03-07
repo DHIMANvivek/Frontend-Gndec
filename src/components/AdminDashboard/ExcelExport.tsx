@@ -45,7 +45,6 @@ export const ExcelExport: React.FC<any> = () => {
     }
   }
 
-
   const objectifiedUsers: any = {};
   users.forEach((user: any) => { objectifiedUsers[user._id] = user; });
 
@@ -56,23 +55,26 @@ export const ExcelExport: React.FC<any> = () => {
     .map(({
       attendance,
       position,
-      user: { jerseyNo, fullName, universityRoll, branch, course, gender, email, phoneNumber },
+      user,
       sportId: { sportName, sportType }
-    }: any) => ({
-      jerseyNo,
-      fullName,
-      universityRoll,
-      branch: mapValue("BRANCH", branch),
-      course,
-      gender,
-      email,
-      phoneNumber,
-      eventAttendance: attendance,
-      eventPosition: position,
-      sportName,
-      sportType,
-      empty: ""
-    }))
+    }: any) => {
+      const { jerseyNo, fullName, universityRoll, branch, course, gender, email, phoneNumber } = user || {};
+      return {
+        jerseyNo,
+        fullName,
+        universityRoll,
+        branch: mapValue("BRANCH", branch),
+        course,
+        gender,
+        email,
+        phoneNumber,
+        eventAttendance: attendance,
+        eventPosition: position,
+        sportName,
+        sportType,
+        empty: ""
+      }
+    })
     .sort((a: any, b: any) => a?.jerseyNo - b?.jerseyNo);
 
   const departmentList = users
