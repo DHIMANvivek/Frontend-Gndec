@@ -42,7 +42,7 @@ export const Dashboard: React.FC<any> = ({ match = { url: "" } }) => {
 
   const logOut = () => {
     logout();
-    router.push("/login")
+    router.push("/login", "none", "replace")
   }
 
   const me = (callback = () => { }) => {
