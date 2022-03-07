@@ -105,14 +105,14 @@ export const Menu: React.FC<any> = () => {
       mdIcon: gameControllerSharp,
       badge: allEvents.length
     },
-    // markAttendance(),
+    markAttendance(),
     {
       title: 'View Attendance',
       url: '/admin/view-attendance',
       iosIcon: checkmarkDoneOutline,
       mdIcon: checkmarkDoneSharp
     },
-    // markResult(),
+    markResult(),
     {
       title: 'View Result',
       url: '/admin/view-result',
