@@ -12,7 +12,7 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 import { API, GENDER, mapValue, ATTENDANCE, mergeSearch } from "../../constants";
 import Axios from "axios";
 import {
-  americanFootball, callSharp, caretUp, checkmarkCircle, closeCircle,
+  americanFootball, callSharp, caretUp, closeCircle,
   ellipseSharp, megaphone, qrCodeOutline, reader, skull
 } from "ionicons/icons";
 import { GenderIcon } from "../../common";
@@ -34,6 +34,7 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
   const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState('');
+  const currentSport = sports?.find((sport: any) => sport?._id === filterSport);
 
   const objectifiedUsers: any = {};
   users.forEach((user: any) => { objectifiedUsers[user._id] = user; });
@@ -57,7 +58,15 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
           return event;
         });
         storeAllEvents(updatedAllEvents);
-        showToast(`Attendance marked as ${mapValue("ATTENDANCE", attendanceData.attendance)}!`, 1000);
+        let color = "";
+        if (attendanceData.attendance === 'present') {
+          color = "success";
+        } else if (attendanceData.attendance === 'absent') {
+          color = "danger";
+        } else {
+          color = "warning";
+        }
+        showToast({ color, message: `Attendance marked as ${mapValue("ATTENDANCE", attendanceData.attendance)}!`, duration: 2000 });
       })
       .catch(() => {
         showToast("Something went wrong!", 3000);
@@ -88,12 +97,11 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
   const onQRScan = (jerseyNo: string) => {
     if (processEvents.length) {
       const event = processEvents.find((event: any) => Number(event.user.jerseyNo) === Number(jerseyNo));
-      const sportName = sports?.find((sport: any) => sport?._id === event?.sportId?._id)?.sportName;
       if (event) {
-        showToast(`${event?.user?.fullName} marked present for ${sportName}!`, 3000);
+        showToast({ color: "success", message: `Jersey No ${event?.user?.jerseyNo} marked present for ${currentSport?.sportName}!`, duration: 2000 });
         markAttendance('present', event?._id);
       } else {
-        showToast(`This user has not enrolled in ${sportName}!`, 3000);
+        showToast({ color: "warning", message: `Jersey No ${event?.user?.jerseyNo} has not enrolled in ${currentSport?.sportName}!`, duration: 2000 });
       }
     }
   }
@@ -109,7 +117,6 @@ export const AttendanceList: React.FC<any> = ({ view = false }) => {
     }
   });
 
-  const currentSport = sports?.find((sport: any) => sport?._id === filterSport);
   const attendanceColor: any = { present: "success", absent: "danger", not_marked: "medium" };
   return (
     <IonGrid className="h-full flex-column">
