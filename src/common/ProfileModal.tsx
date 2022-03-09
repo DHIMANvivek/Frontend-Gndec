@@ -112,22 +112,26 @@ export const ProfileModal: React.FC<any> = () => {
   }
 
   const enrollUserToEvent = async () => {
-    try {
-      setLoading(true);
-      Axios.post(API.ENROLL_EVENT_ADMIN, { sportId: filterSport, userId: foundUser?._id })
-        .then(({ data }) => {
-          appendAllEvents(data.events);
-          showToast("Successfully enrolled the event!", 3000)
-        })
-        .catch(() => {
-          showToast("Already Enrolled!", 3000)
-        }).finally(() => {
-          setLoading(false)
-        });
-    } catch (error) {
-      console.log(error)
-      setLoading(false);
-      showToast("Something went wrong!", 3000)
+    if (filterSport === "none") {
+      showToast({ color: "danger", message: "Please select a sport!", duration: 3000 });
+    } else {
+      try {
+        setLoading(true);
+        Axios.post(API.ENROLL_EVENT_ADMIN, { sportId: filterSport, userId: foundUser?._id })
+          .then(({ data }) => {
+            appendAllEvents(data.events);
+            showToast("Successfully enrolled the event!", 3000)
+          })
+          .catch(() => {
+            showToast("Already Enrolled!", 3000)
+          }).finally(() => {
+            setLoading(false)
+          });
+      } catch (error) {
+        console.log(error)
+        setLoading(false);
+        showToast("Something went wrong!", 3000)
+      }
     }
   }
 
