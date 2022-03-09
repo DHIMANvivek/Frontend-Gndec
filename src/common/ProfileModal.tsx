@@ -19,6 +19,8 @@ import {
   IonGrid,
   IonRow,
   useIonAlert,
+  IonSelect,
+  IonSelectOption,
   IonCardHeader,
 } from "@ionic/react";
 import { pencil, checkmarkSharp } from "ionicons/icons";
@@ -36,9 +38,12 @@ export const ProfileModal: React.FC<any> = () => {
   const updateModalProfileId = useStoreActions<any>((actions) => actions.updateModalProfileId);
   const [showToast] = useIonToast();
 
+  const [filterSport, setFilterSport] = useState('none');
+
   const users = useStoreState<any>(({ users }) => users);
   const auth = useStoreState<any>(({ auth }) => auth);
-  const { storeUsers } = useStoreActions<any>((actions) => actions);
+  const sports = useStoreState<any>(({ sports }) => sports);
+  const { storeUsers, appendAllEvents } = useStoreActions<any>((actions) => actions);
   const [loading, setLoading] = useState(false);
   const allEvents = useStoreState<any>(({ allEvents }) => allEvents);
   const modalProfileId = useStoreState<any>(({ modalProfileId }) => modalProfileId);
@@ -106,6 +111,26 @@ export const ProfileModal: React.FC<any> = () => {
     setIsUpdating(!isUpdating);
   }
 
+  const enrollUserToEvent = async () => {
+    try {
+      setLoading(true);
+      Axios.post(API.ENROLL_EVENT_ADMIN, { sportId: filterSport, userId: foundUser?._id })
+        .then(({ data }) => {
+          appendAllEvents(data.events);
+          showToast("Successfully enrolled the event!", 3000)
+        })
+        .catch(() => {
+          showToast("Already Enrolled!", 3000)
+        }).finally(() => {
+          setLoading(false)
+        });
+    } catch (error) {
+      console.log(error)
+      setLoading(false);
+      showToast("Something went wrong!", 3000)
+    }
+  }
+
   const userEvents = allEvents.filter((node: any) => (foundUser?._id === node?.userId));
   return (
     <>
@@ -162,10 +187,29 @@ export const ProfileModal: React.FC<any> = () => {
                   )}
                 </IonItem>
                 {isUpdating && (
-                  <IonItem>
-                    <IonLabel>Password</IonLabel>
-                    <IonInput placeholder="New Password" slot="end" value={password} onIonChange={e => setPassword(e.detail.value)} />
-                  </IonItem>
+                  <>
+                    <IonItem>
+                      <IonLabel slot="start">Add Event</IonLabel>
+                      <IonSelect
+                        interface="alert"
+                        style={{ width: "100%", maxWidth: "100%" }}
+                        value={filterSport}
+                        onIonChange={(e) => setFilterSport(e.detail.value)}
+                      >
+                        <IonSelectOption value="none">Select Sport</IonSelectOption>
+                        {sports
+                          .filter((sport: any) => sport.genderCategory === foundUser?.gender)
+                          .map(({ _id, sportName }: any) => (<IonSelectOption key={_id} value={_id}>{sportName}</IonSelectOption>))}
+                      </IonSelect>
+                    </IonItem>
+                    <IonItem>
+                      <IonButton style={{ width: "100%" }} onClick={(e) => { e.stopPropagation(); enrollUserToEvent() }}>Add</IonButton>
+                    </IonItem>
+                    <IonItem>
+                      <IonLabel>Password</IonLabel>
+                      <IonInput placeholder="New Password" slot="end" value={password} onIonChange={e => setPassword(e.detail.value)} />
+                    </IonItem>
+                  </>
                 )}
                 {!!userEvents.length && <h1 style={{ textAlign: "center", fontWeight: "bold" }}>Enrolled Events</h1>}
                 {userEvents.map((node: any) => (

@@ -11,6 +11,7 @@ export const API = {
   VERIFY_USER: "/verify",
 
   ENROLL_EVENTS: "/event/create",
+  ENROLL_EVENT_ADMIN: "/event/admin/add",
   GET_ENROLLMENTS: "/event/fetchAll",
   MARK_ATTENDANCE: "/event/attendance",
   MARK_SINGLE_ATTENDANCE: "/event/markSingleAttendance",
