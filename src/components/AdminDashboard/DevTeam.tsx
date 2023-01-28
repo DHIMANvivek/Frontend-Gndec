@@ -4,38 +4,29 @@ import { logoInstagram, logoGithub, logoLinkedin } from 'ionicons/icons';
 
 const DEV_TEAM = [
   {
-    name: 'Divyanshu Garg',
-    github: 'https://github.com/divyanshugarg36',
-    linkedin: 'https://www.linkedin.com/in/divyanshugarg36/',
-    instagram: 'https://www.instagram.com/divyanshugarg36/',
+    name: 'Vivek Dhiman',
+    github: 'https://github.com/DHIMANvivek',
+    linkedin: 'https://www.linkedin.com/in/vivek-dhiman01/',
+    instagram: 'https://www.instagram.com/_vivek.dhiman_/',
     role: 'Full Stack Developer',
-    image: 'https://avatars.githubusercontent.com/u/37038354?v=4',
+    image: 'https://avatars.githubusercontent.com/u/53940939?s=400&u=b8c675dcfb0654c1ae469c4b77962f8b7de73e7f&v=4',
   },
   {
-    name: 'Amanjot Singh',
-    github: 'https://github.com/theamanjs',
-    linkedin: 'https://www.linkedin.com/in/theamanjs/',
-    instagram: 'https://www.instagram.com/notoriousgabroo/',
-    role: 'Full Stack Developer',
-    image: 'https://avatars.githubusercontent.com/u/38748298?v=4',
-  },
-  {
-    name: 'Dashmeet Singh',
-    github: 'https://github.com/vedashmeet',
+    name: 'Vishal Maurya',
+    github: 'https://github.com/VishalMauriya',
     linkedin: '',
     instagram: '',
-    role: 'QA & Testing Engineer',
-    image: 'https://avatars.githubusercontent.com/u/71537375?v=4',
+    role: 'Full Stack Developer',
+    image: 'https://avatars.githubusercontent.com/u/54256792?v=4',
   },
   {
-    name: 'Tania Sharma',
-    github: 'https://github.com/taniasharma28',
-    linkedin: 'https://www.linkedin.com/in/tania-sharma-a8686420a/',
-    instagram: 'https://www.instagram.com/tania_sharma._/',
-    role: 'QA & Testing Engineer',
-    image: 'https://avatars.githubusercontent.com/u/52241202?v=4',
+    name: 'Yatin Bindra',
+    github: 'https://github.com/yatinbindra',
+    linkedin: '',
+    instagram: '',
+    role: 'Full Stack Developer',
+    image: '',
   },
-
 ]
 
 export const DevTeam: React.FC = () => {

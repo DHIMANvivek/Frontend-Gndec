@@ -79,7 +79,7 @@ export const Auth: React.FC<any> = ({ isLogin = false }) => {
             alert("Please check your internet connection!");
             break;
           default:
-            showToast("Please fill contact us form!", 3000)
+            showToast("Please fill contact us form!", 5000)
         }
       })
       .finally(() => {
