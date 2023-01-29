@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.starter",
-  "appName": "binary-frontend",
+  "appId": "io.ionic.GndecSportsMeet",
+  "appName": "Gndec SportsMeet 2023",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",

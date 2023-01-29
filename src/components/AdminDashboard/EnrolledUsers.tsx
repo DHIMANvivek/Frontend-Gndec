@@ -56,33 +56,45 @@ export const EnrolledUsers: React.FC<any> = () => {
             itemContent={index => {
               const event = sortedData[index];
               const color = event.isSearched ? "light" : "";
-              const isMale = event.user.gender === GENDER[1].value
+              // const isMale = event.user && event.user.gender ? event.user.gender === GENDER[1].value : false;
+              const isMale = event.user && event.user.gender ? event.user.gender === GENDER[1].value : false;
+              const jerseyNo = event.user && event.user.jerseyNo ? event.user.jerseyNo : '';
+              const fullName = event.user && event.user.fullName ? event.user.fullName : '';
+              const gender = event.user && event.user.gender ? event.user.gender : null;
+              const sportName = event.user && event.sportId.sportName ? event.sportId.sportName : null;
+              const universityRoll = event.user && event.user.universityRoll ? event.user.universityRoll : null;
+              const phoneNumber = event.user && event.user.phoneNumber ? event.user.phoneNumber : null;
+
+              
+              // const isMale = event.user.gender ? event.user.gender === GENDER[1].value : false;
               return (
                 <IonCol key={event._id} sizeXl="3" sizeLg="4" sizeMd="6" sizeSm="12" size="12">
                   <IonCard className="ion-activatable ripple-parent" color={color} onClick={() => updateModalProfileId(event.user._id)}>
                     <IonRippleEffect />
                     <IonCardHeader>
                       <IonItem color="transparent" lines="none">
-                        <IonCardSubtitle>Jersey {event.user.jerseyNo}</IonCardSubtitle>
+                      <IonCardSubtitle><b>Jersey</b> {jerseyNo}</IonCardSubtitle>
+
+                        {/* <IonCardSubtitle>Jersey {event.user.jerseyNo}</IonCardSubtitle> */}
                         <IonBadge color={isMale ? "tertiary" : "pink"} slot="end">{mapValue("SPORT_TYPE", event.sportId.sportType)}</IonBadge>
                       </IonItem>
                       <IonItem color="transparent" lines="none">
-                        <IonCardTitle>{event.user.fullName}</IonCardTitle>
-                        <GenderIcon gender={event.user.gender} slot="end" />
+                        <IonCardTitle>{fullName}</IonCardTitle>
+                        <GenderIcon gender={gender} slot="end" />
                       </IonItem>
                     </IonCardHeader>
                     <IonCardContent color={color}>
                       <IonItem color="transparent" lines="none">
                         <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={americanFootball} />
-                        <IonLabel>{event.sportId.sportName}</IonLabel>
+                        <IonLabel>{sportName}</IonLabel>
                       </IonItem>
                       <IonItem color="transparent" lines="none">
                         <IonBadge color={isMale ? "tertiary" : "pink"} slot="start">URN</IonBadge>
-                        <IonLabel>{event.user.universityRoll}</IonLabel>
+                        <IonLabel>{universityRoll}</IonLabel>
                       </IonItem>
                       <IonItem color="transparent" lines="none">
                         <IonIcon color={isMale ? "tertiary" : "pink"} slot="start" icon={callSharp} />
-                        <IonLabel>{event.user.phoneNumber}</IonLabel>
+                        <IonLabel>{phoneNumber}</IonLabel>
                       </IonItem>
                     </IonCardContent>
                   </IonCard>

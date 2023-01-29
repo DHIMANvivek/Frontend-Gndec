@@ -14,18 +14,18 @@ const DEV_TEAM = [
   {
     name: 'Vishal Maurya',
     github: 'https://github.com/VishalMauriya',
-    linkedin: '',
-    instagram: '',
+    linkedin: 'https://www.linkedin.com/in/vishal-mauriya/',
+    instagram: 'https://www.instagram.com/_vishal79_/',
     role: 'Full Stack Developer',
     image: 'https://avatars.githubusercontent.com/u/54256792?v=4',
   },
   {
     name: 'Yatin Bindra',
     github: 'https://github.com/yatinbindra',
-    linkedin: '',
-    instagram: '',
+    linkedin: 'https://www.linkedin.com/in/yatin-b-a8b91b13a/',
+    instagram: 'https://www.instagram.com/_yatin_bindra_/?next=%2F',
     role: 'Full Stack Developer',
-    image: '',
+    image: 'https://avatars.githubusercontent.com/u/54256553?v=4',
   },
 ]
 
