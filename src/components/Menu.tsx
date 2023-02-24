@@ -178,7 +178,7 @@ export const Menu: React.FC<any> = () => {
       </IonContent>
       <IonCardHeader>
         <IonButton
-          href="https://forms.gle/cJYcxvhAH1eR3NGcA"
+          href="https://docs.google.com/forms/d/e/1FAIpQLSdPs3yGoOmDWzEaA-E9eygKaXhBQpZd-9wGe5WeTjB73toxNQ/viewform?usp=pp_url"
           color="danger"
           expand="block"
           target="_blank"
