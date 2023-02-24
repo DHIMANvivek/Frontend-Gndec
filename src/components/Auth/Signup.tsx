@@ -197,7 +197,7 @@ export const Signup: React.FC<any> = ({ onSubmit, loading }) => {
               Click Here to Login
             </IonButton>
             <IonButton
-              href="https://forms.gle/cJYcxvhAH1eR3NGcA"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdPs3yGoOmDWzEaA-E9eygKaXhBQpZd-9wGe5WeTjB73toxNQ/viewform?usp=pp_url"
               buttonType="clear"
               color="secondary"
               expand="block"
