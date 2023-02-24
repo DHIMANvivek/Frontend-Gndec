@@ -28,7 +28,7 @@ export const Login: React.FC<any> = ({ onSubmit }) => {
           <IonCardHeader>
             <ol>
               <li style={{ margin: "8px 0" }}>These instrctions are for you if you have not received verification email on your college email account.</li>
-              <li style={{ margin: "8px 0" }}>Go to Help form <a href="https://forms.gle/cJYcxvhAH1eR3NGcA" target="_blank" rel="noreferrer">https://forms.gle/cJYcxvhAH1eR3NGcA</a></li>
+              <li style={{ margin: "8px 0" }}>Go to Help form <a href="https://docs.google.com/forms/d/e/1FAIpQLSdPs3yGoOmDWzEaA-E9eygKaXhBQpZd-9wGe5WeTjB73toxNQ/viewform?usp=pp_url" target="_blank" rel="noreferrer">https://docs.google.com/forms/d/e/1FAIpQLSdPs3yGoOmDWzEaA-E9eygKaXhBQpZd-9wGe5WeTjB73toxNQ/viewform?usp=pp_url</a></li>
               <li style={{ margin: "8px 0" }}>Fill the option <code style={{ background: "rgba(255,0,0,0.2)" }}>Have you signed up in the Sports Application</code> as Yes</li>
               <li style={{ margin: "8px 0" }}>Upload the Image of your College ID card or Library card.</li>
               <li style={{ margin: "8px 0" }}>Sit back and relax. We will get you verified. 🥳</li>
