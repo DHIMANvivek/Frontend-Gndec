@@ -3,7 +3,31 @@ import { IonRow, IonCol, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, 
 import { logoInstagram, logoGithub, logoLinkedin } from 'ionicons/icons';
 
 const DEV_TEAM = [
-    {
+  {
+    name: 'Vivek Dhiman',
+    github: 'https://github.com/DHIMANvivek',
+    linkedin: 'https://www.linkedin.com/in/vivek-dhiman01/',
+    instagram: 'https://www.instagram.com/_vivek.dhiman_/',
+    role: 'Full Stack Developer',
+    image: 'https://avatars.githubusercontent.com/u/53940939?s=400&u=b8c675dcfb0654c1ae469c4b77962f8b7de73e7f&v=4',
+  },
+  {
+    name: 'Vishal Maurya',
+    github: 'https://github.com/VishalMauriya',
+    linkedin: 'https://www.linkedin.com/in/vishal-mauriya/',
+    instagram: 'https://www.instagram.com/_vishal79_/',
+    role: 'Full Stack Developer',
+    image: 'https://avatars.githubusercontent.com/u/54256792?v=4',
+  },
+  {
+    name: 'Yatin Bindra',
+    github: 'https://github.com/yatinbindra',
+    linkedin: 'https://www.linkedin.com/in/yatin-b-a8b91b13a/',
+    instagram: 'https://www.instagram.com/_yatin_bindra_/?next=%2F',
+    role: 'Full Stack Developer',
+    image: 'https://avatars.githubusercontent.com/u/54256553?v=4',
+  },
+  {
     name: 'Divyanshu Garg',
     github: 'https://github.com/divyanshugarg36',
     linkedin: 'https://www.linkedin.com/in/divyanshugarg36/',
@@ -35,30 +59,6 @@ const DEV_TEAM = [
     role: 'QA & Testing Engineer',
     image: 'https://avatars.githubusercontent.com/u/52241202?v=4',
   },
-  {
-    name: 'Vivek Dhiman',
-    github: 'https://github.com/DHIMANvivek',
-    linkedin: 'https://www.linkedin.com/in/vivek-dhiman01/',
-    instagram: 'https://www.instagram.com/_vivek.dhiman_/',
-    role: 'Full Stack Developer',
-    image: 'https://avatars.githubusercontent.com/u/53940939?s=400&u=b8c675dcfb0654c1ae469c4b77962f8b7de73e7f&v=4',
-  },
-  {
-    name: 'Vishal Maurya',
-    github: 'https://github.com/VishalMauriya',
-    linkedin: 'https://www.linkedin.com/in/vishal-mauriya/',
-    instagram: 'https://www.instagram.com/_vishal79_/',
-    role: 'Full Stack Developer',
-    image: 'https://avatars.githubusercontent.com/u/54256792?v=4',
-  },
-  {
-    name: 'Yatin Bindra',
-    github: 'https://github.com/yatinbindra',
-    linkedin: 'https://www.linkedin.com/in/yatin-b-a8b91b13a/',
-    instagram: 'https://www.instagram.com/_yatin_bindra_/?next=%2F',
-    role: 'Full Stack Developer',
-    image: 'https://avatars.githubusercontent.com/u/54256553?v=4',
-  }
 
 ]
 
