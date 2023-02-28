@@ -27,6 +27,39 @@ const DEV_TEAM = [
     role: 'Full Stack Developer',
     image: 'https://avatars.githubusercontent.com/u/54256553?v=4',
   },
+  {
+    name: 'Divyanshu Garg',
+    github: 'https://github.com/divyanshugarg36',
+    linkedin: 'https://www.linkedin.com/in/divyanshugarg36/',
+    instagram: 'https://www.instagram.com/divyanshugarg36/',
+    role: 'Full Stack Developer',
+    image: 'https://avatars.githubusercontent.com/u/37038354?v=4',
+  },
+  {
+    name: 'Amanjot Singh',
+    github: 'https://github.com/theamanjs',
+    linkedin: 'https://www.linkedin.com/in/theamanjs/',
+    instagram: 'https://www.instagram.com/notoriousgabroo/',
+    role: 'Full Stack Developer',
+    image: 'https://avatars.githubusercontent.com/u/38748298?v=4',
+  },
+  {
+    name: 'Dashmeet Singh',
+    github: 'https://github.com/vedashmeet',
+    linkedin: '',
+    instagram: '',
+    role: 'QA & Testing Engineer',
+    image: 'https://avatars.githubusercontent.com/u/71537375?v=4',
+  },
+  {
+    name: 'Tania Sharma',
+    github: 'https://github.com/taniasharma28',
+    linkedin: 'https://www.linkedin.com/in/tania-sharma-a8686420a/',
+    instagram: 'https://www.instagram.com/tania_sharma._/',
+    role: 'QA & Testing Engineer',
+    image: 'https://avatars.githubusercontent.com/u/52241202?v=4',
+  },
+
 ]
 
 export const DevTeam: React.FC = () => {
